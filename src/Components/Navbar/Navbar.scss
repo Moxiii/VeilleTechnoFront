@@ -1,0 +1,26 @@
+.navbar{
+  display: flex;
+  align-items: center;
+  width: 100dvw;
+  height: 10vh;
+  background-color: $button-color;
+  position: sticky;
+  top: 0;
+
+  nav {
+    position:relative;
+    display: flex;
+    width: 100%;
+  justify-content: space-around;
+    align-items: center;
+    gap:2%;
+    a {
+      color: $background-color;
+      text-decoration: none;
+      gap:2%;
+      font-family: "DynaPuff" , sans-serif;
+      font-size: 130%;
+    }
+  }
+
+}

@@ -1,0 +1,15 @@
+span{
+  position: relative;
+  z-index:5;
+}
+.underline{
+  height:2px;
+  width: 85%;
+  background: $headline;
+  transform:scaleX(0);
+  transform-origin:left center;
+  position: relative;
+  bottom:1%;
+  left: 5%;
+  z-index: 1;
+}

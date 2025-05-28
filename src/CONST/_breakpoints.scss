@@ -1,0 +1,27 @@
+@use 'sass:map';
+@use 'sass:map';
+$mobile-breakpoint: 800px;
+$tinyDesktop-breakpoint:1250px;
+// Viewport Sizes
+$desktop-width: 1440px;
+$desktop-height: 850px;
+
+$mobile-width: 400px;
+$mobile-height: 650px;
+
+@mixin mobile {
+  @media (max-width: #{$mobile-breakpoint}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$tinyDesktop-breakpoint}) {
+    @content;
+  }
+}
+@mixin tinyDesktop {
+  @media (min-width:#{$mobile-breakpoint}) and (max-width:#{$tinyDesktop-breakpoint} ) {
+    @content;
+  }
+}

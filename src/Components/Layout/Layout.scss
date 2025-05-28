@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=DynaPuff:wght@400..700&display=swap');
+* {
+  box-sizing: border-box;
+}
+#root{
+  background-color: $background-color;
+  h1{
+    color:$headline;
+    font-family: "DynaPuff" , sans-serif;
+  }
+  button{
+    background-color: $button-color;
+    color:$button-text;
+  }
+  p{
+    color:$paragraph-color;
+  }
+}
+.container{
+  margin-top:5%;
+  min-height: 100dvh;
+  overflow-y:auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+}

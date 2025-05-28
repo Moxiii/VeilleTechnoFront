@@ -1,0 +1,6 @@
+@use 'sass:map';
+@mixin hover {
+  @media (hover: hover) {
+    @content;
+  }
+}
