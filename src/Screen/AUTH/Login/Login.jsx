@@ -1,5 +1,5 @@
 import "./Login.scss"
-import {useAuthContext} from "../../../Context/Auth/AuthContext";
+import {useAuthContext} from "../../../DATA/Context/Auth/AuthContext";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 export default function Login() {

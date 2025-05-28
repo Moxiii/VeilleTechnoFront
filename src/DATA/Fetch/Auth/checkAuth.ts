@@ -1,6 +1,6 @@
 export async function checkAuth(setIsAuth: (auth: boolean) => void){
         try {
-            const res = await fetch("http://localhost:8080/auth/status", {
+            const res = await fetch("http://localhost:8080/api/auth/status", {
                 method: "GET",
                 credentials: "include",
             });
@@ -8,7 +8,6 @@ export async function checkAuth(setIsAuth: (auth: boolean) => void){
             if (res.ok) {
                 const data = await res.json();
                 setIsAuth(true);
-                setUsername(data.username);
             } else {
                 setIsAuth(false);
             }

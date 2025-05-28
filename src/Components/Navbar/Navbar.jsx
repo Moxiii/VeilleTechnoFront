@@ -2,7 +2,7 @@ import "./Navbar.scss"
 import Underline from "../../Effects/Underline/Underline.jsx"
 import links from "../../CONST/_const.ts"
 import {NavLink} from "react-router-dom";
-import {useAuthContext} from "../../Context/Auth/AuthContext.tsx"
+import {useAuthContext} from "../../DATA/Context/Auth/AuthContext.tsx"
 export default function Navbar() {
   const { isAuth } = useAuthContext();
   return (

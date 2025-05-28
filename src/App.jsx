@@ -17,7 +17,8 @@ import Profile from "./Screen/Profile/Profile.jsx";
 //Lenis
 import {ReactLenis} from "lenis/react"
 //Provider
-import {AuthProvider} from "./Context/Auth/AuthContext.tsx";
+import {AuthProvider} from "./DATA/Context/Auth/AuthContext.tsx";
+import {UserProvider} from "./DATA/Context/User/UserContext.js";
 
 function App() {
     const lenisOption = {
@@ -33,6 +34,7 @@ function App() {
           style={{ height: "100vh", overflowY: "auto" }}
       >
           <AuthProvider>
+              <UserProvider>
             <Routes>
                 <Route path={links.home} element={<Layout/>}>
                     <Route index element={<Home />} />
@@ -45,6 +47,7 @@ function App() {
                     <Route path="*" element={<NotFound/>}/>
                 </Route>
             </Routes>
+              </UserProvider>
           </AuthProvider>
       </ReactLenis>
   )
