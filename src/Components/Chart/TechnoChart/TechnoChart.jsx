@@ -6,8 +6,9 @@ export default function TechnoChart({projects}) {
   const countTech = (projects)=>{
     const counts = {};
     projects.forEach(project=>{
-      project.technology.forEach(tech=>{
-        counts[tech] = (counts[tech] || 0) + 1;
+      project.technology?.forEach(tech=>{
+        const techName = tech.name;
+        counts[techName] = (counts[techName] || 0) + 1;
       })
     })
     return counts;

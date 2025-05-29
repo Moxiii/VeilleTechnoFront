@@ -46,17 +46,17 @@ export default function StyledTable({projects}) {
           </Tr>
         </Thead>
         <tbody>
-        {projects.map(({ id, name, startDate, endDate, technology, status, links }) => (
-            <Tr key={id}>
-              <Td>{name}</Td>
+        {projects.map(({projectName, startDate, endDate, technology, status, links }) => (
+            <Tr key={projectName}>
+              <Td>{projectName}</Td>
               <Td>{startDate}</Td>
               <Td>{endDate}</Td>
-              <Td>{technology.join(", ")}</Td>
+              <Td>{technology.map(t=>t.name).join(", ")}</Td>
               <Td>{status}</Td>
               <Td>
-                {links.map(({ label, url }) => (
+                {links?.map(( url ) => (
                     <Link key={url} href={url} target="_blank" rel="noopener noreferrer">
-                      {label}
+                      {url}
                     </Link>
                 ))}
               </Td>

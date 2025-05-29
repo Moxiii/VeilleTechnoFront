@@ -18,7 +18,8 @@ import Profile from "./Screen/Profile/Profile.jsx";
 import {ReactLenis} from "lenis/react"
 //Provider
 import {AuthProvider} from "./DATA/Context/Auth/AuthContext.tsx";
-import {UserProvider} from "./DATA/Context/User/UserContext.js";
+import {UserProvider} from "./DATA/Context/User/UserContext.tsx";
+import {ProjectProvider} from "./DATA/Context/Project/ProjectContext.tsx";
 
 function App() {
     const lenisOption = {
@@ -35,18 +36,20 @@ function App() {
       >
           <AuthProvider>
               <UserProvider>
-            <Routes>
-                <Route path={links.home} element={<Layout/>}>
-                    <Route index element={<Home />} />
-                    <Route path={links.ideas} element={<Ideas />} />
-                    <Route path={links.ressources} element={<Ressources />} />
-                    <Route path={links.tools} element={<Tools />} />
-                    <Route path={links.auth.profile} element={<Profile />} />
-                    <Route path={links.auth.login} element={<Login />} />
-                    <Route path={links.auth.register} element={<Register />} />
-                    <Route path="*" element={<NotFound/>}/>
-                </Route>
-            </Routes>
+                  <ProjectProvider>
+                    <Routes>
+                        <Route path={links.home} element={<Layout/>}>
+                            <Route index element={<Home />} />
+                            <Route path={links.ideas} element={<Ideas />} />
+                            <Route path={links.ressources} element={<Ressources />} />
+                            <Route path={links.tools} element={<Tools />} />
+                            <Route path={links.auth.profile} element={<Profile />} />
+                            <Route path={links.auth.login} element={<Login />} />
+                            <Route path={links.auth.register} element={<Register />} />
+                            <Route path="*" element={<NotFound/>}/>
+                        </Route>
+                    </Routes>
+                  </ProjectProvider>
               </UserProvider>
           </AuthProvider>
       </ReactLenis>

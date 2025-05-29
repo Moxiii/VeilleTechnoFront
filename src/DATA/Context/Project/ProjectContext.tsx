@@ -1,19 +1,33 @@
 import {createContext, useContext, useState , useEffect} from "react";
 import {useUserData} from "../User/UserContext";
 import { updateProject , deleteProject , getAllProjects , createProject} from "../../Fetch/Projects/projectsFetch";
+import {ProjectInterface} from "../../Interfaces/ProjectInterface";
 
 const ProjectContext = createContext< undefined>(undefined);
 export function ProjectProvider({ children }) {
 const {setUserProjects} = useUserData();
 
     // @ts-ignore
-    const addProjectToContext = async (project)=>{
+    const addProjectToContext = async (project:ProjectInterface)=>{
         try{
             const response = await createProject(project);
-            if (response.name) {
-                setUserProjects((prevProjects) => [...prevProjects, response]);
+            if (response && response.projectName) {
+                const formattedProject: ProjectInterface = {
+                    id: response.id,
+                    projectName: response.projectName,
+                    status: response.status,
+                    startDate: response.startDate,
+                    endDate: response.endDate,
+                    links: Array.isArray(response.links) ? response.links : [],
+                    technology: Array.isArray(response.technology) ? response.technology : [],
+                };
+
+                setUserProjects((prevProjects) => [...prevProjects, formattedProject]);
             }
-        }catch(error){throw new Error(error)}
+        } catch (error) {
+            console.error("Error adding project:", error);
+            throw new Error(error);
+        }
     }
     // @ts-ignore
     const deleteProjectToContext = async (projectID)=>{

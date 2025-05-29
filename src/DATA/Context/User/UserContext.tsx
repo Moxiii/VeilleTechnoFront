@@ -1,14 +1,13 @@
 import  {createContext, useContext, useEffect, useState} from "react";
 import {userService} from "../../Service/UserService";
-import {ProjectProvider} from "../Project/ProjectContext";
-import { User } from "../../Interfaces/User";
-import { Project } from "../../Interfaces/Project";
+import { UserInterface } from "../../Interfaces/UserInterface";
+import { ProjectInterface } from "../../Interfaces/ProjectInterface";
 
 type UserContextType = {
-    userData: User;
-    userProjects: Project[];
-    setUserData: (user: User) => void;
-    setUserProjects: (projects: (prevProjects) => any) => void;
+    userData: UserInterface;
+    userProjects: ProjectInterface[];
+    setUserData: (user: UserInterface) => void;
+    setUserProjects: React.Dispatch<React.SetStateAction<ProjectInterface[]>>;
 };
 const UserContext = createContext<UserContextType>(undefined);
 export function UserProvider({ children }) {
@@ -16,17 +15,19 @@ export function UserProvider({ children }) {
     const [userProjects, setUserProjects] = useState([]);
 
     useEffect(() => {
+        console.log("🔄 Loading user data...");
         const loadUserData = async () => {
             try {
-                const [userData,projects] =
+                const [userData,userProjects] =
                     await Promise.all([
                         userService.loadUserData(),
                         userService.loadUserProjects(),
 
                     ]);
-
+                console.log("✅ Loaded user data:", userData);
+                console.log("✅ Loaded projects:", userProjects);
                 setUserData(userData);
-                setUserProjects(projects);
+                setUserProjects(userProjects);
             } catch (error) {
                 console.error("Failed to fetch user data", error);
             }
@@ -34,12 +35,13 @@ export function UserProvider({ children }) {
 
         loadUserData();
     }, []);
-
+    useEffect(() => {
+        userService.loadUserData().then(console.log);
+        userService.loadUserProjects().then(console.log);
+    }, []);
     return (
         <UserContext.Provider value={{ userData, userProjects, setUserData, setUserProjects }}>
-            <ProjectProvider>
                 {children}
-            </ProjectProvider>
         </UserContext.Provider>
     );
 }
