@@ -15,7 +15,6 @@ export function UserProvider({ children }) {
     const [userProjects, setUserProjects] = useState([]);
 
     useEffect(() => {
-        console.log("🔄 Loading user data...");
         const loadUserData = async () => {
             try {
                 const [userData,userProjects] =
@@ -24,8 +23,6 @@ export function UserProvider({ children }) {
                         userService.loadUserProjects(),
 
                     ]);
-                console.log("✅ Loaded user data:", userData);
-                console.log("✅ Loaded projects:", userProjects);
                 setUserData(userData);
                 setUserProjects(userProjects);
             } catch (error) {
@@ -34,10 +31,6 @@ export function UserProvider({ children }) {
         };
 
         loadUserData();
-    }, []);
-    useEffect(() => {
-        userService.loadUserData().then(console.log);
-        userService.loadUserProjects().then(console.log);
     }, []);
     return (
         <UserContext.Provider value={{ userData, userProjects, setUserData, setUserProjects }}>

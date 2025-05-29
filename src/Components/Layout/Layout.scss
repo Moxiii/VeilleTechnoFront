@@ -5,8 +5,12 @@
 #root{
   background-color: $background-color;
   h1{
-    color:$headline;
+    color:$button-color;
     font-family: "DynaPuff" , sans-serif;
+  }
+  h2 , h3 , h4{
+    font-family: "DynaPuff" , sans-serif;
+    color:$headline;
   }
   button{
     background-color: $button-color;

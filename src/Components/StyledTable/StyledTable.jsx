@@ -1,6 +1,11 @@
 import "./StyledTable.scss"
 import styled from "styled-components";
 export default function StyledTable({projects}) {
+  function getFormattedUrl(url) {
+    return url.startsWith("http://") || url.startsWith("https://")
+        ? url
+        : `https://${url}`;
+  }
   const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
@@ -19,6 +24,7 @@ export default function StyledTable({projects}) {
 
   const Td = styled.td`
   padding: 12px 15px;
+    color:white;
   border-bottom: 1px solid #ddd;
 `;
 
@@ -55,7 +61,7 @@ export default function StyledTable({projects}) {
               <Td>{status}</Td>
               <Td>
                 {links?.map(( url ) => (
-                    <Link key={url} href={url} target="_blank" rel="noopener noreferrer">
+                    <Link key={url} href={getFormattedUrl(url)} target="_blank" rel="noopener noreferrer">
                       {url}
                     </Link>
                 ))}

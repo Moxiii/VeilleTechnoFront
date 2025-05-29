@@ -1,8 +1,8 @@
 import "./Profile.scss"
 export default function Profile() {
   return (
-    <>
-    Profile
-    </>
+    <div className="profile">
+   <h1>Profile</h1>
+    </div>
   );
 }
