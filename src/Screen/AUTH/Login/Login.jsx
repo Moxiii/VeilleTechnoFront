@@ -2,6 +2,7 @@ import "./Login.scss"
 import {useAuthContext} from "../../../DATA/Context/Auth/AuthContext";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import login from "../../../DATA/Fetch/Auth/loginFetch"
 export default function Login() {
     const navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -16,14 +17,7 @@ export default function Login() {
     const handleSubmit = async (e) => {
     e.preventDefault();
     try{
-        const res = await fetch("http://localhost:8080/api/auth/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ username, password }),
-            credentials: "include"
-        });
+        const res = await login(username, password);
       if(res){
           setIsAuth(true);
       }

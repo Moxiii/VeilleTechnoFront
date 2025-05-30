@@ -1,4 +1,4 @@
-import {handleResponse} from "../handleResponse";
+import {handleResponse} from "./handleResponse";
 
 export const getUser = async () => {
     const res = await fetch("http://localhost:8080/user",{

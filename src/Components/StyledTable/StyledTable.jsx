@@ -52,9 +52,9 @@ export default function StyledTable({projects}) {
           </Tr>
         </Thead>
         <tbody>
-        {projects.map(({projectName, startDate, endDate, technology, status, links }) => (
-            <Tr key={projectName}>
-              <Td>{projectName}</Td>
+        {projects.map(({name, startDate, endDate, technology, status, links }) => (
+            <Tr key={name}>
+              <Td>{name}</Td>
               <Td>{startDate}</Td>
               <Td>{endDate}</Td>
               <Td>{technology.map(t=>t.name).join(", ")}</Td>

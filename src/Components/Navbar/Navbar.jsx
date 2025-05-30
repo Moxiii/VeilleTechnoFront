@@ -5,31 +5,27 @@ import {NavLink} from "react-router-dom";
 import {useAuthContext} from "../../DATA/Context/Auth/AuthContext.tsx"
 export default function Navbar() {
   const { isAuth } = useAuthContext();
+  const authLinks = [
+    { path: links.home, label: "Home" },
+    { path: links.technology, label: "Technology" },
+    { path: links.ressources, label: "Ressources" },
+    { path: links.ideas, label: "Ideas" },
+    { path: links.auth.profile, label: "Profile" },
+  ];
+  const guestLinks = [
+    { path: links.about, label: "About" },
+    { path: links.auth.login, label: "Login" },
+    { path: links.auth.register, label: "Register" },
+
+  ];
   return (
     <div className="navbar">
       <nav>
-
-        <NavLink exact="true" to={links.home} activeclassname="active">
-          <Underline label={"Home"} />
-        </NavLink>
-        <NavLink exact="true" to={links.tools} activeclassname="active">
-          <Underline label={"Tools"} />
-        </NavLink>
-        <NavLink exact="true" to={links.ressources} activeclassname="active">
-          <Underline label={"Ressources"} />
-        </NavLink>
-          <NavLink exact="true" to={links.ideas} activeclassname="active">
-            <Underline label={"Ideas"} />
-          </NavLink>
-        {isAuth? (
-            <NavLink to={links.auth.profile} activeclassname="active">
-              <Underline label={"Profile"} />
+        {(isAuth ? authLinks : guestLinks).map((link) => (
+            <NavLink key={link.path} to={link.path} className={({isActive})=>isActive ? "active" : ""}>
+              <Underline label={link.label} />
             </NavLink>
-        ):(
-            <NavLink to={links.auth.login} activeclassname="active">
-              <Underline label={"Login"} />
-            </NavLink>
-        )}
+        ))}
       </nav>
     </div>
   );

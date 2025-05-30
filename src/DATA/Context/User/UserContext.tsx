@@ -2,6 +2,7 @@ import  {createContext, useContext, useEffect, useState} from "react";
 import {userService} from "../../Service/UserService";
 import { UserInterface } from "../../Interfaces/UserInterface";
 import { ProjectInterface } from "../../Interfaces/ProjectInterface";
+import {useAuthContext} from "../Auth/AuthContext";
 
 type UserContextType = {
     userData: UserInterface;
@@ -13,7 +14,7 @@ const UserContext = createContext<UserContextType>(undefined);
 export function UserProvider({ children }) {
     const [userData, setUserData] = useState(null);
     const [userProjects, setUserProjects] = useState([]);
-
+    const {isAuth}=useAuthContext();
     useEffect(() => {
         const loadUserData = async () => {
             try {
@@ -21,6 +22,8 @@ export function UserProvider({ children }) {
                     await Promise.all([
                         userService.loadUserData(),
                         userService.loadUserProjects(),
+                        userService.loadUserTechnology(),
+                        userService.loadUserRessources(),
 
                     ]);
                 setUserData(userData);
@@ -29,9 +32,11 @@ export function UserProvider({ children }) {
                 console.error("Failed to fetch user data", error);
             }
         };
+        if(isAuth){
+            loadUserData();
+        }
 
-        loadUserData();
-    }, []);
+    }, [isAuth]);
     return (
         <UserContext.Provider value={{ userData, userProjects, setUserData, setUserProjects }}>
                 {children}

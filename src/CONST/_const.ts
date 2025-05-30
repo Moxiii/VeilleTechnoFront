@@ -1,8 +1,9 @@
  const links = {
-    home:"/",
-    tools:"/tools",
-    ressources:"/ressources",
-    ideas:"/ideas",
+     home:"/",
+     technology:"/technology",
+     ressources:"/ressources",
+     ideas:"/ideas",
+     about:"/about",
      auth:{
         login:"/login",
          logout:"/logout",

@@ -1,8 +1,8 @@
-import { handleResponse } from "../handleResponse";
+import { handleResponse } from "./handleResponse";
 
-const API_URL = "http://localhost:8080/project";
+const API_URL = "http://localhost:8080/ressources";
 
-export const getAllProjects = async () => {
+export const getAllRessources = async () => {
     const res = await fetch(API_URL, {
         method: "GET",
         credentials: "include",
@@ -10,40 +10,40 @@ export const getAllProjects = async () => {
     return handleResponse(res);
 };
 
-export const getProjectById = async (projectId) => {
-    const res = await fetch(`${API_URL}/${projectId}`, {
+export const getRessourcesById = async (ressourcesId) => {
+    const res = await fetch(`${API_URL}/${ressourcesId}`, {
         method: "GET",
         credentials: "include",
     });
     return handleResponse(res);
 };
 
-export const createProject = async (createdProject) => {
+export const createRessources = async (createdRessources) => {
     const res = await fetch(API_URL, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(createdProject),
+        body: JSON.stringify(createdRessources),
         credentials: "include",
     });
     return handleResponse(res);
 };
 
-export const updateProject = async (projectId, updatedProject) => {
-    const res = await fetch(`${API_URL}/${projectId}`, {
+export const updateRessources = async (ressourcesId, updatedRessources) => {
+    const res = await fetch(`${API_URL}/${ressourcesId}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(updatedProject),
+        body: JSON.stringify(updatedRessources),
         credentials: "include",
     });
     return handleResponse(res);
 };
 
-export const deleteProject = async (projectId) => {
-    const res = await fetch(`${API_URL}/${projectId}`, {
+export const deleteRessources = async (ressourcesId) => {
+    const res = await fetch(`${API_URL}/${ressourcesId}`, {
         method: "DELETE",
         credentials: "include",
     });
