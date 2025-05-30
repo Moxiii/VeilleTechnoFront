@@ -1,7 +1,7 @@
 import {createContext, useContext, useState , useEffect} from "react";
-import {useUserData} from "../User/UserContext";
-import { updateProject , deleteProject , getAllProjects , createProject} from "../../Fetch/projectsFetch";
-import {ProjectInterface} from "../../Interfaces/ProjectInterface";
+import {useUserData} from "./UserContext";
+import { updateProject , deleteProject , getAllProjects , createProject} from "../Fetch/projectsFetch";
+import {ProjectInterface} from "../Interfaces/ProjectInterface";
 
 const ProjectContext = createContext< undefined>(undefined);
 export function ProjectProvider({ children }) {

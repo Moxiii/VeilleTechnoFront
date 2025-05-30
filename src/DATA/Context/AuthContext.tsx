@@ -1,5 +1,5 @@
 
-import {checkAuth} from "../../Fetch/Auth/checkAuth";
+import {checkAuth} from "../Fetch/Auth/checkAuth";
 import {createContext, useContext, useState , useEffect} from "react";
 type AuthContextType = {
     isAuth: boolean;

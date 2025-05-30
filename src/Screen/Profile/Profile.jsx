@@ -1,6 +1,6 @@
 import "./Profile.scss"
 import logout from "../../DATA/Fetch/Auth/LougoutFetch"
-import {useAuthContext} from "../../DATA/Context/Auth/AuthContext";
+import {useAuthContext} from "../../DATA/Context/AuthContext.tsx";
 export default function Profile() {
     const {setIsAuth} = useAuthContext();
     const handleclick = async (e) =>{

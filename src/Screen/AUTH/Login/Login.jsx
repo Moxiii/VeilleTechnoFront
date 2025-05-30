@@ -1,5 +1,5 @@
 import "./Login.scss"
-import {useAuthContext} from "../../../DATA/Context/Auth/AuthContext";
+import {useAuthContext} from "../../../DATA/Context/AuthContext.tsx";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import login from "../../../DATA/Fetch/Auth/loginFetch"

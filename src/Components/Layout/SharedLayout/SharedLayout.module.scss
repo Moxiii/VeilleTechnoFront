@@ -1,0 +1,267 @@
+.SharedLayoutContainer {
+  @include desktop {
+    max-height: 60vh;
+    width: 70vw;
+    .SharedLayoutMain{
+      padding: 0;
+      .content{
+        .projectPreview{
+          justify-content: center;
+          img{
+            width:400px;
+          }
+        }
+        .button{
+          cursor: pointer;
+          outline: 1px solid $button-color;
+          padding: 2%;
+          border-radius: 10px;
+        }
+        .ProjectDescription{
+          justify-content: space-evenly;
+          h3{
+            font-size: xxx-large;
+          }
+          p{
+            font-size:x-large;
+          }
+          .techBadges{
+            justify-content: space-evenly;
+            width:50%;
+            margin:2% 0;
+            .techBadge{
+              font-size: xx-large;
+            }
+
+          }
+          .button{
+            margin:5% 0;
+          }
+        }
+
+      }
+    }
+  }
+  @include tinyDesktop{
+    max-height: 50vh;
+    width: 70vw;
+    .SharedLayoutMain{
+      padding:0 5%;
+      .content{
+        .projectCard {
+          gap: 20%;
+
+          .projectPreview {
+            img {
+              width: 300px;
+            }
+          }
+        }
+        .button{
+          cursor: pointer;
+          outline: 1px solid $button-color;
+          padding: 2%;
+          border-radius: 10px;
+
+        }
+        .ProjectDescription{
+          h3{
+            font-size: xxx-large;
+          }
+          p{
+            font-size:x-large;
+          }
+          justify-content: space-evenly;
+          .techBadges{
+            justify-content: space-evenly;
+            width:50%;
+            margin:2% 0;
+            .techBadge{
+              font-size: xx-large;
+            }
+
+          }
+          .button{
+            margin:5% 0;
+          }
+        }
+
+      }
+    }
+  }
+  @include mobile{
+    .SharedLayoutMain{
+      .content{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        margin: auto 5%;
+        .projectCard {
+          width: 100%;
+          .projectPreview{
+            img{
+              max-width:250px;
+              width: 100%;
+            }
+          }
+          .ProjectDescription{
+            justify-content: center;
+            h3{
+              font-size: xx-large;
+            }
+            p{
+              text-align:center;
+              margin:2% 1%;
+              padding: 0 2%;
+              width: auto;
+              font-size: large;
+            }
+            .techBadges{
+              justify-content: space-around;
+              width:70%;
+              .techBadge{
+                font-size: x-large;
+              }
+            }
+          }
+        }
+
+      }
+
+    }
+  }
+  width: 95%;
+  min-height: 60vh;
+  border-radius: 15px;
+  background: $headline;
+  box-shadow: 0 1px hsl(0deg 0% 0% / 0.075), 0 2px 2px hsl(0deg 0% 0% / 0.075),
+  0 4px 4px hsl(0deg 0% 0% / 0.075), 0 8px 8px hsl(0deg 0% 0% / 0.075),
+  0 16px 16px hsl(0deg 0% 0% / 0.075);
+  display: flex;
+  flex-direction: column;
+
+  .SharedLayoutNav {
+    background: $headline;
+    color: #000;
+    border-radius: 10px 10px 0 0;
+    border-bottom: 1px solid grey;
+    .tabsContainer{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-direction: row;
+      width: 100%;
+    }
+    .tabs {
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .tabButton {
+      flex: 1;
+      width: max-content;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: large;
+      transition: background 0.3s ease-in-out;
+    }
+
+  }
+
+  .SharedLayoutMain {
+    flex: 1;
+    overflow-y: auto;
+
+    .content {
+      .projectCard{
+        display: flex;
+        margin:5% 1%;
+        .projectPreview{
+          min-width: 150px ;
+          display: flex;
+          flex:1 1 100%;
+          img{
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            border-radius: 15px;
+          }
+        }
+        &:last-child{
+          margin-bottom: 5%;
+        }
+        .ProjectDescription {
+          h3{
+            color:$background-color;
+          }
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          width: 100%;
+
+          p{
+            color:black;
+            margin-left:3%;
+          }
+          .techBadges{
+            display: flex;
+            flex-direction: row;
+            .techBadge{
+              color:$background-color;
+            }
+          }
+        }
+      }
+      height: 100%;
+      line-height: 1.6;
+      opacity: 0;
+      color: black;
+      .button {
+        display: flex;
+        justify-content: flex-end;
+        position: relative;
+        color: $button-color;
+      }
+    }
+  }
+}
+.projectTitle{
+
+  border-bottom:1px solid $paragraph-color;
+  color: $button-color;
+}
+.ProjectLinks{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 90vw;
+  margin: 5% 1%;
+  h3{
+    color:$headline;
+  }
+  ul{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+    width: 100%;
+    text-align: center;
+    padding-left:0;
+    gap:5%;
+    li{
+      outline: 1px solid $background-color;
+      padding: 2%;
+      border-radius: 15px;
+      text-decoration:none;
+      width: 100%;
+      a{
+        color : $button-text;
+        text-decoration: none;
+      }
+    }
+  }
+
+}

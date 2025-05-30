@@ -18,9 +18,9 @@ import Profile from "./Screen/Profile/Profile.jsx";
 //Lenis
 import {ReactLenis} from "lenis/react"
 //Provider
-import { useAuthContext} from "./DATA/Context/Auth/AuthContext.tsx";
-import {UserProvider} from "./DATA/Context/User/UserContext.tsx";
-import {ProjectProvider} from "./DATA/Context/Project/ProjectContext.tsx";
+import { useAuthContext} from "./DATA/Context/AuthContext.tsx";
+import {UserProvider} from "./DATA/Context/UserContext.tsx";
+import {ProjectProvider} from "./DATA/Context/ProjectContext.tsx";
 
 function App() {
     const lenisOption = {
