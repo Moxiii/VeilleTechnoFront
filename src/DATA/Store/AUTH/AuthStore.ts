@@ -5,7 +5,7 @@ import {checkAuth} from "../../Fetch/Auth/checkAuth";
 type AuthStore = {
     isAuth: boolean;
     setIsAuth: (auth: boolean) => void;
-    checkAuth: () => Promise<void>;
+    checkAuth: (auth:boolean) => Promise<void>;
 }
 export const useAuthStore = create<AuthStore>()(
     persist(
@@ -16,9 +16,11 @@ export const useAuthStore = create<AuthStore>()(
                 try {
                     const status = await checkAuth();
                     set({isAuth: status});
+                    return status;
                 }catch (err) {
                     console.error("Failed to check auth:", err);
                     set({ isAuth: false });
+                    return false;
                 }
             },
         }),{name:"auth-store"}
