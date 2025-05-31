@@ -17,26 +17,30 @@ import Register from "./Screen/AUTH/Register/Register.jsx";
 import Profile from "./Screen/Profile/Profile.jsx";
 //Lenis
 import {ReactLenis} from "lenis/react"
-//Provider
-import { useAuthContext} from "./DATA/Context/AuthContext.tsx";
-import {UserProvider} from "./DATA/Context/UserContext.tsx";
-import {ProjectProvider} from "./DATA/Context/ProjectContext.tsx";
+//Auth
+import {useAuthStore} from "./DATA/Store/AUTH/AuthStore";
+import {useEffect} from "react";
+
 
 function App() {
+
+    const isAuth = useAuthStore((state)=>state.isAuth)
+    useEffect(()=>{
+        useAuthStore.getState().checkAuth();
+
+    },[])
     const lenisOption = {
         autoRaf: true,
         smooth: true,
         lerp: 0.1,
     };
- const { isAuth }=useAuthContext();
+
   return (
       <ReactLenis
           root
           options={lenisOption}
           style={{ height: "100vh", overflowY: "auto" }}
       >
-              <UserProvider>
-                  <ProjectProvider>
                     <Routes>
                         <Route path={links.home} element={<Layout/>}>
                             <Route index element={isAuth?  <Home /> : <About/>} />
@@ -50,8 +54,6 @@ function App() {
                             <Route path="*" element={<NotFound/>}/>
                         </Route>
                     </Routes>
-                  </ProjectProvider>
-              </UserProvider>
       </ReactLenis>
   )
 }

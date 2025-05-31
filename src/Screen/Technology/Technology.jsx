@@ -1,7 +1,7 @@
 import "./Technology.scss"
-import {useUserData} from "../../DATA/Context/UserContext";
+import {useUserStore} from "../../DATA/Store/UserStore";
 export default function Technology() {
-  const {userTechnology} = useUserData();
+  const userTechnology = useUserStore().userTechnology;
   return (
     <div className="technology">
     <h1>Technology</h1>

@@ -1,7 +1,7 @@
 import "./Ressources.scss"
-import {useUserData} from "../../DATA/Context/UserContext";
+import {useUserStore} from "../../DATA/Store/UserStore";
 export default function Ressources() {
-  const {userRessources} = useUserData();
+  const userRessources = useUserStore().userRessources;
   return (
     <div className="ressources">
     <h1>Ressources</h1>

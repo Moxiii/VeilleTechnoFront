@@ -2,9 +2,10 @@ import "./Navbar.scss"
 import Underline from "../../Effects/Underline/Underline.jsx"
 import links from "../../CONST/_const.ts"
 import {NavLink} from "react-router-dom";
-import {useAuthContext} from "../../DATA/Context/AuthContext.tsx"
+import {useAuthStore} from "../../DATA/Store/AUTH/AuthStore.js";
+
 export default function Navbar() {
-  const { isAuth } = useAuthContext();
+  const  isAuth  = useAuthStore((state)=>state.isAuth);
   const authLinks = [
     { path: links.home, label: "Home" },
     { path: links.technology, label: "Technology" },

@@ -1,7 +1,7 @@
 import {Technology} from "./TechnologyInterface";
 
 export interface RessourcesInterface {
-    id: string;
+    id: number;
     name: string;
     url: string[];
     label: string;

@@ -1,17 +1,17 @@
-export async function checkAuth(setIsAuth: (auth: boolean) => void){
+import {handleResponse} from "../handleResponse";
+
+export async function checkAuth(){
         try {
             const res = await fetch("http://localhost:8080/api/auth/status", {
                 method: "GET",
                 credentials: "include",
             });
-
-            if (res.ok) {
-                const data = await res.json();
-                setIsAuth(true);
-            } else {
-                setIsAuth(false);
-            }
+        if(!res.ok){
+            return false;
+        }
+        const data = await handleResponse(res);
+        return data.authenticated === true;
         } catch (err) {
             console.error("Auth check failed:", err);
-            setIsAuth(false);
+            return false;
         }}

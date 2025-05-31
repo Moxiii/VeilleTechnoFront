@@ -1,18 +1,28 @@
 import "./Login.scss"
-import {useAuthContext} from "../../../DATA/Context/AuthContext.tsx";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import login from "../../../DATA/Fetch/Auth/loginFetch"
+import {useUserStore} from "../../../DATA/Store/UserStore";
+import {useAuthStore} from "../../../DATA/Store/Auth/AuthStore";
 export default function Login() {
     const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const {isAuth,setIsAuth} = useAuthContext();
+  const isAuth = useAuthStore((state)=>state.isAuth);
+  const setIsAuth = useAuthStore((state)=>state.setIsAuth);
+  const loadUserData = useUserStore(state => state.loadUserData)
+
+    const loadAndNavigate = useCallback(async () => {
+        await loadUserData();
+        navigate("/profile");
+    }, [loadUserData, navigate]);
+
     useEffect(() => {
         if (isAuth) {
-            navigate("/profile");
+            loadAndNavigate();
         }
-    }, [isAuth, navigate]);
+    }, [isAuth, loadAndNavigate]);
+
 
     const handleSubmit = async (e) => {
     e.preventDefault();
