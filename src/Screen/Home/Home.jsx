@@ -1,7 +1,7 @@
 import "./Home.scss"
-import StyledTable from "../../Components/StyledTable/StyledTable.jsx";
-import TechnoChart from "../../Components/Chart/TechnoChart/TechnoChart.jsx";
-import {useUserStore} from "../../DATA/Store/UserStore";
+import StyledTable from "@/Components/StyledTable/StyledTable.jsx";
+import TechnoChart from "@/Components/Chart/TechnoChart/TechnoChart.jsx";
+import {useUserStore} from "@/DATA/Store/UserStore";
 
 export default function Home(){
 const userProjects = useUserStore().userProjects;

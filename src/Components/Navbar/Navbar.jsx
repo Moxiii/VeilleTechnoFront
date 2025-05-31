@@ -1,8 +1,8 @@
 import "./Navbar.scss"
-import Underline from "../../Effects/Underline/Underline.jsx"
-import links from "../../CONST/_const.ts"
+import Underline from "@/Effects/Underline/Underline.jsx"
+import links from "@/CONST/_const.ts"
 import {NavLink} from "react-router-dom";
-import {useAuthStore} from "../../DATA/Store/AUTH/AuthStore.js";
+import {useAuthStore} from "@/DATA/Store/AUTH/AuthStore";
 
 export default function Navbar() {
   const  isAuth  = useAuthStore((state)=>state.isAuth);

@@ -1,7 +1,7 @@
 import "./Profile.scss"
-import logout from "../../DATA/Fetch/Auth/LougoutFetch"
-import {useAuthStore} from "../../DATA/Store/AUTH/AuthStore";
-import {useUserStore} from "../../DATA/Store/UserStore";
+import logout from "@/DATA/Fetch/Auth/LougoutFetch"
+import {useAuthStore} from "@/DATA/Store/AUTH/AuthStore";
+import {useUserStore} from "@/DATA/Store/UserStore";
 export default function Profile() {
     const isAuth = useAuthStore((state) => state.isAuth);
     const setIsAuth = useAuthStore((state) => state.setIsAuth);

@@ -1,26 +1,26 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import path from 'node:path'
 
 export default defineConfig({
   plugins: [react()],
-  server: {
-    host: true,
-    open: !('SANDBOX_URL' in process.env || 'CODESANDBOX_HOST' in process.env),
-    headers: {
-      "Cross-Origin-Opener-Policy": "same-origin",
-      "Cross-Origin-Embedder-Policy": "require-corp",
-      'Access-Control-Allow-Origin': '*',
-      'X-Frame-Options': 'ALLOWALL',
-      'Content-Security-Policy': "frame-ancestors *;",
-    }
+  resolve: {
+    alias: {
+      // eslint-disable-next-line no-undef
+      '@': path.resolve(__dirname,
+          'src'),
+    },
   },
   css: {
     preprocessorOptions: {
       scss: {
         additionalData:` 
-            @import "/src/CONST/_const.scss";
+          @import "/src/CONST/_const.scss";
         `
       },
     },
+  },
+  build: {
+    outDir: 'dist',
   },
 })

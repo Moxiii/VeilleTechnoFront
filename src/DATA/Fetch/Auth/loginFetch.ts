@@ -1,9 +1,9 @@
-
+const API_URL = "http://api.localhost/api/auth/login"
 
 // @ts-ignore
 export default async function login(username:string , password:string ) {
     try{
-        const response = await fetch("http://localhost:8080/api/auth/login", {
+        const response = await fetch(API_URL, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

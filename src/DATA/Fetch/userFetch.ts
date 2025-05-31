@@ -1,14 +1,14 @@
 import {handleResponse} from "./handleResponse";
-
+const API_URL = "http://api.localhost/user";
 export const getUser = async () => {
-    const res = await fetch("http://localhost:8080/user",{
+    const res = await fetch(API_URL,{
         method:"GET",
         credentials: "include",
     })
     return handleResponse(res)
 }
 export const updateUser = async (userId , updatedUser) => {
-    const res = await fetch("http://localhost:8080/user/"+`${userId}`,{
+    const res = await fetch(API_URL+`${userId}`,{
         method:"PUT",
         credentials: "include",
         headers: {
@@ -19,7 +19,7 @@ export const updateUser = async (userId , updatedUser) => {
     return handleResponse(res)
 }
 export const deleteUser = async (userId )=> {
-    const res = await fetch("http://localhost:8080/user/"+`${userId}`,{
+    const res = await fetch(API_URL+`${userId}`,{
         method:"DELETE",
         credentials: "include",
     })

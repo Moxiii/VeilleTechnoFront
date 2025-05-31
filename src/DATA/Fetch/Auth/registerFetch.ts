@@ -1,6 +1,7 @@
+const API_URL = "http://api.localhost/api/auth/register";
 export default async function registerFetch({email , name , password , username}) {
     const user = {email,password,name,username};
-    fetch("http://localhost:8080/api/auth/register", {
+    fetch(API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

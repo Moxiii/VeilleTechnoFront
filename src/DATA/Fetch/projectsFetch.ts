@@ -1,6 +1,6 @@
 import { handleResponse } from "./handleResponse";
 
-const API_URL = "http://localhost:8080/project";
+const API_URL = "http://api.localhost/project";
 
 export const getAllProjects = async () => {
     const res = await fetch(API_URL, {

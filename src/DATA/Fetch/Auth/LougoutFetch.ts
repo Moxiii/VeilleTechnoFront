@@ -1,6 +1,7 @@
+const API_URL = "http://api.localhost/api/auth/logout";
 export default async function logout(){
     try{
-        const response = await fetch("http://localhost:8080/api/auth/logout", {
+        const response = await fetch(API_URL, {
             method: "DELETE",
             credentials: "include",
         })

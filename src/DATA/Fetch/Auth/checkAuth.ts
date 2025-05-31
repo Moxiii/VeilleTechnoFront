@@ -1,11 +1,11 @@
 import {handleResponse} from "../handleResponse";
 
-
+const API_URL = "http://api.localhost/api/auth/status"
 export async function checkAuth(){
 
 
         try {
-            const res = await fetch("http://localhost:8080/api/auth/status", {
+            const res = await fetch(API_URL, {
                 method: "GET",
                 credentials: "include",
             });

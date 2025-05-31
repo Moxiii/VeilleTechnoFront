@@ -1,9 +1,9 @@
 import "./Login.scss"
 import {useCallback, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import login from "../../../DATA/Fetch/Auth/loginFetch"
-import {useUserStore} from "../../../DATA/Store/UserStore";
-import {useAuthStore} from "../../../DATA/Store/Auth/AuthStore";
+import login from "@/DATA/Fetch/Auth/loginFetch"
+import {useUserStore} from "@/DATA/Store/UserStore";
+import {useAuthStore} from "@/DATA/Store/AUTH/AuthStore";
 export default function Login() {
     const navigate = useNavigate();
   const [username, setUsername] = useState("");

@@ -1,7 +1,5 @@
 import s from "./SharedLayout.module.scss"
 import {AnimatePresence, motion} from "framer-motion";
-import { useNavigate } from 'react-router-dom';
-import {useBreakPoint} from "../../../HOOK/Breakpoints/useBreakpoints.ts";
 import {useState} from "react";
 
 export default function SharedLayout({...props}) {
