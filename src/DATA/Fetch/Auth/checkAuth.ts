@@ -1,6 +1,5 @@
 
-import {apiFetch} from "../wrapper/apiFetch";
-const API_URL = "http://api.localhost/api/auth/status"
+import {apiFetch} from "@fetch/wrapper/apiFetch";
 export async function checkAuth(){
 
 

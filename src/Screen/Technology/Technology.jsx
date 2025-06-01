@@ -1,5 +1,5 @@
 import "./Technology.scss"
-import {useUserStore} from "@/DATA/Store/UserStore";
+import {useUserStore} from "@store/UserStore";
 export default function Technology() {
   const userTechnology = useUserStore().userTechnology;
   return (

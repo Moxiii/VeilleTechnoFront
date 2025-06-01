@@ -1,9 +1,11 @@
 import {create} from "zustand/react";
-import {userService} from "../Service/UserService";
-import { UserInterface } from "../Interfaces/UserInterface";
-import { ProjectInterface } from "../Interfaces/ProjectInterface";
-import {TechnologyInterface} from "../Interfaces/TechnologyInterface";
-import {RessourcesInterface} from "../Interfaces/RessourcesInterface";
+
+import  {userService} from '@service/UserService';
+import type { UserInterface } from "@interfaces/UserInterface";
+import type { ProjectInterface } from "@interfaces/ProjectInterface";
+import type {TechnologyInterface} from "@interfaces/TechnologyInterface";
+import type {RessourcesInterface} from "@interfaces/RessourcesInterface";
+import {useAuthStore} from "@store/AUTH/AuthStore";
 
 type UserStore = {
     userData: UserInterface | null;
@@ -31,6 +33,10 @@ export const useUserStore = create<UserStore>((set) => ({
 
     loadUserData: async () => {
         try {
+            const { isAuth } = useAuthStore.getState();
+            if (!isAuth) {
+                return;
+            }
             const [userData, userProjects, userTechnology, userRessources] =
                 await Promise.all([
                     userService.loadUserData(),
@@ -38,6 +44,7 @@ export const useUserStore = create<UserStore>((set) => ({
                     userService.loadUserTechnology(),
                     userService.loadUserRessources(),
                 ]);
+            console.log("Fetched userData:", userData);
             set({
                 userData,
                 userProjects,

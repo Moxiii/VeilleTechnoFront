@@ -2,7 +2,7 @@ import { handleResponse } from "./handleResponse";
 import {apiFetch} from "./wrapper/apiFetch";
 
 export const getAlltechnology = async () => {
-    const res = await fetch("/technology", {
+    const res = await apiFetch("/technology", {
         method: "GET",
         
     });
@@ -11,7 +11,7 @@ export const getAlltechnology = async () => {
 
 
 export const createTechnology = async (createdTechnology) => {
-    const res = await fetch("/technology", {
+    const res = await apiFetch("/technology", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -23,7 +23,7 @@ export const createTechnology = async (createdTechnology) => {
 };
 
 export const updateTechnology = async (technologyId, updatedTechnology) => {
-    const res = await fetch(`/technology"/${technologyId}`, {
+    const res = await apiFetch(`/technology"/${technologyId}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -35,7 +35,7 @@ export const updateTechnology = async (technologyId, updatedTechnology) => {
 };
 
 export const deleteTechnology = async (technologyId) => {
-    const res = await fetch(`/technology"/${technologyId}`, {
+    const res = await apiFetch(`/technology"/${technologyId}`, {
         method: "DELETE",
         
     });

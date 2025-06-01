@@ -1,19 +1,29 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'node:path'
-
+import { fileURLToPath } from 'node:url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 export default defineConfig({
-  define:{
-    'import.meta.env.VITE_API_URL': JSON.stringify('http://api.localhost')
-  },
+
   plugins: [react()],
+
+
   resolve: {
-    alias: {
-      // eslint-disable-next-line no-undef
-      '@': path.resolve(__dirname,
-          'src'),
-    },
+    alias: [
+      { find: '@components', replacement: path.resolve(__dirname, 'src/Components') },
+      { find: '@const', replacement: path.resolve(__dirname, 'src/CONST') },
+      { find: '@src', replacement: path.resolve(__dirname, 'src') },
+      { find: '@screen', replacement: path.resolve(__dirname, 'src/Screen') },
+      { find: '@hook', replacement: path.resolve(__dirname, 'src/HOOK') },
+      { find: '@effects', replacement: path.resolve(__dirname, 'src/Effects') },
+      { find: '@store', replacement: path.resolve(__dirname, 'src/DATA/Store') },
+      { find: '@fetch', replacement: path.resolve(__dirname, 'src/DATA/Fetch') },
+      { find: '@service', replacement: path.resolve(__dirname, 'src/DATA/Service') },
+      { find: '@interfaces', replacement: path.resolve(__dirname, 'src/DATA/Interfaces') },
+    ]
   },
+
   css: {
     preprocessorOptions: {
       scss: {
@@ -23,6 +33,7 @@ export default defineConfig({
       },
     },
   },
+
   build: {
     outDir: 'dist',
   },

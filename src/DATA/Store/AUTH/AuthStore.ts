@@ -1,11 +1,11 @@
 import {create} from "zustand";
 import {persist} from "zustand/middleware";
-import {checkAuth} from "../../Fetch/Auth/checkAuth";
+import {checkAuth} from "@fetch/Auth/checkAuth";
 
 type AuthStore = {
     isAuth: boolean;
     setIsAuth: (auth: boolean) => void;
-    checkAuth: (auth:boolean) => Promise<void>;
+    checkAuth: () => Promise<void>;
 }
 export const useAuthStore = create<AuthStore>()(
     persist(

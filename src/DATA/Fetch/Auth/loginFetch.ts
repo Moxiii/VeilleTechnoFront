@@ -1,7 +1,7 @@
-// @ts-ignore
-import {apiFetch} from "../wrapper/apiFetch";
 
-// @ts-ignore
+import {apiFetch} from "@fetch/wrapper/apiFetch";
+
+
 export default async function login(username:string , password:string ) {
     try{
         const response = await apiFetch(`/api/auth/login`, {
@@ -10,7 +10,6 @@ export default async function login(username:string , password:string ) {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({username, password}),
-            credentials:"include",
         })
         if (response.ok) {
             return response.json();

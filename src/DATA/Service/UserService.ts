@@ -1,7 +1,7 @@
-import {getAllProjects} from "../Fetch/projectsFetch";
-import {getUser} from "../Fetch/userFetch";
-import {getAllRessources} from "../Fetch/ressourcesFetch";
-import {getAlltechnology} from "../Fetch/technologyFetch";
+import {getAllProjects} from "@fetch/projectsFetch";
+import {getUser} from "@fetch/userFetch";
+import {getAllRessources} from "@fetch/ressourcesFetch";
+import {getAlltechnology} from "@fetch/technologyFetch";
 
 export const userService = {
     loadUserData: async () => await getUser(),

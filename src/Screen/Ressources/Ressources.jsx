@@ -1,5 +1,5 @@
 import "./Ressources.scss"
-import {useUserStore} from "@/DATA/Store/UserStore";
+import {useUserStore} from "@store/UserStore";
 export default function Ressources() {
   const userRessources = useUserStore().userRessources;
   return (

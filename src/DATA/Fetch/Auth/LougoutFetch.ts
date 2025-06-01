@@ -1,5 +1,5 @@
 
-import {apiFetch} from "./wrapper/apiFetch";
+import {apiFetch} from "@fetch/wrapper/apiFetch";
 export default async function logout(){
     try{
         const response = await apiFetch("/api/auth/logout", {

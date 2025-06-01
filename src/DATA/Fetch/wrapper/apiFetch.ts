@@ -1,7 +1,9 @@
-import { getBaseUrl } from "@/CONST/_const";
+import { getBaseUrl } from "@const/getBaseUrl";
 
 export function apiFetch(path, options = {}) {
-    return fetch(`${getBaseUrl()}${path}`, {
+    const url = `${getBaseUrl()}${path}`
+    console.log("fetching url" , url)
+    return fetch(url ,{
         credentials: "include",
         ...options,
     });

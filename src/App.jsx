@@ -1,39 +1,41 @@
 
 import {Route, Routes, useNavigate} from 'react-router-dom'
 //global
-import Layout from "./Components/Layout/Layout.jsx";
-import links from "./CONST/_const.ts"
+import Layout from "@components/Layout/Layout.jsx";
+import links from "@const/_const.ts"
 //Views
-import Home from "./Screen/Home/Home.jsx";
-import Ideas from "./Screen/Ideas/Ideas.jsx";
-import Ressources from "./Screen/Ressources/Ressources.jsx";
-import Technology from "./Screen/Technology/Technology.jsx";
-import NotFound from "./Screen/NotFound/NotFound.jsx";
-import About from "./Screen/About/About.jsx";
+import Home from "@screen/Home/Home.jsx";
+import Ideas from "@screen/Ideas/Ideas.jsx";
+import Ressources from "@screen/Ressources/Ressources.jsx";
+import Technology from "@screen/Technology/Technology.jsx";
+import NotFound from "@screen/NotFound/NotFound.jsx";
+import About from "@screen/About/About.jsx";
 //Auth
-import Login from "./Screen/AUTH/Login/Login.jsx";
-import Register from "./Screen/AUTH/Register/Register.jsx";
+import Login from "@screen/AUTH/Login/Login.jsx";
+import Register from "@screen/AUTH/Register/Register.jsx";
 //user
-import Profile from "./Screen/Profile/Profile.jsx";
-import {useUserStore} from "./DATA/Store/UserStore";
+import Profile from "@screen/Profile/Profile.jsx";
+import {useUserStore} from "@store/UserStore.js";
 //Lenis
 import {ReactLenis} from "lenis/react"
 //Auth
-import {useAuthStore} from "./DATA/Store/AUTH/AuthStore";
+import {useAuthStore} from "@store/AUTH/AuthStore.js";
 import {useEffect} from "react";
 
 
 function App() {
     const isAuth = useAuthStore((state) => state.isAuth);
     const checkAuth = useAuthStore((state) => state.checkAuth);
+    const loadUserData = useUserStore((state) => state.loadUserData);
+    const userData = useUserStore((state) => state.userData);
     const navigate = useNavigate();
     useEffect(()=>{
         const init = async () =>{
             const authStatus = await checkAuth();
             console.log("authStatus", authStatus);
             if(authStatus === true ){
-                await useUserStore.getState().loadUserData()
-                navigate("/")
+                await loadUserData();
+                console.log("userData", userData);
             }else{
                 navigate("/login")
             }

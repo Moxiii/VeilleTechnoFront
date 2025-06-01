@@ -1,8 +1,6 @@
 import {create} from "zustand";
-import {TechnologyInterface} from "../Interfaces/TechnologyInterface";
-import{
-    createTechnology,deleteTechnology,updateTechnology
-} from "../Fetch/technologyFetch";
+import type {TechnologyInterface} from '@interfaces/TechnologyInterface';
+import {createTechnology,deleteTechnology,updateTechnology} from '@fetch/technologyFetch';
 
 type TechnologyStore = {
     technology: TechnologyInterface[];

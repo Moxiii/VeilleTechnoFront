@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@components/*": ["src/Components/*"],
+      "@const/*": ["src/CONST/*"],
+      "@src/*": ["src/*"],
+      "@screen/*": ["src/Screen/*"],
+      "@hook/*": ["src/HOOK/*"],
+      "@effects/*": ["src/Effects/*"],
+      "@store/*": ["src/DATA/Store/*"],
+      "@fetch/*": ["src/DATA/Fetch/*"],
+      "@service/*": ["src/DATA/Service/*"],
+      "@interfaces/*": ["src/DATA/Interfaces/*"]
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import {apiFetch} from "./wrapper/apiFetch";
+import {apiFetch} from "@fetch/wrapper/apiFetch";
 export default async function registerFetch({email , name , password , username}) {
     const user = {email,password,name,username};
     apiFetch("/api/auth/status/", {

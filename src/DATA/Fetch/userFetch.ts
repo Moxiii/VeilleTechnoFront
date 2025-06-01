@@ -1,13 +1,14 @@
 import {handleResponse} from "./handleResponse";
 import {apiFetch} from "./wrapper/apiFetch";
 export const getUser = async () => {
-    const res = await apiFetch("user",{
+    const res = await apiFetch("/user",{
         method:"GET",
     })
-    return handleResponse(res)
+    console.log("🔍 /user response:", res.status, res.headers.get("Content-Type"));
+    return handleResponse(res);
 }
 export const updateUser = async (userId , updatedUser) => {
-    const res = await apiFetch(`user/${userId}`,{
+    const res = await apiFetch(`/user/${userId}`,{
         method:"PUT",
         headers: {
             "Content-Type": "application/json",
@@ -17,7 +18,7 @@ export const updateUser = async (userId , updatedUser) => {
     return handleResponse(res)
 }
 export const deleteUser = async (userId )=> {
-    const res = await apiFetch(`user/${userId}`,{
+    const res = await apiFetch(`/user/${userId}`,{
         method:"DELETE",
     })
     return handleResponse(res)

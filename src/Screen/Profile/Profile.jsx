@@ -1,9 +1,9 @@
 import "./Profile.scss"
-import logout from "@/DATA/Fetch/Auth/LougoutFetch"
-import {useAuthStore} from "@/DATA/Store/AUTH/AuthStore";
-import {useUserStore} from "@/DATA/Store/UserStore";
+import logout from "@fetch/Auth/LougoutFetch"
+import {useAuthStore} from "@store/AUTH/AuthStore";
+import {useUserStore} from "@store/UserStore";
 export default function Profile() {
-    const isAuth = useAuthStore((state) => state.isAuth);
+
     const setIsAuth = useAuthStore((state) => state.setIsAuth);
     const userData = useUserStore((state) => state.userData);
     const handleclick = async (e) =>{
@@ -11,16 +11,12 @@ export default function Profile() {
          await logout()
         setIsAuth(false)
     }
+    console.log("userdata : {}",userData)
   return (
     <div className="profile">
    <h1>Profile</h1>
-        {isAuth && (
-            <>
-            <p>Hello {userData?.username}</p>
+        {userData && (<p>Hello {userData.username}</p>)}
         <button onClick={handleclick}>Logout</button>
-            </>
-  )
-        }
     </div>
   );
 }

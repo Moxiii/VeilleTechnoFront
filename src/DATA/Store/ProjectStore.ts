@@ -1,8 +1,8 @@
 import {create} from "zustand";
-import { ProjectInterface } from "../Interfaces/ProjectInterface";
+import { ProjectInterface } from "@interfaces/ProjectInterface";
 import {
     createProject,deleteProject,updateProject
-} from "../Fetch/projectsFetch";
+} from "@fetch/projectsFetch";
 
 type ProjectStore = {
     projects: ProjectInterface[],
