@@ -1,9 +1,9 @@
-const API_URL = "http://api.localhost/api/auth/logout";
+
+import {apiFetch} from "./wrapper/apiFetch";
 export default async function logout(){
     try{
-        const response = await fetch(API_URL, {
+        const response = await apiFetch("/api/auth/logout", {
             method: "DELETE",
-            credentials: "include",
         })
         if (response.ok) {
             return response.json();

@@ -3,6 +3,9 @@ import react from '@vitejs/plugin-react'
 import path from 'node:path'
 
 export default defineConfig({
+  define:{
+    'import.meta.env.VITE_API_URL': JSON.stringify('http://api.localhost')
+  },
   plugins: [react()],
   resolve: {
     alias: {

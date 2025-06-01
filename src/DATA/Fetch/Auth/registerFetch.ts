@@ -1,10 +1,10 @@
-const API_URL = "http://api.localhost/api/auth/register";
+import {apiFetch} from "./wrapper/apiFetch";
 export default async function registerFetch({email , name , password , username}) {
     const user = {email,password,name,username};
-    fetch(API_URL, {
+    apiFetch("/api/auth/status/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: "include",
+
         body: JSON.stringify(user),
     })
         .catch((error) => {

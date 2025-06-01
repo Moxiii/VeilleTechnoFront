@@ -1,14 +1,13 @@
-import {handleResponse} from "../handleResponse";
 
+import {apiFetch} from "../wrapper/apiFetch";
 const API_URL = "http://api.localhost/api/auth/status"
 export async function checkAuth(){
 
 
         try {
-            const res = await fetch(API_URL, {
+            const res = await apiFetch("/api/auth/status", {
                 method: "GET",
-                credentials: "include",
-            });
+        });
         const data = await res.json();
        return Boolean(data.authenticated);;
         } catch (err) {

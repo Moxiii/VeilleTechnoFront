@@ -1,51 +1,44 @@
 import { handleResponse } from "./handleResponse";
+import {apiFetch} from "./wrapper/apiFetch";
 
-const API_URL = "http://api.localhost/project";
 
 export const getAllProjects = async () => {
-    const res = await fetch(API_URL, {
+    const res = await apiFetch("/project", {
         method: "GET",
-        credentials: "include",
+        
     });
     return handleResponse(res);
 };
 
-export const getProjectById = async (projectId) => {
-    const res = await fetch(`${API_URL}/${projectId}`, {
-        method: "GET",
-        credentials: "include",
-    });
-    return handleResponse(res);
-};
 
 export const createProject = async (createdProject) => {
-    const res = await fetch(API_URL, {
+    const res = await apiFetch("/project", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify(createdProject),
-        credentials: "include",
+        
     });
     return handleResponse(res);
 };
 
 export const updateProject = async (projectId, updatedProject) => {
-    const res = await fetch(`${API_URL}/${projectId}`, {
+    const res = await apiFetch(`/project"/${projectId}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify(updatedProject),
-        credentials: "include",
+        
     });
     return handleResponse(res);
 };
 
 export const deleteProject = async (projectId) => {
-    const res = await fetch(`${API_URL}/${projectId}`, {
+    const res = await apiFetch(`/project/${projectId}`, {
         method: "DELETE",
-        credentials: "include",
+        
     });
     return handleResponse(res);
 };
