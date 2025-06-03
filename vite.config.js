@@ -21,6 +21,7 @@ export default defineConfig({
       { find: '@fetch', replacement: path.resolve(__dirname, 'src/DATA/Fetch') },
       { find: '@service', replacement: path.resolve(__dirname, 'src/DATA/Service') },
       { find: '@interfaces', replacement: path.resolve(__dirname, 'src/DATA/Interfaces') },
+      {find:'@memo', replacement: path.resolve(__dirname, 'src/HOOK/memo') },
     ]
   },
 

@@ -11,7 +11,8 @@
       "@store/*": ["src/DATA/Store/*"],
       "@fetch/*": ["src/DATA/Fetch/*"],
       "@service/*": ["src/DATA/Service/*"],
-      "@interfaces/*": ["src/DATA/Interfaces/*"]
+      "@interfaces/*": ["src/DATA/Interfaces/*"],
+      "@memo/*": ["src/HOOK/memo/*"]
     }
   }
 }
