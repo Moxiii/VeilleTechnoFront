@@ -1,4 +1,4 @@
-import "./StyledTable.scss"
+import "@components/StyledTable/StyledTable.scss"
 import styled from "styled-components";
 export default function StyledTable({projects}) {
   function getFormattedUrl(url) {

@@ -4,6 +4,6 @@ type ConfigStore = {
     setBaseUrl: (url: string) => void;
 }
 export const useConfigStore = create<ConfigStore>((set)=>({
-    baseUrl: "http://localhost:8080",
+    baseUrl: "http://api.localhost",
     setBaseUrl: (url) => set({ baseUrl: url }),
 }));
