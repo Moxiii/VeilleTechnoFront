@@ -23,15 +23,15 @@ import {useAuthStore} from "@store/AUTH/AuthStore.js";
 import {useEffect} from "react";
 
 
+
 function App() {
     const isAuth = useAuthStore((state) => state.isAuth);
-    const checkAuth = useAuthStore((state) => state.checkAuth);
     const loadUserData = useUserStore((state) => state.loadUserData);
     const navigate = useNavigate();
     useEffect(()=>{
         const init = async () =>{
-            const authStatus = await checkAuth();
-            if(authStatus ){
+
+            if(isAuth ){
                 await loadUserData();
             }else{
                 navigate("/login")

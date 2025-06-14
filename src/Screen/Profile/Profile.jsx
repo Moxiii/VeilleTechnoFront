@@ -1,5 +1,4 @@
 import "./Profile.scss"
-import logout from "@fetch/Auth/LogoutFetch.js"
 import {useAuthStore} from "@store/AUTH/AuthStore";
 import {useUserStore} from "@store/UserStore";
 
@@ -20,7 +19,6 @@ export default function Profile() {
     const userTechnology = useTechnologyStore((state)=>state.technology);
     const handleclick = async (e) =>{
         e.preventDefault();
-         await logout()
         setIsAuth(false)
     }
     const totalProjects = userProjects.length;
