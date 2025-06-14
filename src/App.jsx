@@ -27,15 +27,12 @@ function App() {
     const isAuth = useAuthStore((state) => state.isAuth);
     const checkAuth = useAuthStore((state) => state.checkAuth);
     const loadUserData = useUserStore((state) => state.loadUserData);
-    const userData = useUserStore((state) => state.userData);
     const navigate = useNavigate();
     useEffect(()=>{
         const init = async () =>{
             const authStatus = await checkAuth();
-            console.log("authStatus", authStatus);
-            if(authStatus === true ){
+            if(authStatus ){
                 await loadUserData();
-                console.log("userData", userData);
             }else{
                 navigate("/login")
             }

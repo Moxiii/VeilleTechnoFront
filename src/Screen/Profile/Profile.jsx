@@ -1,5 +1,5 @@
 import "./Profile.scss"
-import logout from "@fetch/Auth/LougoutFetch"
+import logout from "@fetch/Auth/LogoutFetch.js"
 import {useAuthStore} from "@store/AUTH/AuthStore";
 import {useUserStore} from "@store/UserStore";
 
