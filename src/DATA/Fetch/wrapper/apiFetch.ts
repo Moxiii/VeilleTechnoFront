@@ -1,7 +1,9 @@
-import { getBaseUrl } from "@const/getBaseUrl";
+
+import {useConfigStore} from "@store/ConfigStore";
 
 export function apiFetch(path, options = {}) {
-    const url = `${getBaseUrl()}${path}`
+    const  baseUrl  = useConfigStore.getState().baseUrl;
+    const url = `${baseUrl}${path}`
     console.log("fetching url" , url)
     return fetch(url ,{
         credentials: "include",

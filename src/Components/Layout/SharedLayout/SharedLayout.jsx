@@ -1,4 +1,4 @@
-import s from "./SharedLayout.module.scss"
+import s from "@components/Layout/SharedLayout/SharedLayout.module.scss"
 import {AnimatePresence, motion} from "framer-motion";
 import {useState} from "react";
 

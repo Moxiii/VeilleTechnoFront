@@ -8,7 +8,7 @@ import {useRessourcesStore} from "@store/RessourcesStore.js";
 import {useTechnologyStore} from "@store/TechnologyStore.js";
 
 import StatCard from "@components/Card/StatCard/StatCard"
-import BarChart from "@components/Chart/BarChart/BarChart";
+import BarChart from "@components/Chart/BarChart/BarChart.jsx";
 import {useItemsPerMonth} from "@hook/memo/useItemPerMonth.js";
 
 export default function Profile() {

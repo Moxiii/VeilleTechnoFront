@@ -2,7 +2,7 @@ import {motion} from "framer-motion";
 import  {useRef} from "react";
 import {faTimes, faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import "./PopUpModal.scss"
+import "@components/Modal/PopUpModal/PopUpModal.scss"
 
 
 interface ModalProps {

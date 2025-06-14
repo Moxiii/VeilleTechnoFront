@@ -28,9 +28,8 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData:` 
-          @import "/src/CONST/_const.scss";
-        `
+        additionalData:
+            `@import "${path.resolve(__dirname,'src/CONST/_const.scss')}";`
       },
     },
   },
@@ -38,4 +37,12 @@ export default defineConfig({
   build: {
     outDir: 'dist',
   },
+  server: {
+    host: '0.0.0.0',
+    port: 5173,
+    strictPort: true,
+    watch: {
+      usePolling: true
+    }
+  }
 })

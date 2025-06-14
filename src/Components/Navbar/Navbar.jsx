@@ -1,4 +1,4 @@
-import "./Navbar.scss"
+import "@components/Navbar/Navbar.scss"
 import Underline from "@effects/Underline/Underline.jsx"
 import links from "@const/_const.ts"
 import {NavLink} from "react-router-dom";

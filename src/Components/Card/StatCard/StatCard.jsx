@@ -1,4 +1,4 @@
-import "./StatCard.scss"
+import "@components/Card/StatCard/StatCard.scss"
 export default function StatCard({label , value}) {
   return (
     <div className="statCard">
