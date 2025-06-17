@@ -1,5 +1,5 @@
 import "./Profile.scss"
-import {useAuthStore} from "@store/AUTH/AuthStore";
+
 import {useUserStore} from "@store/UserStore";
 
 import {useProjectStore} from "@store/ProjectStore.js";
@@ -12,14 +12,14 @@ import {useItemsPerMonth} from "@hook/memo/useItemPerMonth.js";
 
 export default function Profile() {
 
-    const setIsAuth = useAuthStore((state) => state.setIsAuth);
+
     const userData = useUserStore((state) => state.userData);
     const userProjects = useProjectStore((state)=>state.projects)
     const userRessources = useRessourcesStore((state)=>state.ressources);
     const userTechnology = useTechnologyStore((state)=>state.technology);
     const handleclick = async (e) =>{
         e.preventDefault();
-        setIsAuth(false)
+
     }
     const totalProjects = userProjects.length;
     const totalRessources = userRessources.length;

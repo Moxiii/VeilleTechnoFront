@@ -24,7 +24,7 @@ export const createProject = async (createdProject) => {
 };
 
 export const updateProject = async (projectId, updatedProject) => {
-    const res = await apiFetch(`/project"/${projectId}`, {
+    const res = await apiFetch(`/project/${projectId}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",

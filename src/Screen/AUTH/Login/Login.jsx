@@ -1,22 +1,19 @@
 import "./Login.scss"
-import {useCallback, useEffect} from "react";
-import {useAuth} from "@store/AUTH/AuthStore";
+import { useEffect} from "react";
+import {useAuthStore} from "@store/AUTH/AuthStore";
 import {useNavigate} from "react-router-dom";
-import {useUserStore} from "@store/UserStore.js";
+
 export default function Login() {
 
   const navigate = useNavigate();
-    const  {initialized , isAuth , login} = useAuth();
-    const loadUserData = useUserStore(state => state.loadUserData)
-    const loadAndNavigate = useCallback(async () => {
-        await loadUserData();
-        navigate("/profile");
-    }, [loadUserData, navigate]);
+
+    const  {ready , isAuth , login} = useAuthStore();
+
     useEffect(() => {
-        if (initialized && isAuth) {
-            loadAndNavigate();
+        if (ready && isAuth) {
+            navigate("/profile");
         }
-    }, [initialized, loadAndNavigate , isAuth]);
+    }, [ready,isAuth,navigate]);
 
 
 

@@ -1,5 +1,5 @@
 
-import {Route, Routes, useNavigate} from 'react-router-dom'
+import {BrowserRouter, Route, Routes, useNavigate} from 'react-router-dom'
 //global
 import Layout from "@components/Layout/Layout.jsx";
 import links from "@const/_const.ts"
@@ -20,26 +20,23 @@ import {useUserStore} from "@store/UserStore.js";
 import {ReactLenis} from "lenis/react"
 //Auth
 import {useAuthStore} from "@store/AUTH/AuthStore.js";
-import {useEffect} from "react";
+import { useEffect} from "react";
 
 
 
 function App() {
     const isAuth = useAuthStore((state) => state.isAuth);
+    const ready = useAuthStore((state) => state.ready);
     const loadUserData = useUserStore((state) => state.loadUserData);
     const navigate = useNavigate();
     useEffect(()=>{
-        const init = async () =>{
-
-            if(isAuth ){
-                await loadUserData();
+            if(ready && isAuth){
+                loadUserData();
             }else{
                 navigate("/login")
             }
-        }
-        init();
 
-    },[]);
+    },[ready , isAuth]);
     const lenisOption = {
         autoRaf: true,
         smooth: true,
@@ -47,6 +44,7 @@ function App() {
     };
 
   return (
+
       <ReactLenis
           root
           options={lenisOption}
@@ -66,6 +64,7 @@ function App() {
                         </Route>
                     </Routes>
       </ReactLenis>
+
   )
 }
 
