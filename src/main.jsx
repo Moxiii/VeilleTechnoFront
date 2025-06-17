@@ -4,26 +4,17 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
-import {KeycloakProvider} from "keycloak-react-web";
-import {keycloak} from "@src/DATA/keycloak/keycloak";
+
 
 
 createRoot(document.getElementById('root')).render(
-    <KeycloakProvider
-        client={keycloak}
-        initOptions={{
-            onLoad: 'check-sso',
-            checkLoginIframe: false,
-            silentCheckSsoRedirectUri: `${window.location.origin}/silent-check-sso.html`,
-            thirdPartyCookies: false
-        }}
-    >
-       // <StrictMode>
+
+        <StrictMode>
             <BrowserRouter>
                 <App />
             </BrowserRouter>
-        //</StrictMode>,
-    </KeycloakProvider>
+        </StrictMode>,
+
     )
 
 
