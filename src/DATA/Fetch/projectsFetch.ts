@@ -42,3 +42,9 @@ export const deleteProject = async (projectId) => {
     });
     return handleResponse(res);
 };
+export const getStatus = async () =>{
+    const res = await apiFetch("/project/status",{
+        method: "GET",
+    });
+    return handleResponse(res);
+}

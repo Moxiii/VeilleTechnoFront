@@ -2,13 +2,16 @@ import "./Profile.scss"
 
 import {useUserStore} from "@store/UserStore";
 
-import {useProjectStore} from "@store/ProjectStore.js";
-import {useRessourcesStore} from "@store/RessourcesStore.js";
-import {useTechnologyStore} from "@store/TechnologyStore.js";
+import {useProjectStore} from "@store/ProjectStore";
+import {useRessourcesStore} from "@store/RessourcesStore";
+import {useTechnologyStore} from "@store/TechnologyStore";
+import {useAuthStore} from "@store/AUTH/AuthStore";
 
 import StatCard from "@components/Card/StatCard/StatCard"
 import BarChart from "@components/Chart/BarChart/BarChart.jsx";
 import {useItemsPerMonth} from "@hook/memo/useItemPerMonth.js";
+
+import {useNavigate} from "react-router-dom";
 
 export default function Profile() {
 
@@ -17,8 +20,11 @@ export default function Profile() {
     const userProjects = useProjectStore((state)=>state.projects)
     const userRessources = useRessourcesStore((state)=>state.ressources);
     const userTechnology = useTechnologyStore((state)=>state.technology);
-    const handleclick = async (e) =>{
-        e.preventDefault();
+    const logout = useAuthStore((state)=>state.logout);
+    const navigate = useNavigate();
+    const handleclick = async () =>{
+       logout();
+       navigate("/");
 
     }
     const totalProjects = userProjects.length;

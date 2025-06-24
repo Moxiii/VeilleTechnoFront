@@ -1,6 +1,6 @@
 import "@components/StyledTable/StyledTable.scss"
 import styled from "styled-components";
-export default function StyledTable({projects}) {
+export default function StyledTable({projects, onUpdate, onDelete}) {
   function getFormattedUrl(url) {
     return url.startsWith("http://") || url.startsWith("https://")
         ? url
@@ -49,10 +49,11 @@ export default function StyledTable({projects}) {
             <Th>Technology</Th>
             <Th>Status</Th>
             <Th>Links</Th>
+            <Th>Actions</Th>
           </Tr>
         </Thead>
         <tbody>
-        {projects.map(({name, startDate, endDate, technology, status, links }) => (
+        {projects.map(({id,name, startDate, endDate, technology, status, links }) => (
             <Tr key={name}>
               <Td>{name}</Td>
               <Td>{startDate}</Td>
@@ -65,6 +66,10 @@ export default function StyledTable({projects}) {
                       {url}
                     </Link>
                 ))}
+              </Td>
+              <Td>
+                <button onClick={() => onUpdate(id)}>Update</button>
+                <button onClick={() => onDelete(id)}>Delete</button>
               </Td>
             </Tr>
         ))}

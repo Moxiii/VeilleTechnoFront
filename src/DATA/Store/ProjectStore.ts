@@ -1,21 +1,24 @@
 import {create} from "zustand";
 import { ProjectInterface } from "@interfaces/ProjectInterface";
+
 import {
-    createProject,deleteProject,updateProject
+    createProject,deleteProject,updateProject,getStatus
 } from "@fetch/projectsFetch";
 
 type ProjectStore = {
     projects: ProjectInterface[],
-    setProjects: (projects: ProjectInterface) => void
+    setProjects: (projects: ProjectInterface[]) => void
     addProject: (project: ProjectInterface) => Promise<void>,
     removeProject: (projectId: number) => Promise<void>,
     updateProjectById: (projectId: number, project: ProjectInterface) => Promise<void>,
+    status:string[];
+    getStatus:()=>Promise<void>;
 }
 
 export const useProjectStore = create<ProjectStore>((set, get) => ({
     projects: [],
     setProjects: (projects) => set({ projects }),
-    addProject: async (project) => {
+    addProject: async (project: ProjectInterface) => {
         const response = await createProject(project);
         if (response?.projectName) {
             const formatted: ProjectInterface = {
@@ -54,5 +57,11 @@ export const useProjectStore = create<ProjectStore>((set, get) => ({
             });
         }
     },
-
+    status:[],
+    getStatus:async()=>{
+        const res = await getStatus()
+        if (res.status) {
+            set({status:res.status});
+        }
+    }
 }));

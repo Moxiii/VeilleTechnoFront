@@ -21,7 +21,7 @@ export default function Login() {
     }
     useEffect(() => {
         if ( isAuth) {
-            navigate("/profile");
+            navigate("/");
         }
     }, [isAuth,navigate]);
 

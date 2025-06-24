@@ -26,15 +26,14 @@ import { useEffect} from "react";
 
 function App() {
     const isAuth = useAuthStore((state) => state.isAuth);
+    const loadUserData = useUserStore((state) => state.loadUserData);
     const navigate = useNavigate();
     useEffect(()=>{
-            if( isAuth){
                 useAuthStore.getState().checkSession();
-            }else{
-                navigate("/login")
-            }
-
     },[isAuth, navigate]);
+    useEffect(() => {
+        loadUserData();
+    },[isAuth, loadUserData]);
     const lenisOption = {
         autoRaf: true,
         smooth: true,

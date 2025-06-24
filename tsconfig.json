@@ -16,5 +16,6 @@
     },
     "jsx": "react",
     "tsx": "react",
+    "allowSyntheticDefaultImports": true
   }
 }
