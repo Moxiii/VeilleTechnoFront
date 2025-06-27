@@ -41,7 +41,6 @@ export const useUserStore = create<UserStore>((set) => ({
                     userService.loadUserTechnology(),
                     userService.loadUserRessources(),
                 ]);
-            console.log("Fetched userData:", userData);
             set({
                 userData,
                 userProjects,

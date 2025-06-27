@@ -27,5 +27,8 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-
+.clickable{
+  cursor: pointer;
+  font-size: 105%;
+}
 }

@@ -1,18 +1,53 @@
 import "./Technology.scss"
+import {useTechnologyStore} from "@store/TechnologyStore"
 import {useUserStore} from "@store/UserStore";
+import {lazy, Suspense, useState} from "react";
+const PopUpModal = lazy(() => import("@components/Modal/PopUpModal/PopUpModal"));
 export default function Technology() {
-  const userTechnology = useUserStore().userTechnology;
+  const userTechnology = useUserStore(state => state.userTechnology);
+  const addTechnology = useTechnologyStore(state => state.addTechnology);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [technologyName, setTechnologyName] = useState("");
+  const handleAddTechnology = async (e) => {
+    e.preventDefault();
+    try{
+      const newTechno = {
+        name: technologyName.trim(),
+      }
+      await addTechnology(newTechno)
+      setTechnologyName("");
+    }catch  {
+      alert("Project not added");
+    }
+  }
+  console.log(userTechnology);
   return (
     <div className="technology">
     <h1>Technology</h1>
+      <div className="clickable" onClick={()=>setIsModalOpen(true)}><h2>Add a Technology</h2></div>
+      <Suspense fallback={<div>Loading...</div>}>
+      <PopUpModal isOpen={isModalOpen} onClose={()=>setIsModalOpen(false)}  title="Add Technology" >
+        <div className="technology-modal">
+          <form onSubmit={handleAddTechnology}>
+            <input
+                type="text"
+                value={technologyName}
+                placeholder="Name of the technology"
+                onChange={(e) => setTechnologyName(e.target.value)}
+            />
+            <button type="submit">Add</button>
+          </form>
+        </div>
+      </PopUpModal>
+      </Suspense>
       <ul>
-        {userTechnology && userTechnology.map(tech => (
+        {userTechnology.map(tech => (
             <li key={tech.id}>
-              <p><strong>{tech.name}</strong> ({tech.category || "non catégorisé"})</p>
+              <p><strong>{tech.name}</strong> ({tech.category?.type || "non catégorisé"})</p>
               {tech.projects.length > 0 ? (
                   <ul>
                     {tech.projects.map((project, i) => (
-                        <li key={i}>{project.name}</li>
+                        <li key={i}>{project.projectName}</li>
                     ))}
                   </ul>
               ) : (

@@ -43,7 +43,7 @@ export const useProjectStore = create<ProjectStore>((set, get) => ({
 
     updateProjectById: async (projectId : number, updatedData) => {
         const response = await updateProject(projectId, updatedData);
-        if (response.name) {
+        if (response.ok) {
             set({
                 projects: get().projects.map((p) =>
                     p.id === projectId
@@ -51,6 +51,8 @@ export const useProjectStore = create<ProjectStore>((set, get) => ({
                             ...p,
                             projectName: response.name,
                             links: response.links || [],
+                            technology: Array.isArray(response.technology) ? response.technology : [],
+                            status: response.status,
                         }
                         : p
                 ),
@@ -60,8 +62,8 @@ export const useProjectStore = create<ProjectStore>((set, get) => ({
     status:[],
     getStatus:async()=>{
         const res = await getStatus()
-        if (res.status) {
-            set({status:res.status});
+        if (Array.isArray(res)) {
+            set({status:res});
         }
     }
 }));

@@ -1,5 +1,5 @@
 import {create} from "zustand/react";
-import {RessourcesInterface} from "@interaces/RessourcesInterface";
+import {RessourcesInterface} from "@interfaces/RessourcesInterface";
 import {createRessources , deleteRessources, updateRessources} from "@fetch/ressourcesFetch"
 type RessourcesStore = {
     ressources: RessourcesInterface[];

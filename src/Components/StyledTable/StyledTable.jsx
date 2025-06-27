@@ -37,6 +37,7 @@ export default function StyledTable({projects, onUpdate, onDelete}) {
   color: #61dafb;
   text-decoration: none;
 `;
+
   return (
     <div className="styledTable">
       <h2>Projects</h2>
@@ -53,26 +54,26 @@ export default function StyledTable({projects, onUpdate, onDelete}) {
           </Tr>
         </Thead>
         <tbody>
-        {projects.map(({id,name, startDate, endDate, technology, status, links }) => (
-            <Tr key={name}>
-              <Td>{name}</Td>
-              <Td>{startDate}</Td>
-              <Td>{endDate}</Td>
-              <Td>{technology.map(t=>t.name).join(", ")}</Td>
-              <Td>{status}</Td>
-              <Td>
-                {links?.map(( url ) => (
-                    <Link key={url} href={getFormattedUrl(url)} target="_blank" rel="noopener noreferrer">
-                      {url}
-                    </Link>
-                ))}
-              </Td>
-              <Td>
-                <button onClick={() => onUpdate(id)}>Update</button>
-                <button onClick={() => onDelete(id)}>Delete</button>
-              </Td>
-            </Tr>
-        ))}
+        {projects.map(({id,name, startDate, endDate, technology, status, links }) =>  (
+                  <Tr key={id}>
+                    <Td>{name}</Td>
+                    <Td>{startDate}</Td>
+                    <Td>{endDate}</Td>
+                    <Td>{technology.map(t=>t.name).join(", ")}</Td>
+                    <Td>{status}</Td>
+                    <Td>
+                      {links?.map(( url ) => (
+                          <Link key={url} href={getFormattedUrl(url)} target="_blank" rel="noopener noreferrer">
+                            {url}
+                          </Link>
+                      ))}
+                    </Td>
+                    <Td>
+                      <button onClick={() => onUpdate(id)}>Update</button>
+                      <button onClick={() => onDelete(id)}>Delete</button>
+                    </Td>
+                  </Tr>
+              ))}
         </tbody>
       </Table>
     </div>
