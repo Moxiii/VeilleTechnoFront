@@ -19,11 +19,12 @@ export default function Technology() {
     try{
       const newTechno = {
         name: technologyName.trim(),
+        category: selectedCategory.trim()
       }
       await addTechnology(newTechno)
       setTechnologyName("");
     }catch  {
-      alert("Project not added");
+      alert("Technology not added");
     }
   }
   console.log(userTechnology);
@@ -41,11 +42,21 @@ export default function Technology() {
                 placeholder="Name of the technology"
                 onChange={(e) => setTechnologyName(e.target.value)}
             />
-            <select value={selectedCategory} onChange={e => setSelectedCategory(e.target.value)}>
-              {category.map(c => (
-                  <option key={c} value={c}>{c}</option>
+            <div className="tech-checkbox-group">
+              <p>Select Category:</p>
+              {category.map(cat => (
+                  <label key={cat.id} style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" }}>
+                    <input
+                        type="radio"
+                        name="category" // important pour grouper les radios
+                        value={cat}
+                        checked={selectedCategory === cat}
+                        onChange={(e) => setSelectedCategory(e.target.value)}
+                    />
+                    {cat}
+                  </label>
               ))}
-            </select>
+            </div>
             <button type="submit">Add</button>
           </form>
         </div>
@@ -58,7 +69,7 @@ export default function Technology() {
               {tech.projects.length > 0 ? (
                   <ul>
                     {tech.projects.map((project, i) => (
-                        <li key={i}>{project.projectName}</li>
+                        <li key={i}>{project.name}</li>
                     ))}
                   </ul>
               ) : (

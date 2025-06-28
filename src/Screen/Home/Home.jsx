@@ -39,7 +39,7 @@ useEffect(() => {
             projectName: projectName.trim(),
             status: selectedStatus || undefined,
             links: links.filter(link => link.trim() !== ""),
-            technologyIds: selectedTechIds
+            technology: selectedTechIds
         }
         try{
             if(editProject){
@@ -142,7 +142,7 @@ useEffect(() => {
                 </div>
             </PopUpModal>
             </Suspense>
-            <StyledTable projects={userProjects} onDelete={handleDeleteProject} onUpdate={handleUpdateProject}/>
+            {userProjects && <StyledTable projects={userProjects} onDelete={handleDeleteProject} onUpdate={handleUpdateProject}/>}
             <TechnoChart projects={userProjects} />
     </div>)
 }
