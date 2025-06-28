@@ -1,13 +1,19 @@
 import "./Technology.scss"
 import {useTechnologyStore} from "@store/TechnologyStore"
 import {useUserStore} from "@store/UserStore";
-import {lazy, Suspense, useState} from "react";
+import {lazy, Suspense, useEffect, useState} from "react";
 const PopUpModal = lazy(() => import("@components/Modal/PopUpModal/PopUpModal"));
 export default function Technology() {
   const userTechnology = useUserStore(state => state.userTechnology);
   const addTechnology = useTechnologyStore(state => state.addTechnology);
+  const getCat = useTechnologyStore(state=>state.getCategory)
+  const category = useTechnologyStore(state=>state.category)
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [technologyName, setTechnologyName] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState([]);
+  useEffect(() => {
+     getCat();
+  },[getCat]);
   const handleAddTechnology = async (e) => {
     e.preventDefault();
     try{
@@ -35,6 +41,11 @@ export default function Technology() {
                 placeholder="Name of the technology"
                 onChange={(e) => setTechnologyName(e.target.value)}
             />
+            <select value={selectedCategory} onChange={e => setSelectedCategory(e.target.value)}>
+              {category.map(c => (
+                  <option key={c} value={c}>{c}</option>
+              ))}
+            </select>
             <button type="submit">Add</button>
           </form>
         </div>

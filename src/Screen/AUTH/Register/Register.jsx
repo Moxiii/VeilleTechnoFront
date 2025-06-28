@@ -6,10 +6,12 @@ export default function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email,setEmail] = useState("");
+  const [firstName,setFirstName] = useState("");
+  const [lastName,setLastName] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
     try{
-      await register({username, password, email});
+      await register({username, password, email, firstName , lastName});
     }catch (err) {
       alert("user not found");
       console.error("Login error", err);
@@ -24,6 +26,18 @@ export default function Register() {
             value={username}
             placeholder="Username"
             onChange={(e) => setUsername(e.target.value)}
+        />
+        <input
+            type="text"
+            value={firstName}
+            placeholder="First Name"
+            onChange={(e) => setFirstName(e.target.value)}
+        />
+        <input
+            type="text"
+            value={lastName}
+            placeholder="Last Name"
+            onChange={(e) => setLastName(e.target.value)}
         />
         <input
             type="email"
