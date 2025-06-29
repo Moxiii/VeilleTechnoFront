@@ -2,24 +2,23 @@ import {create} from "zustand";
 import type {TechnologyInterface} from '@interfaces/TechnologyInterface';
 import {createTechnology,deleteTechnology,updateTechnology} from '@fetch/technologyFetch';
 import {getCatName} from "@fetch/CategoryFetch";
-
+import {getAlltechnology} from "@fetch/technologyFetch";
 type TechnologyStore = {
     technology: TechnologyInterface[];
-    setTechnology: (techList: TechnologyInterface[]) => void;
     addTechnology: (technology: TechnologyInterface) => Promise<void>;
     removeTechnology: (technlogyId:number) => Promise<void>;
     updateTechnologyById: (technlogyId:number, technology: TechnologyInterface) => Promise<void>;
     category:string[];
     getCategory:()=>Promise<void>;
+    loadUserTechnology: () => Promise<void>;
 }
 export const useTechnologyStore = create<TechnologyStore>((set, get) => ({
     technology: [],
 
-    setTechnology: (techList) => set({ technology: techList }),
 
     addTechnology: async (tech) => {
         const res = await createTechnology(tech);
-        if (res?.name) {
+        if (res.ok) {
             const formatted: TechnologyInterface = {
                 id: res.id,
                 name: res.name,
@@ -60,5 +59,13 @@ export const useTechnologyStore = create<TechnologyStore>((set, get) => ({
     getCategory: async ()=>{
         const res = await getCatName();
         set({category:res});
-    }
+    },
+    loadUserTechnology : async () => {
+        try{
+            const userTechnology = await getAlltechnology();
+            set({technology: userTechnology});
+        } catch (error) {
+            console.error("Failed to load user technology", error);
+        }
+    },
 }));

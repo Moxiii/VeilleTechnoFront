@@ -2,9 +2,7 @@ import "./Profile.scss"
 
 import {useUserStore} from "@store/UserStore";
 
-import {useProjectStore} from "@store/ProjectStore";
-import {useRessourcesStore} from "@store/RessourcesStore";
-import {useTechnologyStore} from "@store/TechnologyStore";
+
 import {useAuthStore} from "@store/AUTH/AuthStore";
 
 import StatCard from "@components/Card/StatCard/StatCard"
@@ -17,9 +15,9 @@ export default function Profile() {
 
 
     const userData = useUserStore((state) => state.userData);
-    const userProjects = useProjectStore((state)=>state.projects)
-    const userRessources = useRessourcesStore((state)=>state.ressources);
-    const userTechnology = useTechnologyStore((state)=>state.technology);
+    const userProjects = useUserStore((state)=>state.userProjects)
+    const userRessources = useUserStore((state)=>state.userRessources);
+    const userTechnology = useUserStore((state)=>state.userTechnology);
     const logout = useAuthStore((state)=>state.logout);
     const navigate = useNavigate();
     const handleclick = async () =>{
@@ -38,16 +36,16 @@ export default function Profile() {
    <h1>Profile</h1>
         {userData && (
             <>
-                <p>Hello {userData.username}</p>
-                <div className="projectStat">
+                <p>Hello {userData.username} !</p>
+                <div className="stat project">
                     <StatCard label="Projets" value={totalProjects} />
                     <BarChart name="Projets par mois" label="Projects" value={projectStats} />
                 </div>
-                <div className="techStat">
+                <div className="stat tech">
                     <StatCard label="Technologies" value={totalTechnology} />
                     <BarChart name="Technology par mois" label="Technology" value={techStats} />
                 </div>
-                <div className="ressourcesStat">
+                <div className="stat ressources">
                     <StatCard label="Ressources" value={totalRessources} />
                     <BarChart name="Ressources par mois" label="Ressources" value={ressourcesStats} />
                 </div>

@@ -8,6 +8,7 @@ import {lazy, Suspense, useEffect, useState} from "react";
 const PopUpModal = lazy(() => import("@components/Modal/PopUpModal/PopUpModal"));
 export default function Home(){
 const userProjects = useUserStore().userProjects;
+const loadUserProjects = useUserStore(state => state.loadUserProjects);
 const userTechnology = useUserStore().userTechnology;
 const {addProject , removeProject , updateProjectById} = useProjectStore();
 const status = useProjectStore((state) => state.status);
@@ -54,6 +55,7 @@ useEffect(() => {
             setSelectedTechIds([]);
             setEditProject(null);
             setIsModalOpen(false);
+            loadUserProjects();
         }catch  {
             alert("Project not submitted");
         }

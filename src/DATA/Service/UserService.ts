@@ -1,11 +1,22 @@
-import {getAllProjects} from "@fetch/projectsFetch";
-import {getUser} from "@fetch/userFetch";
-import {getAllRessources} from "@fetch/ressourcesFetch";
-import {getAlltechnology} from "@fetch/technologyFetch";
 
-export const userService = {
-    loadUserData: async () => await getUser(),
-    loadUserProjects: async () => await getAllProjects(),
-    loadUserRessources: async () => await getAllRessources(),
-    loadUserTechnology:async () => await getAlltechnology(),
+import {useUserStore} from "@store/UserStore"
+import {useProjectStore} from "@store/ProjectStore"
+import {useRessourcesStore} from "@store/RessourcesStore"
+import {useTechnologyStore} from "@store/TechnologyStore"
+
+export const userService = ()=> {
+   const {loadUserData} = useUserStore();
+   const {loadUserProjects} = useProjectStore();
+   const {loadUserTechnology} = useTechnologyStore();
+   const {loadUserRessources} = useRessourcesStore();
+    const loadAll = async () => {
+        await Promise.all([
+            loadUserData(),
+            loadUserProjects(),
+            loadUserTechnology(),
+            loadUserRessources(),
+        ]);
+    };
+
+    return { loadAll };
 }

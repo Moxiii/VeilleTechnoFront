@@ -1,9 +1,12 @@
 import "./Ressources.scss"
 import {useUserStore} from "@store/UserStore";
 import useGroupedRessources from "@memo/groupedByTechAndLabel";
+import {useEffect} from "react";
 
 export default function Ressources() {
   const userRessources = useUserStore().userRessources;
+  const loadUserRessources = useUserStore().loadUserRessources;
+  useEffect(() => {loadUserRessources();}, []);
   const grouped = useGroupedRessources(userRessources);
   return (
     <div className="ressources">

@@ -4,7 +4,6 @@ export const getUser = async () => {
     const res = await apiFetch("/user",{
         method:"GET",
     })
-    console.log("🔍 /user response:", res.status, res.headers.get("Content-Type"));
     return handleResponse(res);
 }
 export const updateUser = async (userId , updatedUser) => {

@@ -2,7 +2,7 @@ import {create} from "zustand";
 import { ProjectInterface } from "@interfaces/ProjectInterface";
 
 import {
-    createProject,deleteProject,updateProject,getStatus
+    createProject,deleteProject,updateProject,getStatus,getAllProjects
 } from "@fetch/projectsFetch";
 
 type ProjectStore = {
@@ -13,6 +13,7 @@ type ProjectStore = {
     updateProjectById: (projectId: number, project: ProjectInterface) => Promise<void>,
     status:string[];
     getStatus:()=>Promise<void>;
+    loadUserProjects:()=>Promise<void>;
 }
 
 export const useProjectStore = create<ProjectStore>((set, get) => ({
@@ -64,6 +65,14 @@ export const useProjectStore = create<ProjectStore>((set, get) => ({
         const res = await getStatus()
         if (Array.isArray(res)) {
             set({status:res});
+        }
+    },
+    loadUserProjects : async ()=>{
+        try{
+            const userProjects = await getAllProjects();
+            set({projects: userProjects});
+        } catch (error) {
+            console.error("Failed to load user Projects", error);
         }
     }
 }));

@@ -1,19 +1,21 @@
 import "./Technology.scss"
 import {useTechnologyStore} from "@store/TechnologyStore"
-import {useUserStore} from "@store/UserStore";
+
 import {lazy, Suspense, useEffect, useState} from "react";
+
 const PopUpModal = lazy(() => import("@components/Modal/PopUpModal/PopUpModal"));
 export default function Technology() {
-  const userTechnology = useUserStore(state => state.userTechnology);
-  const addTechnology = useTechnologyStore(state => state.addTechnology);
-  const getCat = useTechnologyStore(state=>state.getCategory)
-  const category = useTechnologyStore(state=>state.category)
+  const {addTechnology , removeTechnology , updateTechnologyById , category, getCategory , loadUserTechnology , userTechnology} = useTechnologyStore();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [technologyName, setTechnologyName] = useState("");
   const [selectedCategory, setSelectedCategory] = useState([]);
   useEffect(() => {
-     getCat();
-  },[getCat]);
+     getCategory();
+  },[getCategory]);
+  useEffect(() => {
+    loadUserTechnology();
+  },[])
   const handleAddTechnology = async (e) => {
     e.preventDefault();
     try{
@@ -21,13 +23,19 @@ export default function Technology() {
         name: technologyName.trim(),
         category: selectedCategory.trim()
       }
+      console.log(newTechno);
       await addTechnology(newTechno)
       setTechnologyName("");
+      await loadUserTechnology()
     }catch  {
       alert("Technology not added");
     }
   }
-  console.log(userTechnology);
+
+  const handleDeleteTechnology = async(id) => {
+    await removeTechnology(id)
+  }
+
   return (
     <div className="technology">
     <h1>Technology</h1>
@@ -45,10 +53,10 @@ export default function Technology() {
             <div className="tech-checkbox-group">
               <p>Select Category:</p>
               {category.map(cat => (
-                  <label key={cat.id} style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" }}>
+                  <label key={cat.id}>
                     <input
                         type="radio"
-                        name="category" // important pour grouper les radios
+                        name="category"
                         value={cat}
                         checked={selectedCategory === cat}
                         onChange={(e) => setSelectedCategory(e.target.value)}
@@ -65,7 +73,9 @@ export default function Technology() {
       <ul>
         {userTechnology.map(tech => (
             <li key={tech.id}>
-              <p><strong>{tech.name}</strong> ({tech.category?.type || "non catégorisé"})</p>
+              <h3><strong>{tech.name}</strong> ({tech.category?.type || "non catégorisé"})</h3>
+              <button onClick={()=> handleDeleteTechnology(tech.id)}>Delete technology</button>
+              <p>Associated project : </p>
               {tech.projects.length > 0 ? (
                   <ul>
                     {tech.projects.map((project, i) => (

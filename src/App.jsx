@@ -1,5 +1,5 @@
 
-import {BrowserRouter, Route, Routes, useNavigate} from 'react-router-dom'
+import {Route, Routes} from 'react-router-dom'
 //global
 import Layout from "@components/Layout/Layout.jsx";
 import links from "@const/_const.ts"
@@ -15,7 +15,7 @@ import Login from "@screen/AUTH/Login/Login.jsx";
 import Register from "@screen/AUTH/Register/Register.jsx";
 //user
 import Profile from "@screen/Profile/Profile.jsx";
-import {useUserStore} from "@store/UserStore.js";
+import {userService} from "@src/DATA/Service/UserService";
 //Lenis
 import {ReactLenis} from "lenis/react"
 //Auth
@@ -26,11 +26,13 @@ import { useEffect} from "react";
 
 function App() {
     const isAuth = useAuthStore((state) => state.isAuth);
-    const loadUserData = useUserStore((state) => state.loadUserData);
-    const navigate = useNavigate();
+    const loadUserData = userService()
     useEffect(()=>{
-                useAuthStore.getState().checkSession();
-    },[isAuth, navigate]);
+        if(useAuthStore.getState().checkSession()){
+            loadUserData()
+        }
+
+    },[isAuth , loadUserData]);
     useEffect(() => {
         loadUserData();
     },[isAuth, loadUserData]);

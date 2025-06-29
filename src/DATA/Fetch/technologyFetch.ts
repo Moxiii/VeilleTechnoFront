@@ -23,7 +23,7 @@ export const createTechnology = async (createdTechnology) => {
 };
 
 export const updateTechnology = async (technologyId, updatedTechnology) => {
-    const res = await apiFetch(`/technology"/${technologyId}`, {
+    const res = await apiFetch(`/technology/${technologyId}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -35,7 +35,7 @@ export const updateTechnology = async (technologyId, updatedTechnology) => {
 };
 
 export const deleteTechnology = async (technologyId) => {
-    const res = await apiFetch(`/technology"/${technologyId}`, {
+    const res = await apiFetch(`/technology/${technologyId}`, {
         method: "DELETE",
         
     });

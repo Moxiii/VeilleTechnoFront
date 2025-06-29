@@ -1,6 +1,6 @@
 import {create} from "zustand/react";
 import {RessourcesInterface} from "@interfaces/RessourcesInterface";
-import {createRessources , deleteRessources, updateRessources} from "@fetch/ressourcesFetch"
+import {createRessources, deleteRessources, getAllRessources, updateRessources} from "@fetch/ressourcesFetch"
 type RessourcesStore = {
     ressources: RessourcesInterface[];
     setRessources: (ressourcesList: RessourcesInterface[]) => void;
@@ -10,6 +10,7 @@ type RessourcesStore = {
         ressourceId: number ,
         ressources:RessourcesInterface
     ) => Promise<void>;
+    loadUserRessources:()=>Promise<void>;
 };
 
 export const useRessourcesStore = create<RessourcesStore>((set, get) => ({
@@ -40,6 +41,14 @@ export const useRessourcesStore = create<RessourcesStore>((set, get) => ({
                     r.id === ressourceId ? res : r
                 ),
             });
+        }
+    },
+    loadUserRessources : async () => {
+        try{
+            const userRessources = await getAllRessources();
+            set({ressources: userRessources});
+        } catch (error) {
+            console.error("Failed to load user Ressources", error);
         }
     },
 }));
