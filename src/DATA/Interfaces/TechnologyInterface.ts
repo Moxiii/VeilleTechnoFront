@@ -8,4 +8,5 @@ export interface TechnologyInterface {
     trainingTime?: number | null;
     ressources?: RessourcesInterface[] | null;
     projects?: ProjectInterface[] | null;
+    createdAt: string;
 }

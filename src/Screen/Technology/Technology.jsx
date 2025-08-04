@@ -5,7 +5,7 @@ import {lazy, Suspense, useEffect, useState} from "react";
 
 const PopUpModal = lazy(() => import("@components/Modal/PopUpModal/PopUpModal"));
 export default function Technology() {
-  const {addTechnology , removeTechnology , updateTechnologyById , category, getCategory , loadUserTechnology , userTechnology} = useTechnologyStore();
+  const {addTechnology , removeTechnology , updateTechnologyById , category, getCategory , loadUserTechnology , technology} = useTechnologyStore();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [technologyName, setTechnologyName] = useState("");
@@ -71,7 +71,7 @@ export default function Technology() {
       </PopUpModal>
       </Suspense>
       <ul>
-        {userTechnology.map(tech => (
+        {technology.map(tech => (
             <li key={tech.id}>
               <h3><strong>{tech.name}</strong> ({tech.category?.type || "non catégorisé"})</h3>
               <button onClick={()=> handleDeleteTechnology(tech.id)}>Delete technology</button>

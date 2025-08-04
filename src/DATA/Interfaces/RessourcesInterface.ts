@@ -6,4 +6,5 @@ export interface RessourcesInterface {
     url: string[];
     label: string;
     technology:TechnologyInterface[];
+    createdAt: string;
 }

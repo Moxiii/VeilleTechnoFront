@@ -1,18 +1,15 @@
 import "./Home.scss"
 import StyledTable from '@components/StyledTable/StyledTable.jsx';
 import TechnoChart from '@components/Chart/TechnoChart/TechnoChart.jsx';
-import {useUserStore} from '@store/UserStore';
-import {useProjectStore} from "@store/ProjectStore.js";
 
+import {useProjectStore} from "@store/ProjectStore";
+import {useTechnologyStore} from "@store/TechnologyStore";
 import {lazy, Suspense, useEffect, useState} from "react";
 const PopUpModal = lazy(() => import("@components/Modal/PopUpModal/PopUpModal"));
 export default function Home(){
-const userProjects = useUserStore().userProjects;
-const loadUserProjects = useUserStore(state => state.loadUserProjects);
-const userTechnology = useUserStore().userTechnology;
-const {addProject , removeProject , updateProjectById} = useProjectStore();
-const status = useProjectStore((state) => state.status);
-const getStatus = useProjectStore((state) => state.getStatus);
+const userTechnology = useTechnologyStore((state)=> state.technology);
+const {addProject , removeProject , updateProjectById , projects , status , getStatus , loadUserProjects} = useProjectStore();
+
 const [editProject, setEditProject] = useState(null);
 useEffect(() => {
     getStatus();
@@ -65,7 +62,7 @@ useEffect(() => {
 
     }
     const handleUpdateProject = async (id) => {
-        const project = userProjects.find(p => p.id === id);
+        const project = projects.find(p => p.id === id);
         setEditProject(project);
         setIsModalOpen(true);
     }
@@ -144,7 +141,7 @@ useEffect(() => {
                 </div>
             </PopUpModal>
             </Suspense>
-            {userProjects && <StyledTable projects={userProjects} onDelete={handleDeleteProject} onUpdate={handleUpdateProject}/>}
-            <TechnoChart projects={userProjects} />
+            {projects && <StyledTable projects={projects} onDelete={handleDeleteProject} onUpdate={handleUpdateProject}/>}
+            <TechnoChart projects={projects} />
     </div>)
 }

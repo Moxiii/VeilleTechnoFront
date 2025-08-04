@@ -5,6 +5,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  .clickable{
+    h2{
+      color:$button-text;
+    }
+
+  }
   .project-modal{
     display: flex;
     flex-direction: column;

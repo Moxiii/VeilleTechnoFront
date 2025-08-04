@@ -1,42 +1,43 @@
 import "@components/StyledTable/StyledTable.scss"
 import styled from "styled-components";
+const Table = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+`;
+
+const Thead = styled.thead`
+  background-color: #282c34;
+  color: white;
+`;
+
+const Th = styled.th`
+  padding: 12px 15px;
+  text-align: left;
+`;
+
+const Td = styled.td`
+  padding: 12px 15px;
+    color:white;
+  border-bottom: 1px solid #ddd;
+`;
+
+const Tr = styled.tr`
+
+`;
+
+const Link = styled.a`
+  margin-right: 12px;
+  color: #61dafb;
+  text-decoration: none;
+`;
+
 export default function StyledTable({projects, onUpdate, onDelete}) {
   function getFormattedUrl(url) {
     return url.startsWith("http://") || url.startsWith("https://")
         ? url
         : `https://${url}`;
   }
-  const Table = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-`;
-
-  const Thead = styled.thead`
-  background-color: #282c34;
-  color: white;
-`;
-
-  const Th = styled.th`
-  padding: 12px 15px;
-  text-align: left;
-`;
-
-  const Td = styled.td`
-  padding: 12px 15px;
-    color:white;
-  border-bottom: 1px solid #ddd;
-`;
-
-  const Tr = styled.tr`
-
-`;
-
-  const Link = styled.a`
-  margin-right: 12px;
-  color: #61dafb;
-  text-decoration: none;
-`;
 
   return (
     <div className="styledTable">

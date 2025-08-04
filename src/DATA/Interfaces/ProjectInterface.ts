@@ -8,4 +8,5 @@ export interface ProjectInterface {
     technology?: TechnologyInterface[];
     startDate?: any;
     endDate?: any;
+    createdAt: string;
 }

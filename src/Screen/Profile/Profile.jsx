@@ -1,7 +1,8 @@
 import "./Profile.scss"
-
 import {useUserStore} from "@store/UserStore";
-
+import {useProjectStore} from "@store/ProjectStore";
+import {useTechnologyStore} from "@store/TechnologyStore";
+import{useRessourcesStore} from "@store/RessourcesStore";
 
 import {useAuthStore} from "@store/AUTH/AuthStore";
 
@@ -15,9 +16,9 @@ export default function Profile() {
 
 
     const userData = useUserStore((state) => state.userData);
-    const userProjects = useUserStore((state)=>state.userProjects)
-    const userRessources = useUserStore((state)=>state.userRessources);
-    const userTechnology = useUserStore((state)=>state.userTechnology);
+    const userProjects = useProjectStore((state)=>state.projects);
+    const userRessources = useRessourcesStore((state)=>state.ressources);
+    const userTechnology = useTechnologyStore((state)=>state.technology);
     const logout = useAuthStore((state)=>state.logout);
     const navigate = useNavigate();
     const handleclick = async () =>{
