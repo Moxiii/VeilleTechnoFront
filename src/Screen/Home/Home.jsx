@@ -11,25 +11,41 @@ const userTechnology = useTechnologyStore((state)=> state.technology);
 const {addProject , removeProject , updateProjectById , projects , status , getStatus , loadUserProjects} = useProjectStore();
 
 const [editProject, setEditProject] = useState(null);
+const[projectName, setProjectName] = useState("");
+const [selectedStatus, setSelectedStatus] = useState("");
+const [startDate, setStartDate] = useState('');
+const [endDate, setEndDate] = useState('');
+const [links, setLinks] = useState([""]);
+const [selectedTechIds, setSelectedTechIds] = useState([]);
+const [isModalOpen, setIsModalOpen] = useState(false);
+const [lastUpdated, setLastUpdated] = useState("");
+const [isStarted, setIsStarted] = useState(false);
 useEffect(() => {
     getStatus();
-},[getStatus])
+},[getStatus]);
 
     useEffect(() => {
         if(editProject){
-            setProjectName(editProject.projectName || "");
+            setProjectName(editProject.name);
             setSelectedStatus(editProject.status || "");
             setLinks(editProject.links?.length ? [...editProject.links] : [""]);
             setSelectedTechIds(editProject.technology?.map(t => t.id) || []);
         }
     },[editProject]);
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const[projectName, setProjectName] = useState("");
-    const [selectedStatus, setSelectedStatus] = useState("");
-    const [links, setLinks] = useState([""]);
-    const [selectedTechIds, setSelectedTechIds] = useState([]);
+const handleStatusChange = (s) =>{
+    setSelectedStatus(s);
+    const today = new Date().toISOString().split("T")[0];
+    if (s === "onGoing" || s === "prototype" && isStarted ){
+        setStartDate(today);
+    } else if (s === "endend"){
+        setEndDate(today);
+    }
+    else if(s === "production"){
+        setLastUpdated(today);
+    }
+}
 
     const handleSubmitProject = async (e) => {
         e.preventDefault();
@@ -37,7 +53,9 @@ useEffect(() => {
             projectName: projectName.trim(),
             status: selectedStatus || undefined,
             links: links.filter(link => link.trim() !== ""),
-            technology: selectedTechIds
+            technology: selectedTechIds,
+            endDate:endDate,
+            startDate: startDate,
         }
         try{
             if(editProject){
@@ -57,14 +75,30 @@ useEffect(() => {
             alert("Project not submitted");
         }
     }
+    const handleCloseModal = () => {
+        if(editProject){
+            setEditProject(null);
+
+        }
+        setIsModalOpen(false);
+    }
     const handleDeleteProject = async (id) => {
         await removeProject(id)
 
     }
     const handleUpdateProject = async (id) => {
         const project = projects.find(p => p.id === id);
-        setEditProject(project);
+        if(!project)return;
         setIsModalOpen(true);
+        setEditProject(project);
+        setProjectName(project.projectName || '');
+        setSelectedStatus(project.status || '');
+        setStartDate(project.startDate || '');
+        setEndDate(project.endDate || '');
+        setSelectedTechIds(project.technology?.map(t => t.id) || []);
+        setLinks(project.links?.length > 0 ? project.links : [""]);
+
+
     }
     const addLinkField = () => {
         setLinks([...links, ""]);
@@ -89,7 +123,7 @@ useEffect(() => {
             ><h2>Add a project</h2></div>
 
             <Suspense fallback={<div>Loading...</div>}>
-            <PopUpModal  isOpen={isModalOpen} onClose={()=>setIsModalOpen(false)}  title={editProject ? "Update" :  "Add"} >
+            <PopUpModal  isOpen={isModalOpen} onClose={handleCloseModal}  title={editProject ? "Update" :  "Add"} >
                 <div className="project-modal">
                     <form onSubmit={handleSubmitProject}>
                         <input
@@ -98,11 +132,12 @@ useEffect(() => {
                             placeholder="Name of the project"
                             onChange={(e) => setProjectName(e.target.value)}
                         />
-                        <select value={selectedStatus} onChange={e => setSelectedStatus(e.target.value)}>
-                            <option value=""> Default Status</option>
-                            {status.map(s => (
-                                <option key={s} value={s}>{s}</option>
-                            ))}
+                        <select value={selectedStatus} onChange={e => handleStatusChange(e.target.value)}>
+                            <option value="">Default Status</option>
+                            <option value="prototype">Prototype</option>
+                            <option value="onGoing">En cours</option>
+                            <option value="production">Production</option>
+                            <option value="ended">Terminé</option>
                         </select>
                         {links.map((link, index) => (
                             <div key={index} style={{ display: "flex", alignItems: "center", gap: "8px" }}>

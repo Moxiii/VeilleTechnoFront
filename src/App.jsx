@@ -32,6 +32,10 @@ useEffect(() => {
         loadAll();
     }
 },[isAuth]);
+
+useEffect(() => {
+    useAuthStore.getState().checkSession();
+},[])
     const lenisOption = {
         autoRaf: true,
         smooth: true,

@@ -35,9 +35,16 @@ export const updateRessources = async (ressourcesId, updatedRessources) => {
 };
 
 export const deleteRessources = async (ressourcesId) => {
-    const res = await apiFetch(`/ressources"/${ressourcesId}`, {
+    const res = await apiFetch(`/ressources/${ressourcesId}`, {
         method: "DELETE",
         
     });
     return handleResponse(res);
 };
+
+export const getLabels = async () => {
+    const res = await apiFetch("/ressources/label", {
+        method: "GET",
+    })
+    return handleResponse(res);
+}

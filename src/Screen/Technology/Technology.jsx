@@ -23,7 +23,6 @@ export default function Technology() {
         name: technologyName.trim(),
         category: selectedCategory.trim()
       }
-      console.log(newTechno);
       await addTechnology(newTechno)
       setTechnologyName("");
       await loadUserTechnology()
@@ -53,7 +52,7 @@ export default function Technology() {
             <div className="tech-checkbox-group">
               <p>Select Category:</p>
               {category.map(cat => (
-                  <label key={cat.id}>
+                  <label key={cat}>
                     <input
                         type="radio"
                         name="category"
@@ -72,8 +71,8 @@ export default function Technology() {
       </Suspense>
       <ul>
         {technology.map(tech => (
-            <li key={tech.id}>
-              <h3><strong>{tech.name}</strong> ({tech.category?.type || "non catégorisé"})</h3>
+            <li key={tech.id || tech.name}>
+              <h3 ><strong>{tech.name}</strong> ({tech.category?.type || "non catégorisé"})</h3>
               <button onClick={()=> handleDeleteTechnology(tech.id)}>Delete technology</button>
               <p>Associated project : </p>
               {tech.projects.length > 0 ? (
@@ -85,6 +84,13 @@ export default function Technology() {
               ) : (
                   <em>Aucun projet lié</em>
               )}
+
+                <p>Ressources : </p>
+                {tech.ressources?.map((res) => (
+                    <li key={res.id}>
+                        <a href={res.url} target="_blank" rel="noreferrer">{res.name} </a>
+                    </li>
+                ))}
             </li>
         ))}
       </ul>

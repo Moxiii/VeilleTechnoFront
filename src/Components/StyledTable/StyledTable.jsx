@@ -60,7 +60,7 @@ export default function StyledTable({projects, onUpdate, onDelete}) {
                     <Td>{name}</Td>
                     <Td>{startDate}</Td>
                     <Td>{endDate}</Td>
-                    <Td>{technology.map(t=>t.name).join(", ")}</Td>
+                    <Td key={technology.name}>{technology.map(t=>t.name).join(", ")}</Td>
                     <Td>{status}</Td>
                     <Td>
                       {links?.map(( url ) => (

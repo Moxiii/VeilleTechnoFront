@@ -1,15 +1,18 @@
 import {create} from "zustand/react";
 import {RessourcesInterface} from "@interfaces/RessourcesInterface";
-import {createRessources, deleteRessources, getAllRessources, updateRessources} from "@fetch/ressourcesFetch"
+import {createRessources, deleteRessources, getAllRessources, updateRessources , getLabels} from "@fetch/ressourcesFetch"
+import {getCatName} from "@fetch/CategoryFetch";
 type RessourcesStore = {
     ressources: RessourcesInterface[];
     setRessources: (ressourcesList: RessourcesInterface[]) => void;
     addRessource: (ressource: RessourcesInterface) => Promise<void>;
     removeRessource: (ressourceId: number) => Promise<void>;
     updateRessourceById: (
-        ressourceId: number ,
+        ressourceId: number,
         ressources:RessourcesInterface
     ) => Promise<void>;
+    label:string[];
+    getLabel:()=>Promise<void>;
     loadUserRessources:()=>Promise<void>;
 };
 
@@ -42,6 +45,11 @@ export const useRessourcesStore = create<RessourcesStore>((set, get) => ({
                 ),
             });
         }
+    },
+    label:[],
+    getLabel: async ()=>{
+        const res = await getLabels();
+        set({label:res});
     },
     loadUserRessources : async () => {
         try{

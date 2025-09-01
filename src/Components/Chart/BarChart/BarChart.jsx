@@ -37,13 +37,13 @@ export default function BarChart({name,label , value}) {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-            legend: { display: true },
+            legend: { display: false },
             title: { display: false }
         }
     };
 
     return (
-    <div className="barChart" style={{ height: "300px" }}>
+    <div className="barChart" style={{ height: "50vh" }}>
         <h3>{name}</h3>
         <Bar
         key={name}
