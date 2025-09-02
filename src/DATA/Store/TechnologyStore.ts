@@ -1,8 +1,7 @@
 import {create} from "zustand";
 import type {TechnologyInterface} from '@interfaces/TechnologyInterface';
-import {createTechnology,deleteTechnology,updateTechnology} from '@fetch/technologyFetch';
+import {createTechnology,deleteTechnology,updateTechnology , getAlltechnology} from '@fetch/technologyFetch';
 import {getCatName} from "@fetch/CategoryFetch";
-import {getAlltechnology} from "@fetch/technologyFetch";
 type TechnologyStore = {
     technology: TechnologyInterface[];
     addTechnology: (technology: TechnologyInterface) => Promise<void>;

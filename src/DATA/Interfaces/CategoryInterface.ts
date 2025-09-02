@@ -2,6 +2,6 @@ import {SubCategoryInterface} from "@interfaces/SubCategoryInterface";
 
 export interface CategoryInterface {
     name: string;
-    type:null;
+    type:string | null;
     subCategory:SubCategoryInterface[] | null;
 }

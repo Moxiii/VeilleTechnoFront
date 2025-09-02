@@ -8,28 +8,43 @@ const PopUpModal = lazy(() => import("@components/Modal/PopUpModal/PopUpModal"))
 export default function Ressources() {
 const {loadUserRessources , ressources ,addRessource, removeRessource, updateRessourceById , getLabel , label} = useRessourcesStore();
     const { technology , loadUserTechnology} = useTechnologyStore();
-
+    const [editRessources, setEditRessources] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [resourceUrl, setResourceUrl] = useState("");
+    const [ressourceName, setRessourceName] = useState("");
     const [selectedLabel, setSelectedLabel] = useState("");
     const [selectedTechId, setSelectedTechId] = useState(null);
   useEffect(() => {loadUserRessources();}, []);
   useEffect(() => {getLabel();}, []);
   useEffect(() => {loadUserTechnology();}, []);
+  useEffect(() => {
+      if(editRessources){
+          setRessourceName(editRessources.name);
+          setResourceUrl(editRessources.url);
+          setSelectedLabel(editRessources.label);
+          setSelectedTechId(editRessources.technologyId);
+      }
+  },[editRessources]);
   const grouped = useGroupedRessources(ressources);
-    const handleAddRessource = async (e) => {
+    const handleSubmitRessource = async (e) => {
         e.preventDefault();
         if (!selectedTechId || !selectedLabel || !resourceUrl.trim()) {
             alert("All fields are required");
             return;
         }
+        const newRessource = {
+            name: ressourceName,
+            technologyId: selectedTechId,
+            label: selectedLabel,
+            url: resourceUrl.trim(),
+        };
         try{
-            const newRessource = {
-                technologyId: selectedTechId,
-                label: selectedLabel,
-                url: resourceUrl.trim(),
-            };
-            await addRessource(newRessource)
+           if(editRessources){
+               await updateRessourceById(editRessources.id , newRessource)
+           } else {
+               await addRessource(newRessource);
+           }
+           setRessourceName("")
             setResourceUrl("");
             setSelectedLabel("");
             setSelectedTechId(null);
@@ -38,7 +53,26 @@ const {loadUserRessources , ressources ,addRessource, removeRessource, updateRes
             alert("Ressources not added");
         }
     }
-
+    const handleUpdateRessource = async (id) => {
+        const ressource = ressources.find(r=>r.id === id);
+        if (!ressource)return;
+        setIsModalOpen(true);
+        setEditRessources(ressource);
+        setRessourceName(ressource.name);
+        setResourceUrl(ressource.url);
+        setSelectedLabel(ressource.label);
+        setSelectedTechId(ressource.technologyId);
+    }
+    const handleCloseModal = () => {
+        if(editRessources){
+            setEditRessources(null);
+        }
+        setRessourceName("");
+        setSelectedTechId("");
+        setSelectedLabel("");
+        setResourceUrl("");
+        setIsModalOpen(false);
+    }
     const handleDeleteRessource = async(id) => {
         await removeRessource(id)
     }
@@ -58,8 +92,9 @@ const {loadUserRessources , ressources ,addRessource, removeRessource, updateRes
                           {items.map((res) => (
                               <li key={res.id}>
                                 <a href={res.url} target="_blank" rel="noreferrer">
-                                  {res.url}
+                                  {res.name ? res.name : res.url}
                                 </a>
+                                  <button onClick={()=> handleUpdateRessource(res.id)}>Update ressource</button>
                                   <button onClick={()=> handleDeleteRessource(res.id)}>Delete ressource</button>
                               </li>
                           ))}
@@ -72,15 +107,21 @@ const {loadUserRessources , ressources ,addRessource, removeRessource, updateRes
           </div>
 
         <Suspense fallback={<div>Loading...</div>}>
-            <PopUpModal isOpen={isModalOpen} onClose={()=>setIsModalOpen(false)}  title="Add Ressource" >
+            <PopUpModal isOpen={isModalOpen} onClose={handleCloseModal}  title={editRessources ? "udpate" : "add"} >
                 <div className="ressource-modal">
-                    <form onSubmit={handleAddRessource}>
+                    <form>
+                        <input type="text"
+                               value={ressourceName}
+                               placeholder="Enter ressource name"
+                               onChange={(e)=>setRessourceName(e.target.value)}
+                        />
                         <input
                             type="url"
                             value={resourceUrl}
                             placeholder="Url of the ressource"
                             onChange={(e) => setResourceUrl(e.target.value)}
                         />
+
                         <div className="res-input-container">
                             <div className="res-label">
                             <p>Select label:</p>
@@ -110,7 +151,7 @@ const {loadUserRessources , ressources ,addRessource, removeRessource, updateRes
                             </div>
                         </div>
 
-                        <button type="submit">Add</button>
+                        <button onClick={handleSubmitRessource}>Add</button>
                     </form>
                 </div>
             </PopUpModal>
