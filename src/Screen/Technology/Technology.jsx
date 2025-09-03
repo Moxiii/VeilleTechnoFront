@@ -1,13 +1,17 @@
 import "./Technology.scss"
 import {useTechnologyStore} from "@store/TechnologyStore"
 import {useRessourcesStore} from "@store/RessourcesStore";
+import {useCategoryStore} from "@store/CategoryStore";
 import {lazy, Suspense, useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 
 const PopUpModal = lazy(() => import("@components/Modal/PopUpModal/PopUpModal"));
 export default function Technology() {
-  const {addTechnology , removeTechnology , updateTechnologyById , category, getCategory , loadUserTechnology , technology} = useTechnologyStore();
-  const {loadUserRessources , ressources} = useRessourcesStore();
+    const navigate = useNavigate();
+  const {addTechnology , removeTechnology , updateTechnologyById , loadUserTechnology , technology} = useTechnologyStore();
+  const { category , loadUserCategories } = useCategoryStore();
+  const {loadUserRessources , ressources , setSelectedRessource} = useRessourcesStore();
   const [editTechnology, setEditTechnology] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [technologyName, setTechnologyName] = useState("");
@@ -15,8 +19,8 @@ export default function Technology() {
   const [customCategoryName, setCustomCategoryName] = useState("");
   const [customCategoryType, setCustomCategoryType] = useState("");
   useEffect(() => {
-     getCategory();
-  },[getCategory]);
+     loadUserCategories();
+  },[loadUserCategories]);
   useEffect(() => {
     loadUserTechnology();
   },[])
@@ -64,7 +68,10 @@ export default function Technology() {
         setSelectedCategory(null)
         setIsModalOpen(false);
     }
-
+    const handleNavigateToResssource = (res) =>{
+      setSelectedRessource(res);
+      navigate("/ressources");
+    }
   return (
     <div className="technology">
     <h1>Technology</h1>
@@ -81,7 +88,7 @@ export default function Technology() {
             />
             <div className="tech-checkbox-group">
               <p>Select Category:</p>
-              {category.map(cat => (
+              {category?.default.map(cat => (
                   <label key={cat}>
                     <input
                         type="radio"
@@ -122,7 +129,7 @@ export default function Technology() {
       </Suspense>
       <ul>
         {technology.map(tech => (
-            <li key={tech.id || tech.name}>
+            <div key={tech.id || tech.name}>
               <h3 ><strong>{tech.name}</strong> ({tech.category?.type || "non catégorisé"})</h3>
               <button onClick={()=> handleUpdateTechnology(tech.id)}>Update technology</button>
               <button onClick={()=> handleDeleteTechnology(tech.id)}>Delete technology</button>
@@ -136,17 +143,24 @@ export default function Technology() {
               ) : (
                   <em>Aucun projet lié</em>
               )}
+                { ressources.filter((res) => res.technology.id === tech.id).length>0 && <p>Ressources :</p>}
+                        <ul>
+                            {ressources
+                                .filter((res) => res.technology.id === tech.id)
+                                .map((res) => (
+                                    <li key={res.id}>
 
-                {ressources.filter((res)=> res.technology?.id === tech.id) && <p>Ressources : </p>}
+                                        <a href={res.url} target="_blank" rel="noreferrer">
+                                            {res.name}
+                                        </a>
+                                        {res.description && <p>Description rapide : {res.description}</p>}
+                                        <button onClick={()=>handleNavigateToResssource(res)} > update {res.name} </button>
+                                    </li>
+                                ))}
+                        </ul>
 
-                {ressources
-                    .filter((res)=> res.technology?.id === tech.id)
-                    .map((res) => (
-                    <li key={res.id}>
-                        <a href={res.url} target="_blank" rel="noreferrer">{res.name} </a>
-                    </li>
-                ))}
-            </li>
+
+            </div>
         ))}
       </ul>
     </div>

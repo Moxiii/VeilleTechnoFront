@@ -29,9 +29,10 @@ export default function Profile() {
     const totalProjects = userProjects.length;
     const totalRessources = userRessources.length;
     const totalTechnology = userTechnology.length;
-    const projectStats = useItemsPerMonth(userProjects);
-    const techStats = useItemsPerMonth(userTechnology);
-    const ressourcesStats = useItemsPerMonth(userRessources);
+    const { data: projectData, labels: projectLabels } = useItemsPerMonth(userProjects);
+    const { data: techData, labels: techLabels } = useItemsPerMonth(userTechnology);
+    const { data: ressourcesData, labels: ressourcesLabels } = useItemsPerMonth(userRessources);
+    console.log(projectData)
   return (
     <div className="profile">
    <h1>Profile</h1>
@@ -40,15 +41,15 @@ export default function Profile() {
                 <p>Hello {userData.username} !</p>
                 <div className="stat project">
                     <StatCard label="Projets" value={totalProjects} />
-                    <BarChart name="Projets par mois" label="Projects" value={projectStats} />
+                    <BarChart name="Projets par mois" label="Projects" value={{ labels: projectLabels, data: projectData }} />
                 </div>
                 <div className="stat tech">
                     <StatCard label="Technologies" value={totalTechnology} />
-                    <BarChart name="Technology par mois" label="Technology" value={techStats} />
+                    <BarChart name="Technologies par mois" label="Technologies" value={{ labels: techLabels, data: techData }} />
                 </div>
                 <div className="stat ressources">
                     <StatCard label="Ressources" value={totalRessources} />
-                    <BarChart name="Ressources par mois" label="Ressources" value={ressourcesStats} />
+                    <BarChart name="Ressources par mois" label="Ressources" value={{ labels: ressourcesLabels, data: ressourcesData }} />
                 </div>
                 <button onClick={handleclick}>Logout</button>
         </>

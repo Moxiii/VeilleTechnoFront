@@ -7,4 +7,5 @@ export interface RessourcesInterface {
     label: string;
     technologyId:number;
     createdAt: string;
+    description: string;
 }

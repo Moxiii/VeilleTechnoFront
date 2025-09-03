@@ -1,7 +1,7 @@
 import {create} from "zustand/react";
 import {RessourcesInterface} from "@interfaces/RessourcesInterface";
 import {createRessources, deleteRessources, getAllRessources, updateRessources , getLabels} from "@fetch/ressourcesFetch"
-import {getCatName} from "@fetch/CategoryFetch";
+
 type RessourcesStore = {
     ressources: RessourcesInterface[];
     setRessources: (ressourcesList: RessourcesInterface[]) => void;
@@ -14,6 +14,8 @@ type RessourcesStore = {
     label:string[];
     getLabel:()=>Promise<void>;
     loadUserRessources:()=>Promise<void>;
+    selectedRessource: RessourcesInterface | null;
+    setSelectedRessource: (res: RessourcesInterface | null) => void;
 };
 
 export const useRessourcesStore = create<RessourcesStore>((set, get) => ({
@@ -59,4 +61,6 @@ export const useRessourcesStore = create<RessourcesStore>((set, get) => ({
             console.error("Failed to load user Ressources", error);
         }
     },
+    selectedRessource:null,
+    setSelectedRessource:(res)=>{set({selectedRessource:res});},
 }));

@@ -1,14 +1,11 @@
 import {create} from "zustand";
 import type {TechnologyInterface} from '@interfaces/TechnologyInterface';
 import {createTechnology,deleteTechnology,updateTechnology , getAlltechnology} from '@fetch/technologyFetch';
-import {getCatName} from "@fetch/CategoryFetch";
 type TechnologyStore = {
     technology: TechnologyInterface[];
     addTechnology: (technology: TechnologyInterface) => Promise<void>;
     removeTechnology: (technlogyId:number) => Promise<void>;
     updateTechnologyById: (technlogyId:number, technology: TechnologyInterface) => Promise<void>;
-    category:string[];
-    getCategory:()=>Promise<void>;
     loadUserTechnology: () => Promise<void>;
 }
 export const useTechnologyStore = create<TechnologyStore>((set, get) => ({
@@ -23,6 +20,7 @@ export const useTechnologyStore = create<TechnologyStore>((set, get) => ({
                 name: res.name,
                 category: res.category || "",
                 ressources: res.ressources || [],
+                createdAt : res.createdAt || "",
             };
             set({ technology: [...get().technology, formatted] });
         }
@@ -53,11 +51,6 @@ export const useTechnologyStore = create<TechnologyStore>((set, get) => ({
                 ),
             });
         }
-    },
-    category:[],
-    getCategory: async ()=>{
-        const res = await getCatName();
-        set({category:res});
     },
     loadUserTechnology : async () => {
         try{

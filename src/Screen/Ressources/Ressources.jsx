@@ -6,12 +6,13 @@ import {useTechnologyStore} from "@store/TechnologyStore.js";
 const PopUpModal = lazy(() => import("@components/Modal/PopUpModal/PopUpModal"));
 
 export default function Ressources() {
-const {loadUserRessources , ressources ,addRessource, removeRessource, updateRessourceById , getLabel , label} = useRessourcesStore();
+const {loadUserRessources , ressources ,addRessource, removeRessource, updateRessourceById , getLabel , label , setSelectedRessource , selectedRessource} = useRessourcesStore();
     const { technology , loadUserTechnology} = useTechnologyStore();
     const [editRessources, setEditRessources] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [resourceUrl, setResourceUrl] = useState("");
     const [ressourceName, setRessourceName] = useState("");
+    const [ressourceDescription, setRessourceDescription] = useState("");
     const [selectedLabel, setSelectedLabel] = useState("");
     const [selectedTechId, setSelectedTechId] = useState(null);
   useEffect(() => {loadUserRessources();}, []);
@@ -22,9 +23,21 @@ const {loadUserRessources , ressources ,addRessource, removeRessource, updateRes
           setRessourceName(editRessources.name);
           setResourceUrl(editRessources.url);
           setSelectedLabel(editRessources.label);
-          setSelectedTechId(editRessources.technologyId);
+          setSelectedTechId(editRessources.technology.id);
+          setRessourceDescription(editRessources.description);
       }
   },[editRessources]);
+    useEffect(() => {
+        if(selectedRessource){
+            setEditRessources(selectedRessource);
+            setRessourceName(selectedRessource.name);
+            setResourceUrl(selectedRessource.url);
+            setSelectedLabel(selectedRessource.label);
+            setSelectedTechId(selectedRessource.technologyId);
+            setRessourceDescription(selectedRessource.description)
+            setIsModalOpen(true);
+        }
+    }, [selectedRessource]);
   const grouped = useGroupedRessources(ressources);
     const handleSubmitRessource = async (e) => {
         e.preventDefault();
@@ -37,6 +50,7 @@ const {loadUserRessources , ressources ,addRessource, removeRessource, updateRes
             technologyId: selectedTechId,
             label: selectedLabel,
             url: resourceUrl.trim(),
+            description: ressourceDescription,
         };
         try{
            if(editRessources){
@@ -48,6 +62,8 @@ const {loadUserRessources , ressources ,addRessource, removeRessource, updateRes
             setResourceUrl("");
             setSelectedLabel("");
             setSelectedTechId(null);
+            setSelectedRessource(null);
+            setRessourceDescription("");
             await loadUserRessources()
         }catch  {
             alert("Ressources not added");
@@ -62,6 +78,7 @@ const {loadUserRessources , ressources ,addRessource, removeRessource, updateRes
         setResourceUrl(ressource.url);
         setSelectedLabel(ressource.label);
         setSelectedTechId(ressource.technologyId);
+        setRessourceDescription(ressource.description);
     }
     const handleCloseModal = () => {
         if(editRessources){
@@ -72,6 +89,8 @@ const {loadUserRessources , ressources ,addRessource, removeRessource, updateRes
         setSelectedLabel("");
         setResourceUrl("");
         setIsModalOpen(false);
+        setRessourceDescription("");
+        setSelectedRessource(null);
     }
     const handleDeleteRessource = async(id) => {
         await removeRessource(id)
@@ -121,6 +140,12 @@ const {loadUserRessources , ressources ,addRessource, removeRessource, updateRes
                             placeholder="Url of the ressource"
                             onChange={(e) => setResourceUrl(e.target.value)}
                         />
+                        <input
+                            type="text"
+                            value={ressourceDescription}
+                            placeholder="Description of the ressource"
+                            onChange={(e) => setRessourceDescription(e.target.value)}
+                        />
 
                         <div className="res-input-container">
                             <div className="res-label">
@@ -151,10 +176,11 @@ const {loadUserRessources , ressources ,addRessource, removeRessource, updateRes
                             </div>
                         </div>
 
-                        <button onClick={handleSubmitRessource}>Add</button>
+                        <button onClick={handleSubmitRessource}>{editRessources ? "udpate" : "add"} </button>
                     </form>
                 </div>
             </PopUpModal>
+
         </Suspense>
     </div>
   );

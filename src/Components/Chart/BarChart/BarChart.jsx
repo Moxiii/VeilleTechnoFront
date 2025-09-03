@@ -18,7 +18,9 @@ ChartJS.register(
     Legend
 );
 export default function BarChart({name,label , value}) {
+
     const barData = {
+        labels: value.labels,
         label :label,
         datasets: [
             {
@@ -39,11 +41,23 @@ export default function BarChart({name,label , value}) {
         plugins: {
             legend: { display: false },
             title: { display: false }
+        },
+        scales:{
+            y:{
+                ticks: {
+                    stepSize:1
+                },
+                beginAtZero: true
+            },
+            x:{
+                beginAtZero: true
+            }
         }
+
     };
 
     return (
-    <div className="barChart" style={{ height: "50vh" }}>
+    <div className="barChart">
         <h3>{name}</h3>
         <Bar
         key={name}
