@@ -1,5 +1,5 @@
 
-import {Route, Routes} from 'react-router-dom'
+import {Route, Routes, useNavigate} from 'react-router-dom'
 //global
 import Layout from "@components/Layout/Layout.jsx";
 import links from "@const/_const.ts"
@@ -27,9 +27,12 @@ import { useEffect} from "react";
 function App() {
     const isAuth = useAuthStore((state) => state.isAuth);
     const {loadAll} = userService();
+    const navigate = useNavigate();
 useEffect(() => {
     if (isAuth) {
         loadAll();
+    } else {
+        navigate("/about")
     }
 },[isAuth]);
 

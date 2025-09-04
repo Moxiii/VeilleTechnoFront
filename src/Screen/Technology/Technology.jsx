@@ -144,20 +144,20 @@ export default function Technology() {
                   <em>Aucun projet lié</em>
               )}
                 { ressources.filter((res) => res.technology.id === tech.id).length>0 && <p>Ressources :</p>}
-                        <ul>
+
                             {ressources
                                 .filter((res) => res.technology.id === tech.id)
                                 .map((res) => (
-                                    <li key={res.id}>
-
-                                        <a href={res.url} target="_blank" rel="noreferrer">
-                                            {res.name}
-                                        </a>
-                                        {res.description && <p>Description rapide : {res.description}</p>}
-                                        <button onClick={()=>handleNavigateToResssource(res)} > update {res.name} </button>
-                                    </li>
+                                            <div  key={res.id}>
+                                                {res.name}
+                                                {res.description && <p>Description rapide : {res.description}</p>}
+                                                <button onClick={()=> window.open(res.url , "_blank", "noopener,noreferrer")}>
+                                                    Visit
+                                                </button>
+                                                <button onClick={()=>handleNavigateToResssource(res)} > update </button>
+                                            </div>
                                 ))}
-                        </ul>
+
 
 
             </div>
