@@ -9,4 +9,5 @@ export interface TechnologyInterface {
     ressources?: RessourcesInterface[] | null;
     projects?: ProjectInterface[] | null;
     createdAt: string;
+    linkedTechnologies?: TechnologyInterface[] | null;
 }

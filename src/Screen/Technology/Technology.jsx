@@ -16,6 +16,7 @@ export default function Technology() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [technologyName, setTechnologyName] = useState("");
   const [selectedCategory, setSelectedCategory] = useState([]);
+  const [selectedLinkedTechs, setSelectedLinkedTechs] = useState([]);
   const [customCategoryName, setCustomCategoryName] = useState("");
   const [customCategoryType, setCustomCategoryType] = useState("");
   useEffect(() => {
@@ -34,8 +35,10 @@ export default function Technology() {
   const handleSubmitTechnology = async (e) => {
     e.preventDefault();
     const newTechno = {
-          name: technologyName.trim(),
-          category: selectedCategory.trim()
+        name: technologyName.trim(),
+        category:selectedCategory.trim(),
+        subCategory:customCategoryName || null,
+        linkedTechnologies:selectedLinkedTechs,
       }
     try{
         if(editTechnology) {
@@ -114,11 +117,22 @@ export default function Technology() {
                            value={customCategoryName}
                            onChange={(e) => setCustomCategoryName(e.target.value)}
                     />
-                    <input type="text"
-                           placeholder={"Custom cat type"}
-                           value={customCategoryType}
-                           onChange={(e) => setCustomCategoryType(e.target.value)}
-                    />
+                    <select
+                        multiple
+                        value={selectedLinkedTechs}
+                        onChange={(e) => {
+                            const values = Array.from(e.target.selectedOptions , opt => opt.value);
+                            setSelectedLinkedTechs(values);
+                        }}
+                    >
+                        {technology.map((tech)=>(
+                            <option
+                                key={tech.id || tech.name}
+                                value={tech.id}>
+                                {tech.name}
+                            </option>
+                        ))}
+                    </select>
                     </div>
                 )}
             </div>
@@ -133,14 +147,16 @@ export default function Technology() {
               <h3 ><strong>{tech.name}</strong> ({tech.category?.type || "non catégorisé"})</h3>
               <button onClick={()=> handleUpdateTechnology(tech.id)}>Update technology</button>
               <button onClick={()=> handleDeleteTechnology(tech.id)}>Delete technology</button>
-              <p>Associated project : </p>
+
               {tech.projects.length > 0 ? (
+                  <div className="associate-projects">
+                  <p>Associated project : </p>
                   <ul>
                     {tech.projects.map((project, i) => (
                         <li key={i}>{project.name}</li>
                     ))}
                   </ul>
-              ) : (
+    </div>) : (
                   <em>Aucun projet lié</em>
               )}
                 { ressources.filter((res) => res.technology.id === tech.id).length>0 && <p>Ressources :</p>}
