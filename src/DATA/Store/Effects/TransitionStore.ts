@@ -1,12 +1,20 @@
 import {create} from "zustand";
 
-type TransitionStore = {
+type TransitionState = {
     isTransitioning: boolean;
-    startTransition : ()=>void;
-    endTransition : ()=>void;
+    type: "enter" | "exit";
+    animation:string;
+    fromPage?:string;
+    toPage?:string;
+    onComplete?:() => void;
+    setTransition:(state:Partial<Omit<TransitionState , "setTransition">>)=>void;
 }
-export const useTransitionStore = create<TransitionStore>((set)=>({
+export const useTransitionStore = create<TransitionState>((set)=>({
     isTransitioning:false,
-     startTransition : ()=>set({isTransitioning:true}),
-    endTransition : ()=>set({isTransitioning:false}),
+     type:"enter",
+    animation:"fade",
+    fromPage:undefined,
+    toPage:undefined,
+    onComplete:undefined,
+    setTransition:(state)=>set((prev)=>({...prev , ...state})),
 }))

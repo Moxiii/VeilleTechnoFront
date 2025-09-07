@@ -4,8 +4,9 @@ import links from "@const/_const.ts"
 import {NavLink} from "react-router-dom";
 import {useAuthStore} from "@store/AUTH/AuthStore";
 
-export default function Navbar() {
-  const  isAuth  = useAuthStore((state)=>state.isAuth);
+export default function Navbar({triggerExit}) {
+  const  {isAuth}  = useAuthStore();
+
   const authLinks = [
     { path: links.home, label: "Home" },
     { path: links.technology, label: "Technology" },
@@ -19,11 +20,21 @@ export default function Navbar() {
     { path: links.auth.register, label: "Register" },
 
   ];
+  const handleClick = ( path) => {
+
+      if(triggerExit) triggerExit(path);
+  }
+  const linksToRender = isAuth ? authLinks : guestLinks;
   return (
     <div className="navbar">
       <nav>
-        {(isAuth ? authLinks : guestLinks).map((link) => (
-            <NavLink key={link.path} to={link.path} className={({isActive})=>isActive ? "active" : ""}>
+        {linksToRender.map((link) => (
+            <NavLink
+                key={link.path}
+                to={link.path}
+                className={({isActive})=>isActive ? "active" : ""}
+                onClick={()=>handleClick(link.path)}
+            >
               <Underline label={link.label} />
             </NavLink>
         ))}
