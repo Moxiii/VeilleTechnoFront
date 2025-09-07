@@ -1,7 +1,8 @@
-
+import {lazy, Suspense, useEffect} from "react";
 import {Route, Routes} from 'react-router-dom'
 //global
-import Layout from "@components/Layout/Layout.jsx";
+const Layout = lazy(() => import('@components/Layout/Layout.jsx'))
+
 import links from "@const/_const.ts"
 //Routes
 import {GlobalRoutes} from "@src/Stack/GlobalRoutes";
@@ -11,13 +12,11 @@ import {AuthRoutes} from "@src/Stack/AuthRoutes";
 import ProtectedRoute from "@components/AUTH/Protection/ProtectedRoute"
 import PublicRoute from "@components/AUTH/Protection/PublicRoute"
 //user
-import Profile from "@screen/Profile/Profile.jsx";
 import {userService} from "@src/DATA/Service/UserService";
 //Lenis
 import {ReactLenis} from "lenis/react"
 //Auth
 import {useAuthStore} from "@store/AUTH/AuthStore.js";
-import { useEffect} from "react";
 
 
 
@@ -47,17 +46,19 @@ useEffect(() => {
           options={lenisOption}
           style={{ height: "100vh", overflowY: "auto" }}
       >
-          <Routes>
-              <Route path={links.home} element={<Layout/>}>
-                  {GlobalRoutes()}
-                  <Route element={<ProtectedRoute />}>
-                      {AuthRoutes()}
+          <Suspense fallback={<div>Loading...</div>}>
+              <Routes>
+                  <Route path={links.home} element={<Layout/>}>
+                      {GlobalRoutes()}
+                      <Route element={<ProtectedRoute />}>
+                          {AuthRoutes()}
+                      </Route>
+                      <Route element={<PublicRoute />}>
+                          {PublicRoutes()}
+                      </Route>
                   </Route>
-                  <Route element={<PublicRoute />}>
-                      {PublicRoutes()}
-                  </Route>
-              </Route>
-          </Routes>
+              </Routes>
+          </Suspense>
       </ReactLenis>
 
   )

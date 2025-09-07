@@ -1,8 +1,9 @@
 import {Route} from "react-router-dom";
-import About from "@screen/About/About.jsx";
-import NotFound from "@screen/NotFound/NotFound";
+import React,{lazy} from "react";
+const About = lazy(() => import("@screen/About/About.jsx"));
+const NotFound = lazy(() => import("@screen/NotFound/NotFound.jsx"));
 import links from "@const/_const";
-import React from "react";
+
 
 export  function GlobalRoutes(){
     return  (

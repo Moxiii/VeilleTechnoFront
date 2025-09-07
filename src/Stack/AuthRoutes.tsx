@@ -1,15 +1,15 @@
 import {Route} from "react-router-dom";
-import Home from "@screen/Home/Home.jsx";
-import Ideas from "@screen/Ideas/Ideas.jsx";
-import Ressources from "@screen/Ressources/Ressources.jsx";
-import Technology from "@screen/Technology/Technology.jsx";
-import Profile from "@screen/Profile/Profile.jsx";
+import React,{lazy} from "react";
+const Home = lazy(() => import("@screen/Home/Home.jsx"));
+const Ideas = lazy(() => import("@screen/Ideas/Ideas.jsx"));
+const Ressources = lazy(() => import("@screen/Ressources/Ressources.jsx"));
+const Technology = lazy(() => import("@screen/Technology/Technology.jsx"));
+const Profile = lazy(() => import("@screen/Profile/Profile.jsx"));
 import links from "@const/_const"
-import React from "react";
 
 export function AuthRoutes(){
     return(
-            <>
+        <>
                 <Route index element={<Home />} />
                 <Route path={links.ideas} element={<Ideas/>}/>
                 <Route path={links.ressources} element={<Ressources />}/>
