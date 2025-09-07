@@ -8,7 +8,7 @@ import {lazy, Suspense, useEffect, useState} from "react";
 const PopUpModal = lazy(() => import("@components/Modal/PopUpModal/PopUpModal"));
 export default function Home(){
 const userTechnology = useTechnologyStore((state)=> state.technology);
-const {addProject , removeProject , updateProjectById , projects , status , getStatus , loadUserProjects} = useProjectStore();
+const {addProject , removeProject , updateProjectById , projects , status  , loadUserProjects} = useProjectStore();
 
 const [editProject, setEditProject] = useState(null);
 const[projectName, setProjectName] = useState("");
@@ -20,10 +20,6 @@ const [selectedTechIds, setSelectedTechIds] = useState([]);
 const [isModalOpen, setIsModalOpen] = useState(false);
 const [lastUpdated, setLastUpdated] = useState("");
 const [isStarted, setIsStarted] = useState(false);
-useEffect(() => {
-    getStatus();
-},[getStatus]);
-
     useEffect(() => {
         if(editProject){
             setProjectName(editProject.name);

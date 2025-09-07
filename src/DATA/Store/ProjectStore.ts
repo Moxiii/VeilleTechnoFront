@@ -74,7 +74,8 @@ export const useProjectStore = create<ProjectStore>((set, get) => ({
         try{
             if (get().loaded) return;
             const userProjects = await getAllProjects();
-            set({projects: userProjects , loaded:true});
+            const status = await getStatus();
+            set({projects: userProjects , loaded:true , status:status});
         } catch (error) {
             console.error("Failed to load user Projects", error);
         }

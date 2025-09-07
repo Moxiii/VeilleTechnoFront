@@ -32,7 +32,6 @@ export default function Profile() {
     const { data: projectData, labels: projectLabels } = useItemsPerMonth(userProjects);
     const { data: techData, labels: techLabels } = useItemsPerMonth(userTechnology);
     const { data: ressourcesData, labels: ressourcesLabels } = useItemsPerMonth(userRessources);
-    console.log(projectData)
   return (
     <div className="profile">
    <h1>Profile</h1>

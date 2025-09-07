@@ -59,7 +59,8 @@ export const useRessourcesStore = create<RessourcesStore>((set, get) => ({
         try{
             if (get().loaded) return;
             const userRessources = await getAllRessources();
-            set({ressources: userRessources , loaded:true});
+            const labels = await getLabels();
+            set({ressources: userRessources , loaded:true , label:labels});
         } catch (error) {
             console.error("Failed to load user Ressources", error);
         }

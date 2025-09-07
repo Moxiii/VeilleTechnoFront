@@ -6,7 +6,7 @@ import {useTechnologyStore} from "@store/TechnologyStore.js";
 const PopUpModal = lazy(() => import("@components/Modal/PopUpModal/PopUpModal"));
 
 export default function Ressources() {
-const {loadUserRessources , ressources ,addRessource, removeRessource, updateRessourceById , getLabel , label , setSelectedRessource , selectedRessource} = useRessourcesStore();
+const {loadUserRessources , ressources ,addRessource, removeRessource, updateRessourceById  , label , setSelectedRessource , selectedRessource} = useRessourcesStore();
     const { technology , loadUserTechnology} = useTechnologyStore();
     const [editRessources, setEditRessources] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -16,7 +16,6 @@ const {loadUserRessources , ressources ,addRessource, removeRessource, updateRes
     const [selectedLabel, setSelectedLabel] = useState("");
     const [selectedTechId, setSelectedTechId] = useState(null);
   useEffect(() => {loadUserRessources();}, []);
-  useEffect(() => {getLabel();}, []);
   useEffect(() => {loadUserTechnology();}, []);
   useEffect(() => {
       if(editRessources){
