@@ -2,16 +2,12 @@ import {createCategory , deleteCategory , updateCategory , getCatName , getAllCa
 import type {CategoryInterface} from "@interfaces/CategoryInterface";
 import {create} from "zustand";
 
-type CategoryResponse = {
-    default:string[];
-    custom:CategoryInterface[];
-}
 type CategoryStore = {
-    category:CategoryResponse | null;
+    category:CategoryInterface[];
     getCatName:()=>Promise<void>;
     addCategory: (category: CategoryInterface) => Promise<void>;
-    removeCategory: (categoryId:string) => Promise<void>;
-    updateCategoryById: (categoryId:string, category: CategoryInterface) => Promise<void>;
+    removeCategory: (categoryId:number) => Promise<void>;
+    updateCategoryById: (categoryId:number, category: CategoryInterface) => Promise<void>;
     loadUserCategories: () => Promise<void>;
 }
 export const useCategoryStore = create<CategoryStore>((set, get)=>({
@@ -33,28 +29,31 @@ export const useCategoryStore = create<CategoryStore>((set, get)=>({
          const res = await createCategory(cat);
          if(res.ok){
              const formatted = {
+                 id: res.id,
                  name:res.name,
                  type:res.type,
+                 defaultCategory:res.defaultCategory,
                  subCategory:res.subCategory,
              }
-             set({ category:[ ...get().category.custom, formatted] });
+             set({ category:[ ...get().category, formatted] });
          }
     },
-    removeCategory:async (catName) => {
-        const res = await deleteCategory(catName);
+    removeCategory:async (categoryId) => {
+        const res = await deleteCategory(categoryId);
         if(res.ok){
             set({
-                category:get().category.custom.filter((c)=>c.name !== catName)
+                category:get().category.filter((c)=>c.id !== categoryId)
             });
         }
     },
-    updateCategoryById:async (catName , updatedCat) => {
-        const res = await updateCategory(catName , updatedCat);
-        if(res?.name || res?.type){
+    updateCategoryById:async (categoryId , updatedCat) => {
+        const res = await updateCategory(categoryId , updatedCat);
+        if(res.id){
             set({
-                category:get().category.custom.map((c)=>
-                    c.name === catName ? {
+                category:get().category.map((c)=>
+                    c.id === categoryId ? {
                     ...c,
+                        id:res.id,
                         name:res.name,
                         type:res.type,
                         subCategory: res.subCategory || []

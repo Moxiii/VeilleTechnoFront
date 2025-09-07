@@ -23,7 +23,7 @@ export const createCategory = async (createdCategory) => {
     return handleResponse(res);
 };
 
-export const updateCategory = async (categoryId, updatedCategory) => {
+export const updateCategory = async (categoryId:number, updatedCategory) => {
     const res = await apiFetch(`/category/${categoryId}`, {
         method: "PUT",
         headers: {

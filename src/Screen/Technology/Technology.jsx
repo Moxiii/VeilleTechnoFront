@@ -15,7 +15,7 @@ export default function Technology() {
   const [editTechnology, setEditTechnology] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [technologyName, setTechnologyName] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState([]);
   const [selectedLinkedTechs, setSelectedLinkedTechs] = useState([]);
   const [customCategoryName, setCustomCategoryName] = useState("");
   const [customCategoryType, setCustomCategoryType] = useState("");
@@ -29,14 +29,14 @@ export default function Technology() {
     useEffect(() => {
         if(editTechnology) {
             setTechnologyName(editTechnology.name);
-            setSelectedCategory(editTechnology.category);
+            setSelectedCategoryId(editTechnology.category);
         }
     },[editTechnology]);
   const handleSubmitTechnology = async (e) => {
     e.preventDefault();
     const newTechno = {
         name: technologyName.trim(),
-        category:selectedCategory.trim(),
+        categoryId:selectedCategoryId,
         subCategory:customCategoryName || null,
         linkedTechnologies:selectedLinkedTechs,
       }
@@ -58,7 +58,7 @@ export default function Technology() {
         setIsModalOpen(true);
         setEditTechnology(tech);
         setTechnologyName(tech.name);
-        setSelectedCategory(tech.category);
+        setSelectedCategoryId(tech.category);
     }
   const handleDeleteTechnology = async(id) => {
     await removeTechnology(id)
@@ -68,7 +68,7 @@ export default function Technology() {
             setEditTechnology(null);
         }
         setTechnologyName("");
-        setSelectedCategory(null)
+        setSelectedCategoryId(null)
         setIsModalOpen(false);
     }
     const handleNavigateToResssource = (res) =>{
@@ -91,26 +91,22 @@ export default function Technology() {
             />
             <div className="tech-checkbox-group">
               <p>Select Category:</p>
-              {category?.default.map(cat => (
-                  <label key={cat}>
+              {category?.map(cat => (
+                  <label key={cat.id}>
                     <input
                         type="radio"
                         name="category"
-                        value={cat}
-                        checked={selectedCategory === cat}
-                        onChange={(e) => {
-                            setSelectedCategory(e.target.value);
-                            if (e.target.value !== "Other") {
-                                setCustomCategoryName(null);
-                                setCustomCategoryType(null);
-                            }
+                        value={cat.id}
+                        checked={selectedCategoryId === cat.id}
+                        onChange={() => {
+                            setSelectedCategoryId(cat.id);
 
                     }}
                     />
-                    {cat}
+                      {cat.defaultCategory ? cat.type : cat.name}
                   </label>
               ))}
-                {selectedCategory === "other" && (
+                {selectedCategoryId === "other" && (
                     <div className="custom-category">
                     <input type="text"
                            placeholder={"Custom cat name"}
@@ -143,8 +139,13 @@ export default function Technology() {
       </Suspense>
       <ul>
         {technology.map(tech => (
-            <div key={tech.id || tech.name}>
-              <h3 ><strong>{tech.name}</strong> ({tech.category?.type || "non catégorisé"})</h3>
+            <div key={tech.id}>
+              <h3 ><strong>{tech.name}</strong> (
+                  {tech.category?.defaultCategory
+                      ? tech.category?.type
+                      : tech.category?.name || "non catégorisé"
+                  }
+                  )</h3>
               <button onClick={()=> handleUpdateTechnology(tech.id)}>Update technology</button>
               <button onClick={()=> handleDeleteTechnology(tech.id)}>Delete technology</button>
 

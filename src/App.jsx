@@ -3,16 +3,13 @@ import {Route, Routes} from 'react-router-dom'
 //global
 import Layout from "@components/Layout/Layout.jsx";
 import links from "@const/_const.ts"
-//Views
-import Home from "@screen/Home/Home.jsx";
-import Ideas from "@screen/Ideas/Ideas.jsx";
-import Ressources from "@screen/Ressources/Ressources.jsx";
-import Technology from "@screen/Technology/Technology.jsx";
-import NotFound from "@screen/NotFound/NotFound.jsx";
-import About from "@screen/About/About.jsx";
+//Routes
+import {GlobalRoutes} from "@src/Stack/GlobalRoutes";
+import {PublicRoutes} from "@src/Stack/PublicRoutes";
+import {AuthRoutes} from "@src/Stack/AuthRoutes";
 //Auth
-import Login from "@screen/AUTH/Login/Login.jsx";
-import Register from "@screen/AUTH/Register/Register.jsx";
+import ProtectedRoute from "@components/AUTH/Protection/ProtectedRoute"
+import PublicRoute from "@components/AUTH/Protection/PublicRoute"
 //user
 import Profile from "@screen/Profile/Profile.jsx";
 import {userService} from "@src/DATA/Service/UserService";
@@ -50,19 +47,17 @@ useEffect(() => {
           options={lenisOption}
           style={{ height: "100vh", overflowY: "auto" }}
       >
-                    <Routes>
-                        <Route path={links.home} element={<Layout/>}>
-                            <Route index element={isAuth?  <Home /> : <About/>} />
-                            <Route path={links.ideas} element={<Ideas />} />
-                            <Route path={links.ressources} element={<Ressources />} />
-                            <Route path={links.technology} element={<Technology />} />
-                            <Route path={links.auth.profile} element={<Profile />} />
-                            <Route path={links.auth.login} element={<Login />} />
-                            <Route path={links.auth.register} element={<Register />} />
-                            <Route path={links.about} element={<About />} />
-                            <Route path="*" element={<NotFound/>}/>
-                        </Route>
-                    </Routes>
+          <Routes>
+              <Route path={links.home} element={<Layout/>}>
+                  {GlobalRoutes()}
+                  <Route element={<ProtectedRoute />}>
+                      {AuthRoutes()}
+                  </Route>
+                  <Route element={<PublicRoute />}>
+                      {PublicRoutes()}
+                  </Route>
+              </Route>
+          </Routes>
       </ReactLenis>
 
   )
