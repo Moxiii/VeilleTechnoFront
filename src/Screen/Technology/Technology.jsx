@@ -10,7 +10,7 @@ const PopUpModal = lazy(() => import("@components/Modal/PopUpModal/PopUpModal"))
 export default function Technology() {
     const navigate = useNavigate();
   const {addTechnology , removeTechnology , updateTechnologyById , loadUserTechnology , technology} = useTechnologyStore();
-  const { category , loadUserCategories } = useCategoryStore();
+  const { category } = useCategoryStore();
   const {loadUserRessources , ressources , setSelectedRessource} = useRessourcesStore();
   const [editTechnology, setEditTechnology] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,12 +19,7 @@ export default function Technology() {
   const [selectedLinkedTechs, setSelectedLinkedTechs] = useState([]);
   const [customCategoryName, setCustomCategoryName] = useState("");
   const [customCategoryType, setCustomCategoryType] = useState("");
-  useEffect(() => {
-     loadUserCategories();
-  },[loadUserCategories]);
-  useEffect(() => {
-    loadUserTechnology();
-  },[])
+
     useEffect(() => {loadUserRessources();},[])
     useEffect(() => {
         if(editTechnology) {
@@ -32,6 +27,11 @@ export default function Technology() {
             setSelectedCategoryId(editTechnology.category);
         }
     },[editTechnology]);
+    function cleanUp(){
+        setTechnologyName("");
+        setSelectedCategoryId(null)
+        setIsModalOpen(false);
+    }
   const handleSubmitTechnology = async (e) => {
     e.preventDefault();
     const newTechno = {
@@ -43,10 +43,13 @@ export default function Technology() {
     try{
         if(editTechnology) {
             await updateTechnologyById( editTechnology.id, newTechno);
+            if(isModalOpen){
+                setIsModalOpen(false);
+            }
         } else {
             await addTechnology(newTechno);
         }
-      setTechnologyName("");
+      cleanUp()
       await loadUserTechnology()
     }catch  {
       alert("Technology not added");
@@ -67,9 +70,7 @@ export default function Technology() {
         if(editTechnology){
             setEditTechnology(null);
         }
-        setTechnologyName("");
-        setSelectedCategoryId(null)
-        setIsModalOpen(false);
+        cleanUp()
     }
     const handleNavigateToResssource = (res) =>{
       setSelectedRessource(res);

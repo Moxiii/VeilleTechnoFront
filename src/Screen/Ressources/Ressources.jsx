@@ -3,11 +3,13 @@ import {useRessourcesStore} from "@store/RessourcesStore";
 import useGroupedRessources from "@memo/groupedByTechAndLabel";
 import {lazy, Suspense, useEffect, useState} from "react";
 import {useTechnologyStore} from "@store/TechnologyStore.js";
+import {useCategoryStore} from "@store/CategoryStore.js";
 const PopUpModal = lazy(() => import("@components/Modal/PopUpModal/PopUpModal"));
 
 export default function Ressources() {
-const {loadUserRessources , ressources ,addRessource, removeRessource, updateRessourceById  , label , setSelectedRessource , selectedRessource} = useRessourcesStore();
-    const { technology , loadUserTechnology} = useTechnologyStore();
+const {loadUserRessources, ressources ,addRessource, removeRessource, updateRessourceById  , label , setSelectedRessource , selectedRessource} = useRessourcesStore();
+    const { technology} = useTechnologyStore();
+    const {category} = useCategoryStore();
     const [editRessources, setEditRessources] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [resourceUrl, setResourceUrl] = useState("");
@@ -15,8 +17,18 @@ const {loadUserRessources , ressources ,addRessource, removeRessource, updateRes
     const [ressourceDescription, setRessourceDescription] = useState("");
     const [selectedLabel, setSelectedLabel] = useState("");
     const [selectedTechId, setSelectedTechId] = useState(null);
-  useEffect(() => {loadUserRessources();}, []);
-  useEffect(() => {loadUserTechnology();}, []);
+    const [selectedTags, setSelectedTags] = useState([]);
+    const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+function cleanUP() {
+    setRessourceName("")
+    setResourceUrl("");
+    setSelectedLabel("");
+    setSelectedTechId(null);
+    setSelectedRessource(null);
+    setRessourceDescription("");
+    setSelectedTags([]);
+    setSelectedCategoryId(null);
+    }
   useEffect(() => {
       if(editRessources){
           setRessourceName(editRessources.name);
@@ -24,6 +36,8 @@ const {loadUserRessources , ressources ,addRessource, removeRessource, updateRes
           setSelectedLabel(editRessources.label);
           setSelectedTechId(editRessources.technology.id);
           setRessourceDescription(editRessources.description);
+          setSelectedTags(editRessources.tags ?? []);
+          setSelectedCategoryId(editRessources.categoryId);
       }
   },[editRessources]);
     useEffect(() => {
@@ -34,9 +48,11 @@ const {loadUserRessources , ressources ,addRessource, removeRessource, updateRes
             setSelectedLabel(selectedRessource.label);
             setSelectedTechId(selectedRessource.technologyId);
             setRessourceDescription(selectedRessource.description)
+            setSelectedTags(selectedRessource.tags ?? []);
+            setSelectedCategoryId(selectedRessource.categoryId);
             setIsModalOpen(true);
         }
-    }, [selectedRessource]);
+    }, [selectedCategoryId, selectedRessource]);
   const grouped = useGroupedRessources(ressources);
     const handleSubmitRessource = async (e) => {
         e.preventDefault();
@@ -50,19 +66,20 @@ const {loadUserRessources , ressources ,addRessource, removeRessource, updateRes
             label: selectedLabel,
             url: resourceUrl.trim(),
             description: ressourceDescription,
+            categoryId: selectedCategoryId,
+            tags: selectedTags,
         };
         try{
            if(editRessources){
                await updateRessourceById(editRessources.id , newRessource)
+               if(isModalOpen){
+                   setIsModalOpen(false);
+               }
            } else {
                await addRessource(newRessource);
            }
-           setRessourceName("")
-            setResourceUrl("");
-            setSelectedLabel("");
-            setSelectedTechId(null);
-            setSelectedRessource(null);
-            setRessourceDescription("");
+           cleanUP();
+
             await loadUserRessources()
         }catch  {
             alert("Ressources not added");
@@ -78,18 +95,15 @@ const {loadUserRessources , ressources ,addRessource, removeRessource, updateRes
         setSelectedLabel(ressource.label);
         setSelectedTechId(ressource.technologyId);
         setRessourceDescription(ressource.description);
+        setSelectedTags(ressource.tags ?? []);
+        setSelectedCategoryId(ressource.categoryId);
     }
     const handleCloseModal = () => {
         if(editRessources){
             setEditRessources(null);
         }
-        setRessourceName("");
-        setSelectedTechId("");
-        setSelectedLabel("");
-        setResourceUrl("");
+        cleanUP();
         setIsModalOpen(false);
-        setRessourceDescription("");
-        setSelectedRessource(null);
     }
     const handleDeleteRessource = async(id) => {
         await removeRessource(id)
@@ -112,6 +126,13 @@ const {loadUserRessources , ressources ,addRessource, removeRessource, updateRes
                                 <a href={res.url} target="_blank" rel="noreferrer">
                                   {res.name ? res.name : res.url}
                                 </a>
+                                  <p>Description : {res.description}</p>
+                                  {res.tags.length > 0 &&
+                                      <div>
+                                          <p>Tags : </p>
+                                          <ul>{res.tags.map((t , i)=> (<li key={i}>{t}</li>))}
+                                          </ul></div>}
+                                  <p>Type : {res.type}</p>
                                   <button onClick={()=> handleUpdateRessource(res.id)}>Update ressource</button>
                                   <button onClick={()=> handleDeleteRessource(res.id)}>Delete ressource</button>
                               </li>
@@ -170,6 +191,18 @@ const {loadUserRessources , ressources ,addRessource, removeRessource, updateRes
                                     <option value="">--Select--</option>
                                     {technology.map(tech => (
                                         <option key={tech.id} value={tech.id}>{tech.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="res-cat">
+                                <p>Select Category:</p>
+                                <select
+                                    value={selectedCategoryId ?? ""}
+                                    onChange={(e) => setSelectedCategoryId(e.target.value)}
+                                >
+                                    <option value="">--Select--</option>
+                                    {category.map(category => (
+                                        <option key={category.id} value={category.id}>{category.name} ({category.type})</option>
                                     ))}
                                 </select>
                             </div>

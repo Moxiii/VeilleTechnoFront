@@ -1,5 +1,3 @@
-import {TechnologyInterface} from "./TechnologyInterface";
-
 export interface RessourcesInterface {
     id: number;
     name: string;
@@ -8,4 +6,7 @@ export interface RessourcesInterface {
     technologyId:number;
     createdAt: string;
     description: string;
+    tags?: string[];
+    type?: string;
+    categoryId:number;
 }
