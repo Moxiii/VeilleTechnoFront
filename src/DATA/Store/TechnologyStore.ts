@@ -7,11 +7,11 @@ type TechnologyStore = {
     removeTechnology: (technlogyId:number) => Promise<void>;
     updateTechnologyById: (technlogyId:number, technology: TechnologyInterface) => Promise<void>;
     loadUserTechnology: () => Promise<void>;
+    loaded:boolean;
 }
 export const useTechnologyStore = create<TechnologyStore>((set, get) => ({
+    loaded:false,
     technology: [],
-
-
     addTechnology: async (tech) => {
         const res = await createTechnology(tech);
         if (res.ok) {
@@ -54,8 +54,9 @@ export const useTechnologyStore = create<TechnologyStore>((set, get) => ({
     },
     loadUserTechnology : async () => {
         try{
+            if (get().loaded) return;
             const userTechnology = await getAlltechnology();
-            set({technology: userTechnology});
+            set({technology: userTechnology , loaded:true});
         } catch (error) {
             console.error("Failed to load user technology", error);
         }

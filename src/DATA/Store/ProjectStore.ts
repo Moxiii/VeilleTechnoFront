@@ -14,9 +14,11 @@ type ProjectStore = {
     status:string[];
     getStatus:()=>Promise<void>;
     loadUserProjects:()=>Promise<void>;
+    loaded:boolean;
 }
 
 export const useProjectStore = create<ProjectStore>((set, get) => ({
+    loaded: false,
     projects: [],
     setProjects: (projects) => set({ projects }),
     addProject: async (project: ProjectInterface) => {
@@ -30,6 +32,7 @@ export const useProjectStore = create<ProjectStore>((set, get) => ({
                 endDate: response.endDate,
                 links: Array.isArray(response.links) ? response.links : [],
                 technology: Array.isArray(response.technology) ? response.technology : [],
+                createdAt:response.createdAt,
             };
             set({ projects: [...get().projects, formatted] });
         }
@@ -69,8 +72,9 @@ export const useProjectStore = create<ProjectStore>((set, get) => ({
     },
     loadUserProjects : async ()=>{
         try{
+            if (get().loaded) return;
             const userProjects = await getAllProjects();
-            set({projects: userProjects});
+            set({projects: userProjects , loaded:true});
         } catch (error) {
             console.error("Failed to load user Projects", error);
         }

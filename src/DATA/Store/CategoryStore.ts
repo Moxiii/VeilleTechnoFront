@@ -9,8 +9,10 @@ type CategoryStore = {
     removeCategory: (categoryId:number) => Promise<void>;
     updateCategoryById: (categoryId:number, category: CategoryInterface) => Promise<void>;
     loadUserCategories: () => Promise<void>;
+    loaded:boolean;
 }
 export const useCategoryStore = create<CategoryStore>((set, get)=>({
+    loaded:false,
     category:null,
     getCatName: async () => {
         const res = await getCatName();
@@ -18,8 +20,9 @@ export const useCategoryStore = create<CategoryStore>((set, get)=>({
     },
     loadUserCategories:async () => {
         try{
+            if(get().loaded) return
             const userCat = await getAllCategorys();
-            set({category:userCat})
+            set({category:userCat , loaded:true});
         }catch (error){
             console.error("Failed to load user Cat")
         }

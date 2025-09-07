@@ -16,9 +16,11 @@ type RessourcesStore = {
     loadUserRessources:()=>Promise<void>;
     selectedRessource: RessourcesInterface | null;
     setSelectedRessource: (res: RessourcesInterface | null) => void;
+    loaded:boolean;
 };
 
 export const useRessourcesStore = create<RessourcesStore>((set, get) => ({
+    loaded:false,
     ressources: [],
     setRessources: (ressourcesList) => set({ ressources: ressourcesList }),
 
@@ -55,8 +57,9 @@ export const useRessourcesStore = create<RessourcesStore>((set, get) => ({
     },
     loadUserRessources : async () => {
         try{
+            if (get().loaded) return;
             const userRessources = await getAllRessources();
-            set({ressources: userRessources});
+            set({ressources: userRessources , loaded:true});
         } catch (error) {
             console.error("Failed to load user Ressources", error);
         }
