@@ -5,7 +5,7 @@ type TransitionStore = {
     startTransition : ()=>void;
     endTransition : ()=>void;
 }
-export const TransitionStore = create<TransitionStore>((set)=>({
+export const useTransitionStore = create<TransitionStore>((set)=>({
     isTransitioning:false,
      startTransition : ()=>set({isTransitioning:true}),
     endTransition : ()=>set({isTransitioning:false}),
