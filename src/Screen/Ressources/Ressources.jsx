@@ -122,7 +122,7 @@ function cleanUP() {
                         <h4>{label}</h4>
                         <ul>
                           {items.map((res) => (
-                              <li key={res.id}>
+                              <div key={res.id}>
                                 <a href={res.url} target="_blank" rel="noreferrer">
                                   {res.name ? res.name : res.url}
                                 </a>
@@ -133,9 +133,10 @@ function cleanUP() {
                                           <ul>{res.tags.map((t , i)=> (<li key={i}>{t}</li>))}
                                           </ul></div>}
                                   <p>Type : {res.type}</p>
+                                  <p>Updated at : {res.updatedAt}</p>
                                   <button onClick={()=> handleUpdateRessource(res.id)}>Update ressource</button>
                                   <button onClick={()=> handleDeleteRessource(res.id)}>Delete ressource</button>
-                              </li>
+                              </div>
                           ))}
                         </ul>
                       </div>

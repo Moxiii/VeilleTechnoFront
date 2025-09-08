@@ -9,4 +9,5 @@ export interface RessourcesInterface {
     tags?: string[];
     type?: string;
     categoryId:number;
+    updatedAt: string;
 }
