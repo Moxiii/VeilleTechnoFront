@@ -2,7 +2,7 @@ import { handleResponse } from "./handleResponse";
 import {apiFetch} from "./wrapper/apiFetch";
 
 
-export const getAllFeatures = async (projectID) => {
+export const getProjectFeatures = async (projectID) => {
     const res = await apiFetch(`/features/project/${projectID}`, {
         method: "GET",
 

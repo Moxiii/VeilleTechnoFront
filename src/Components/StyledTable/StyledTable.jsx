@@ -32,7 +32,7 @@ const Link = styled.a`
   text-decoration: none;
 `;
 
-export default function StyledTable({projects, onUpdate, onDelete}) {
+export default function StyledTable({projects, onUpdate, onDelete , onShowFeatures}) {
   function getFormattedUrl(url) {
     return url.startsWith("http://") || url.startsWith("https://")
         ? url
@@ -72,6 +72,7 @@ export default function StyledTable({projects, onUpdate, onDelete}) {
                     <Td>
                       <button onClick={() => onUpdate(id)}>Update</button>
                       <button onClick={() => onDelete(id)}>Delete</button>
+                      <button onClick={() => onShowFeatures(id)}>Show Features</button>
                     </Td>
                   </Tr>
               ))}

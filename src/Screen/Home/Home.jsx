@@ -4,13 +4,16 @@ import TechnoChart from '@components/Chart/TechnoChart/TechnoChart.jsx';
 
 import {useProjectStore} from "@store/ProjectStore";
 import {useTechnologyStore} from "@store/TechnologyStore";
+import {useFeatureStore} from "@store/FeatureStore";
 import {lazy, Suspense, useEffect, useState} from "react";
+import FeatureTimeline from "@components/Chart/Timeline/FeatureTimeline/FeatureTimeline.jsx";
 const PopUpModal = lazy(() => import("@components/Modal/PopUpModal/PopUpModal"));
 export default function Home(){
 const userTechnology = useTechnologyStore((state)=> state.technology);
-const {addProject , removeProject , updateProjectById , projects , status  , loadUserProjects} = useProjectStore();
-
+const {addProject , removeProject , updateProjectById , projects   , loadUserProjects} = useProjectStore();
+const {featuresByProject } = useFeatureStore();
 const [editProject, setEditProject] = useState(null);
+const [selectedProjectId, setSelectedProjectId] = useState(null);
 const[projectName, setProjectName] = useState("");
 const [selectedStatus, setSelectedStatus] = useState("");
 const [startDate, setStartDate] = useState('');
@@ -29,7 +32,9 @@ const [isStarted, setIsStarted] = useState(false);
         }
     },[editProject]);
 
-
+const handleShowFeatures = async (projectId)=>{
+    setSelectedProjectId(projectId);
+}
 const handleStatusChange = (s) =>{
     setSelectedStatus(s);
     const today = new Date().toISOString().split("T")[0];
@@ -172,7 +177,20 @@ const handleStatusChange = (s) =>{
                 </div>
             </PopUpModal>
             </Suspense>
-            {projects && <StyledTable projects={projects} onDelete={handleDeleteProject} onUpdate={handleUpdateProject}/>}
+            {projects && (
+                <>
+                    <StyledTable
+                        projects={projects}
+                        onDelete={handleDeleteProject}
+                        onUpdate={handleUpdateProject}
+                        onShowFeatures={handleShowFeatures}
+                    />
+                    {selectedProjectId && (
+                        <FeatureTimeline projectId={selectedProjectId}/>
+                    )}
+                </>
+
+            )}
             <TechnoChart projects={projects} />
     </div>)
 }
