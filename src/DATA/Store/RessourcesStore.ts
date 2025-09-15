@@ -13,7 +13,7 @@ type RessourcesStore = {
     ) => Promise<void>;
     label:string[];
     getLabel:()=>Promise<void>;
-    loadUserRessources:()=>Promise<void>;
+    loadUserRessources:(forceReload?:boolean)=>Promise<void>;
     selectedRessource: RessourcesInterface | null;
     setSelectedRessource: (res: RessourcesInterface | null) => void;
     loaded:boolean;
@@ -26,28 +26,23 @@ export const useRessourcesStore = create<RessourcesStore>((set, get) => ({
 
     addRessource: async (ressource) => {
         const res = await createRessources(ressource);
-        if (res?.id) {
-            set({ ressources: [...get().ressources, res] });
+        if (res.id) {
+            await get().loadUserRessources(true);
         }
     },
 
     removeRessource: async (ressourceId) => {
         const response = await deleteRessources(ressourceId);
         if (response?.ok || response?.success) {
-            set({
-                ressources: get().ressources.filter((r) => r.id !== ressourceId),
-            });
+            await get().loadUserRessources(true);
         }
     },
 
     updateRessourceById: async (ressourceId, updatedRessource) => {
         const res = await updateRessources(ressourceId, updatedRessource);
         if (res?.id) {
-            set({
-                ressources: get().ressources.map((r) =>
-                    r.id === ressourceId ? res : r
-                ),
-            });
+
+            await get().loadUserRessources(true);
         }
     },
     label:[],
@@ -55,9 +50,9 @@ export const useRessourcesStore = create<RessourcesStore>((set, get) => ({
         const res = await getLabels();
         set({label:res});
     },
-    loadUserRessources : async () => {
+    loadUserRessources : async (forceReload = false) => {
         try{
-            if (get().loaded) return;
+            if (get().loaded && !forceReload) return;
             const userRessources = await getAllRessources();
             const labels = await getLabels();
             set({ressources: userRessources , loaded:true , label:labels});

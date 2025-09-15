@@ -13,7 +13,7 @@ type ProjectStore = {
     updateProjectById: (projectId: number, project: ProjectInterface) => Promise<void>,
     status:string[];
     getStatus:()=>Promise<void>;
-    loadUserProjects:()=>Promise<void>;
+    loadUserProjects:(forceReload? : boolean)=>Promise<void>;
     loaded:boolean;
 }
 
@@ -23,44 +23,22 @@ export const useProjectStore = create<ProjectStore>((set, get) => ({
     setProjects: (projects) => set({ projects }),
     addProject: async (project: ProjectInterface) => {
         const response = await createProject(project);
-        if (response?.projectName) {
-            const formatted: ProjectInterface = {
-                id: response.id,
-                projectName: response.projectName,
-                status: response.status,
-                startDate: response.startDate,
-                endDate: response.endDate,
-                links: Array.isArray(response.links) ? response.links : [],
-                technology: Array.isArray(response.technology) ? response.technology : [],
-                createdAt:response.createdAt,
-            };
-            set({ projects: [...get().projects, formatted] });
+        if (response.id) {
+            await get().loadUserProjects(true);
         }
     },
 
     removeProject: async (projectId: number) => {
         const response = await deleteProject(projectId);
         if (response.ok) {
-            set({ projects: get().projects.filter(p => p.id !== projectId) });
+            await get().loadUserProjects(true);
         }
     },
 
     updateProjectById: async (projectId : number, updatedData) => {
         const response = await updateProject(projectId, updatedData);
         if (response.ok) {
-            set({
-                projects: get().projects.map((p) =>
-                    p.id === projectId
-                        ? {
-                            ...p,
-                            projectName: response.name,
-                            links: response.links || [],
-                            technology: Array.isArray(response.technology) ? response.technology : [],
-                            status: response.status,
-                        }
-                        : p
-                ),
-            });
+            await get().loadUserProjects(true);
         }
     },
     status:[],
@@ -70,9 +48,9 @@ export const useProjectStore = create<ProjectStore>((set, get) => ({
             set({status:res});
         }
     },
-    loadUserProjects : async ()=>{
+    loadUserProjects : async (forceReload = false)=>{
         try{
-            if (get().loaded) return;
+            if (get().loaded && !forceReload) return;
             const userProjects = await getAllProjects();
             const status = await getStatus();
             set({projects: userProjects , loaded:true , status:status});

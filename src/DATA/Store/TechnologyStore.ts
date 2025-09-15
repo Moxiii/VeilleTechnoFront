@@ -6,7 +6,7 @@ type TechnologyStore = {
     addTechnology: (technology: TechnologyInterface) => Promise<void>;
     removeTechnology: (technlogyId:number) => Promise<void>;
     updateTechnologyById: (technlogyId:number, technology: TechnologyInterface) => Promise<void>;
-    loadUserTechnology: () => Promise<void>;
+    loadUserTechnology: (forceReload:boolean) => Promise<void>;
     loaded:boolean;
 }
 export const useTechnologyStore = create<TechnologyStore>((set, get) => ({
@@ -14,47 +14,27 @@ export const useTechnologyStore = create<TechnologyStore>((set, get) => ({
     technology: [],
     addTechnology: async (tech) => {
         const res = await createTechnology(tech);
-        if (res.ok) {
-            const formatted: TechnologyInterface = {
-                id: res.id,
-                name: res.name,
-                category: res.category || "",
-                ressources: res.ressources || [],
-                createdAt : res.createdAt || "",
-            };
-            set({ technology: [...get().technology, formatted] });
+        if (res.id) {
+            await get().loadUserTechnology(true);
         }
     },
 
     removeTechnology: async (technologyId) => {
         const res = await deleteTechnology(technologyId);
         if (res.ok) {
-            set({
-                technology: get().technology.filter((t) => t.id !== technologyId),
-            });
+            await get().loadUserTechnology(true);
         }
     },
 
     updateTechnologyById: async (technologyId, updatedTech) => {
         const res = await updateTechnology(technologyId, updatedTech);
-        if (res?.name) {
-            set({
-                technology: get().technology.map((t) =>
-                    t.id === technologyId
-                        ? {
-                            ...t,
-                            name: res.name,
-                            category: res.category || "",
-                            ressources: res.ressources || [],
-                        }
-                        : t
-                ),
-            });
+        if (res.ok) {
+            await get().loadUserTechnology(true);
         }
     },
-    loadUserTechnology : async () => {
+    loadUserTechnology : async (forceReload = false) => {
         try{
-            if (get().loaded) return;
+            if (get().loaded && !forceReload) return;
             const userTechnology = await getAlltechnology();
             set({technology: userTechnology , loaded:true});
         } catch (error) {

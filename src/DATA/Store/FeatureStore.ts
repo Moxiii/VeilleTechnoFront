@@ -8,7 +8,7 @@ type FeatureStore =  {
     addFeature: (projectId: number, feature: Omit<FeatureInterface, "id">) => Promise<void>;
     removeFeature: (projectId: number, featureId: number) => Promise<void>;
     updateFeature: (projectId: number, featureId: number, feature: FeatureInterface) => Promise<void>;
-    loadProjectFeatures: (projectId: number) => Promise<void>;
+    loadProjectFeatures: (projectId: number , forceReload? : boolean) => Promise<void>;
     loaded:boolean;
 }
 export const useFeatureStore = create<FeatureStore>((set,get)=>({
@@ -17,8 +17,8 @@ export const useFeatureStore = create<FeatureStore>((set,get)=>({
     setFeatures: (projectId,features) => set((state)=>({
         featuresByProject: {...state.featuresByProject, [projectId]:features},
     })),
-    loadProjectFeatures : async (projectId:number) => {
-        if (get().loaded) return;
+    loadProjectFeatures : async (projectId:number , forceReload = false) => {
+        if (get().loaded && !forceReload) return;
         try{
             const projectFeatures = await getProjectFeatures(projectId);
             set((state) => ({
@@ -31,26 +31,21 @@ export const useFeatureStore = create<FeatureStore>((set,get)=>({
     },
     addFeature : async (projectId ,feature) => {
         try{
-            const newFeature = await createFeatures(feature);
-            set((state) => ({
-                featuresByProject: {
-                    ...state.featuresByProject,
-                    [projectId]: [...(state.featuresByProject[projectId] || []), newFeature],
-                },
-            }));
+            const res = await createFeatures(feature);
+         if(res.id){
+             await get().loadProjectFeatures(projectId , true);
+         }
         }catch (error){
             console.error("Failed to add feature", error);
         }
     },
     removeFeature : async (projectId,featureId) => {
        try{
-           await deleteFeatures(featureId);
-           set((state) => ({
-               featuresByProject: {
-                   ...state.featuresByProject,
-                   [projectId]: (state.featuresByProject[projectId] || []).filter((f) => f.id !== featureId),
-               },
-           }));
+          const res = await deleteFeatures(featureId);
+          if(res.ok){
+              await get().loadProjectFeatures(projectId , true);
+          }
+
        }catch (error){
            console.error("Failed to remove feature", error);
        }
@@ -58,14 +53,9 @@ export const useFeatureStore = create<FeatureStore>((set,get)=>({
     updateFeature : async (projectId,featureId, feature) => {
         try{
            const updatedFeature =  await updateFeatures(featureId , feature);
-            set((state) => ({
-                featuresByProject: {
-                    ...state.featuresByProject,
-                    [projectId]: (state.featuresByProject[projectId] || []).map((f) =>
-                        f.id === featureId ? updatedFeature : f
-                    ),
-                },
-            }));
+           if(updatedFeature.ok){
+               await get().loadProjectFeatures(projectId , true);
+           }
         }catch (error) {
             console.error("Failed to update feature", error);
         }
