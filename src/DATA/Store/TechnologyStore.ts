@@ -6,39 +6,59 @@ type TechnologyStore = {
     addTechnology: (technology: TechnologyInterface) => Promise<void>;
     removeTechnology: (technlogyId:number) => Promise<void>;
     updateTechnologyById: (technlogyId:number, technology: TechnologyInterface) => Promise<void>;
-    loadUserTechnology: (forceReload:boolean) => Promise<void>;
+    loadUserTechnology: () => Promise<void>;
     loaded:boolean;
 }
 export const useTechnologyStore = create<TechnologyStore>((set, get) => ({
     loaded:false,
     technology: [],
+    loadUserTechnology : async () => {
+        try{
+            if (get().loaded) return;
+            const userTechnology = await getAlltechnology();
+            set({technology: userTechnology , loaded:true});
+        } catch (error) {
+            console.error("Failed to load user technology", error);
+        }
+    },
     addTechnology: async (tech) => {
         const res = await createTechnology(tech);
         if (res.id) {
-            await get().loadUserTechnology(true);
+            const formatted: TechnologyInterface = {
+                id: res.id,
+                name: res.name,
+                category: res.category || "",
+                ressources: res.ressources || [],
+                createdAt : res.createdAt || "",
+            };
+            set({ technology: [...get().technology, formatted] });
         }
     },
 
     removeTechnology: async (technologyId) => {
         const res = await deleteTechnology(technologyId);
         if (res.ok) {
-            await get().loadUserTechnology(true);
+            set({
+                technology: get().technology.filter((t) => t.id !== technologyId),
+            })
         }
     },
 
     updateTechnologyById: async (technologyId, updatedTech) => {
         const res = await updateTechnology(technologyId, updatedTech);
-        if (res.ok) {
-            await get().loadUserTechnology(true);
-        }
-    },
-    loadUserTechnology : async (forceReload = false) => {
-        try{
-            if (get().loaded && !forceReload) return;
-            const userTechnology = await getAlltechnology();
-            set({technology: userTechnology , loaded:true});
-        } catch (error) {
-            console.error("Failed to load user technology", error);
+        if (res.id) {
+            set({
+                technology: get().technology.map((t) =>
+                    t.id === technologyId
+                        ? {
+                            ...t,
+                            name: res.name,
+                            category: res.category || "",
+                            ressources: res.ressources || [],
+                        }
+                        : t
+                ),
+            });
         }
     },
 }));

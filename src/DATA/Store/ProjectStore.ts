@@ -13,32 +13,64 @@ type ProjectStore = {
     updateProjectById: (projectId: number, project: ProjectInterface) => Promise<void>,
     status:string[];
     getStatus:()=>Promise<void>;
-    loadUserProjects:(forceReload? : boolean)=>Promise<void>;
+    loadUserProjects:()=>Promise<void>;
     loaded:boolean;
 }
 
 export const useProjectStore = create<ProjectStore>((set, get) => ({
     loaded: false,
     projects: [],
+    loadUserProjects : async ()=>{
+        try{
+            if (get().loaded) return;
+            const userProjects = await getAllProjects();
+            const status = await getStatus();
+            set({projects: userProjects , loaded:true , status:status});
+        } catch (error) {
+            console.error("Failed to load user Projects", error);
+        }
+    },
     setProjects: (projects) => set({ projects }),
     addProject: async (project: ProjectInterface) => {
         const response = await createProject(project);
         if (response.id) {
-            await get().loadUserProjects(true);
+            const formatted: ProjectInterface = {
+                id: response.id,
+                name: response.name,
+                status: response.status,
+                startDate: response.startDate,
+                endDate: response.endDate,
+                links: Array.isArray(response.links) ? response.links : [],
+                technology: Array.isArray(response.technology) ? response.technology : [],
+                createdAt: response.createdAt,
+            };
+            set({projects: [...get().projects, formatted]});
         }
     },
 
     removeProject: async (projectId: number) => {
         const response = await deleteProject(projectId);
         if (response.ok) {
-            await get().loadUserProjects(true);
+            set({ projects: get().projects.filter(p => p.id !== projectId) });
         }
     },
 
     updateProjectById: async (projectId : number, updatedData) => {
         const response = await updateProject(projectId, updatedData);
-        if (response.ok) {
-            await get().loadUserProjects(true);
+        if (response.id) {
+            set({
+                projects: get().projects.map((p) =>
+                    p.id === projectId
+                        ? {
+                            ...p,
+                            projectName: response.name,
+                            links: response.links || [],
+                            technology: Array.isArray(response.technology) ? response.technology : [],
+                            status: response.status,
+                        }
+                        : p
+                ),
+            });
         }
     },
     status:[],
@@ -48,14 +80,4 @@ export const useProjectStore = create<ProjectStore>((set, get) => ({
             set({status:res});
         }
     },
-    loadUserProjects : async (forceReload = false)=>{
-        try{
-            if (get().loaded && !forceReload) return;
-            const userProjects = await getAllProjects();
-            const status = await getStatus();
-            set({projects: userProjects , loaded:true , status:status});
-        } catch (error) {
-            console.error("Failed to load user Projects", error);
-        }
-    }
 }));

@@ -2,7 +2,7 @@ import {TechnologyInterface} from "./TechnologyInterface";
 
 export interface ProjectInterface {
     id: number;
-    projectName: string;
+    name: string;
     status: string;
     links?: string[];
     technology?: TechnologyInterface[];

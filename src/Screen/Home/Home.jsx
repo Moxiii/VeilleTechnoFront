@@ -51,7 +51,7 @@ const handleStatusChange = (s) =>{
     const handleSubmitProject = async (e) => {
         e.preventDefault();
         const projectData = {
-            projectName: projectName.trim(),
+            name: projectName.trim(),
             status: selectedStatus || undefined,
             links: links.filter(link => link.trim() !== ""),
             technology: selectedTechIds,

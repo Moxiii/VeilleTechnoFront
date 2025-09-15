@@ -8,7 +8,7 @@ type CategoryStore = {
     addCategory: (category: CategoryInterface) => Promise<void>;
     removeCategory: (categoryId:number) => Promise<void>;
     updateCategoryById: (categoryId:number, category: CategoryInterface) => Promise<void>;
-    loadUserCategories: (forceReload? : boolean) => Promise<void>;
+    loadUserCategories: () => Promise<void>;
     loaded:boolean;
 }
 export const useCategoryStore = create<CategoryStore>((set, get)=>({
@@ -18,9 +18,9 @@ export const useCategoryStore = create<CategoryStore>((set, get)=>({
         const res = await getCatName();
         set({category:res})
     },
-    loadUserCategories: async ( forceReload:boolean = false ) => {
+    loadUserCategories: async (  ) => {
         try{
-            if(get().loaded && !forceReload) return
+            if(get().loaded) return
             const userCat = await getAllCategorys();
             set({category:userCat , loaded:true});
         }catch (error){
@@ -31,20 +31,37 @@ export const useCategoryStore = create<CategoryStore>((set, get)=>({
     addCategory:async (cat) => {
          const res = await createCategory(cat);
          if(res.id){
-             await get().loadUserCategories(true);
+             const formatted = {
+                 id: res.id,
+                 name:res.name,
+                 type:res.type,
+                 defaultCategory:res.defaultCategory,
+                 subCategory:res.subCategory,
+             }
+             set({ category:[ ...get().category, formatted] });
          }
     },
     removeCategory:async (categoryId) => {
         const res = await deleteCategory(categoryId);
         if(res.ok){
-            await get().loadUserCategories(true);
+            set({category:get().category.filter((c)=>c.id !== categoryId)});
         }
 
     },
     updateCategoryById:async (categoryId , updatedCat) => {
         const res = await updateCategory(categoryId , updatedCat);
         if(res.id){
-            await get().loadUserCategories(true);
+            set({
+                category:get().category.map((c)=>
+                    c.id === categoryId ? {
+                        ...c,
+                        id:res.id,
+                        name:res.name,
+                        type:res.type,
+                        subCategory: res.subCategory || []
+                    } : c
+                )
+            })
         }
     },
 }))
