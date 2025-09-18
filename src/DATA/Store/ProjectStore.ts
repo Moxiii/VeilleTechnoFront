@@ -7,7 +7,7 @@ import {
 
 type ProjectStore = {
     projects: ProjectInterface[],
-    setProjects: (projects: ProjectInterface[]) => void
+    setProjects: (projects: ProjectInterface[]) => void,
     addProject: (project: ProjectInterface) => Promise<void>,
     removeProject: (projectId: number) => Promise<void>,
     updateProjectById: (projectId: number, project: ProjectInterface) => Promise<void>,

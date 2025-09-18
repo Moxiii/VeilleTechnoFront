@@ -31,7 +31,9 @@ const [isStarted, setIsStarted] = useState(false);
             setSelectedTechIds(editProject.technology?.map(t => t.id) || []);
         }
     },[editProject]);
-
+useEffect(()=>{
+    loadUserProjects().then(r => console.log(r));
+},[loadUserProjects]);
 const handleShowFeatures = async (projectId)=>{
     setSelectedProjectId(projectId);
 }

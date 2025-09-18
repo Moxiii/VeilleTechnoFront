@@ -2,13 +2,13 @@ import "./Login.scss"
 import {useEffect, useState} from "react";
 import {useAuthStore} from "@store/AUTH/AuthStore";
 import {useNavigate} from "react-router-dom";
-
+import {userService} from "@service/UserService";
 
 export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
   const navigate = useNavigate();
-
+  const {loadAll} = userService();
     const  { isAuth, login} = useAuthStore();
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -21,9 +21,10 @@ export default function Login() {
     }
     useEffect(() => {
         if ( isAuth) {
+            loadAll();
             navigate("/");
         }
-    }, [isAuth,navigate]);
+    }, [isAuth,navigate , loadAll]);
 
 
 

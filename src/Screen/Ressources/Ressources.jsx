@@ -19,6 +19,8 @@ const {loadUserRessources, ressources ,addRessource, removeRessource, updateRess
     const [selectedTechId, setSelectedTechId] = useState(null);
     const [selectedTags, setSelectedTags] = useState([]);
     const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+
+    useEffect(() => {loadUserRessources()},[loadUserRessources()])
 function cleanUP() {
     setRessourceName("")
     setResourceUrl("");

@@ -2,7 +2,7 @@ import {RessourcesInterface} from "@interfaces/RessourcesInterface";
 
 export interface IdeasInterface{
     id:number;
-    name:string;
+    title:string;
     description:string;
     image:string[];
     tags:string[];
