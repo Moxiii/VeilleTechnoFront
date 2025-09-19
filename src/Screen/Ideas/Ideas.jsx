@@ -2,10 +2,12 @@ import "./Ideas.scss"
 import {useIdeasStore} from "@store/IdeasStore";
 import {lazy, useEffect, useState} from "react";
 import {deleteIdeas} from "@fetch/IdeasFetch.js";
+import {useRessourcesStore} from "@store/RessourcesStore.js";
 const PopUpModal = lazy(() => import("@components/Modal/PopUpModal/PopUpModal"));
 
 export default function Ideas() {
     const {ideas , addIdeas ,updateIdeasById , removeIdeas , loadUserIdeas} = useIdeasStore();
+    const {ressources} = useRessourcesStore();
     const [isModalOpen , setIsModalOpen] = useState(false);
     const [editIdeas, setEditIdeas] = useState(null);
     const [selectedRessourceIds, setSelectedRessourceIds] = useState([]);
@@ -81,18 +83,38 @@ export default function Ideas() {
                 <button onClick={handleSubmitIdeas}>{editIdeas ? "update" : "add"}</button>
             </div>
         </PopUpModal>
-            {ideas.map(idea => (
-                <div key={idea.id}>
-                    <h3>{idea.title}</h3>
-                    <p>{idea.description}</p>
-                    <ul>
-                        {idea.tags.length>0 && <p>Tags:</p>}
-                        {idea.tags.map((t, i) => (<li key={i}>{t}</li>))}
-                    </ul>
-                    <button onClick={()=>handleUpdateIdea(idea.id)}>Update Idea</button>
-                    <button onClick={()=>handleDeleteIdea(idea.id)}>Delete Idea</button>
-                </div>
-            ))}
+            {ideas.map(idea => {
+                const linkedRessources = (idea.ressourcesIds ?? [])
+                    .map((rid)=>ressources.find((r)=>r.id === rid))
+                    .filter(Boolean)
+                ;
+                return(
+                        <div key={idea.id}>
+                            <h3>{idea.title}</h3>
+                            <p>{idea.description}</p>
+                            <ul>
+                                {idea.tags.length>0 && <p>Tags:</p>}
+                                {idea.tags.map((t, i) => (<li key={i}>{t}</li>))}
+                            </ul>
+                            {linkedRessources.length>0 && (
+                                <div>
+                                    <p>Ressources:</p>
+                                    <ul>
+                                        {linkedRessources.map((res)=>(
+                                            <li key={res.id}>
+                                                {res.name} - <a href={res.url}>{res.url}</a>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+
+                            )}
+                            <button onClick={()=>handleUpdateIdea(idea.id)}>Update Idea</button>
+                            <button onClick={()=>handleDeleteIdea(idea.id)}>Delete Idea</button>
+                        </div>
+                    )
+
+            })}
     </div>
   );
 }

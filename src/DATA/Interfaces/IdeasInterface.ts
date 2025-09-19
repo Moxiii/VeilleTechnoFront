@@ -7,5 +7,5 @@ export interface IdeasInterface{
     image:string[];
     tags:string[];
     links:string[];
-    ressources:RessourcesInterface[];
+    ressourcesIds?:number[];
 }
