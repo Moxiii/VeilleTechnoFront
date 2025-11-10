@@ -42,10 +42,26 @@ export default function TechnoChart({projects}) {
       },
     ],
   };
-
+ const options = {
+     responsive: true,
+     maintainAspectRatio: false,
+     plugins: {
+         legend: {
+             position: "top",
+             labels: {
+                 font:{
+                     size:15,
+                     weight:"bold",
+                 },
+                 boxWidth:10,
+                 padding:10,
+             }
+         }
+     }
+ }
   return (
     <div className="technoChart">
-    <Doughnut data={data} />
+    <Doughnut data={data} options={options} />
     </div>
   );
 }

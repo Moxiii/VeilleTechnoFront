@@ -1,10 +1,7 @@
 .technoChart {
-  width: 50%;
-  height: 50%;
+  width:100vw;
+  height:50vh;
   position:relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  max-width: 700px;
   margin:3% 0;
 }

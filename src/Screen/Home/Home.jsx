@@ -94,7 +94,7 @@ const handleStatusChange = (s) =>{
         if(!project)return;
         setIsModalOpen(true);
         setEditProject(project);
-        setProjectName(project.projectName || '');
+        setProjectName(project.name || '');
         setSelectedStatus(project.status || '');
         setStartDate(project.startDate || '');
         setEndDate(project.endDate || '');
