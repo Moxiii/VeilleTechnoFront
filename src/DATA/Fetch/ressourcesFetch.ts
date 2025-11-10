@@ -1,4 +1,4 @@
-import { handleResponse } from "./handleResponse";
+import { handleResponse } from "./wrapper/handleResponse";
 import {apiFetch} from "./wrapper/apiFetch";
 
 export const getAllRessources = async () => {

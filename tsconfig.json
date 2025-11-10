@@ -20,9 +20,10 @@
     "lib": [
       "decorators",
       "dom",
-      "es5",
+      "es2020",
       "scripthost",
-      "es2015.promise"
     ]
-  }
+  },
+  "experimentalDecorators": true,
+  "emitDecoratorMetadata": true
 }

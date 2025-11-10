@@ -1,5 +1,6 @@
-import {handleResponse} from "./handleResponse";
+import {handleResponse} from "./wrapper/handleResponse";
 import {apiFetch} from "./wrapper/apiFetch";
+import {FetchTypes} from "@src/DATA/Type/FetchTypes";
 export const getUser = async () => {
     const res = await apiFetch("/user",{
         method:"GET",
@@ -21,4 +22,11 @@ export const deleteUser = async (userId )=> {
         method:"DELETE",
     })
     return handleResponse(res)
+}
+export const getPdfReport = async (options?:FetchTypes) =>{
+    const res = await apiFetch("/user/generate/pdf",{
+        method:"GET",
+    });
+
+    return handleResponse(res , options)
 }

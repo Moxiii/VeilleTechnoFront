@@ -14,12 +14,11 @@ import {useNavigate} from "react-router-dom";
 
 export default function Profile() {
 
-
-    const userData = useUserStore((state) => state.userData);
     const userProjects = useProjectStore((state)=>state.projects);
     const userRessources = useRessourcesStore((state)=>state.ressources);
     const userTechnology = useTechnologyStore((state)=>state.technology);
     const logout = useAuthStore((state)=>state.logout);
+    const { getPdfReport , userData }=useUserStore();
     const navigate = useNavigate();
     const handleclick = async () =>{
        logout();
@@ -50,6 +49,13 @@ export default function Profile() {
                     <StatCard label="Ressources" value={totalRessources} />
                     <BarChart name="Ressources par mois" label="Ressources" value={{ labels: ressourcesLabels, data: ressourcesData }} />
                 </div>
+                <button onClick={() => getPdfReport({ download: true })}>
+                    Télécharger le PDF
+                </button>
+
+                <button onClick={() => getPdfReport({ download: false })}>
+                    Voir le PDF
+                </button>
                 <button onClick={handleclick}>Logout</button>
         </>
         )}
