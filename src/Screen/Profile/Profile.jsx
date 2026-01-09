@@ -11,7 +11,7 @@ import BarChart from "@components/Chart/BarChart/BarChart.jsx";
 import { useItemsPerMonth } from "@hook/memo/useItemPerMonth.js";
 import PopUpModal from "@components/Modal/PopUpModal/PopUpModal";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Profile() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,7 +19,7 @@ export default function Profile() {
   const userRessources = useRessourcesStore((state) => state.ressources);
   const userTechnology = useTechnologyStore((state) => state.technology);
   const logout = useAuthStore((state) => state.logout);
-  const { getPdfReport, userData } = useUserStore();
+  const { getPdfReport, userData, pdfBlob } = useUserStore();
   const navigate = useNavigate();
   const handleclick = async () => {
     logout();
@@ -39,13 +39,13 @@ export default function Profile() {
     setIsModalOpen(false);
     setPdfUrl(null);
   };
+  useEffect(() => {
+    if (pdfBlob) {
+      const url = URL.createObjectURL(pdfBlob);
+      setPdfUrl(url);
+    }
+  }, [pdfBlob]);
   const handleViewPdf = async () => {
-    const pdfBlob = await getPdfReport({
-      download: false,
-      username: userData.username,
-    });
-    const pdfUrl = URL.createObjectURL(pdfBlob);
-    setPdfUrl(pdfUrl);
     setIsModalOpen(true);
   };
   return (

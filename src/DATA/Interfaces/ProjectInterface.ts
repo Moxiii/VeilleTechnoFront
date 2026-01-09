@@ -9,4 +9,5 @@ export interface ProjectInterface {
     startDate?: any;
     endDate?: any;
     createdAt: string;
+    pdfDescription?: string;
 }

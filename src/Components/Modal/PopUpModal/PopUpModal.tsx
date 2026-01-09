@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import React, { useRef } from "react";
 import { faTimes, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,28 +17,35 @@ export default function Modal({
   title,
   children,
 }: ModalProps) {
-  if (!isOpen) return null;
-  const constraintsRef = useRef<HTMLDivElement>(null);
-  const modalContentRef = useRef<HTMLDivElement>(null);
   return (
-    <motion.div ref={constraintsRef} style={{ overflow: "hidden" }}>
-      <motion.div
-        drag
-        dragConstraints={constraintsRef}
-        dragElastic={0.1}
-        className="project-modal"
-        style={{ pointerEvents: "auto", touchAction: "auto" }}
-      >
-        <div className="modal-header">
-          {title && <h2 className="modal-title">{title}</h2>}
-          <button className="close-btn" onClick={onClose}>
-            <FontAwesomeIcon icon={faTimes} />
-          </button>
-        </div>
-        <div className="modal-content" ref={modalContentRef}>
-          {children}
-        </div>
-      </motion.div>
-    </motion.div>
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          className="modal-overlay"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onClose}
+        >
+          <motion.div
+            className="modal-container"
+            onClick={(e) => e.stopPropagation()} // important : clique intérieur ≠ fermer le modal
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <div className="modal-header">
+              {title && <h2 className="modal-title">{title}</h2>}
+              <button className="close-btn" onClick={onClose}>
+                <FontAwesomeIcon icon={faTimes} />
+              </button>
+            </div>
+
+            <div className="modal-body">{children}</div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

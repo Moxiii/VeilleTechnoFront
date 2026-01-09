@@ -43,6 +43,7 @@ export const useProjectStore = create<ProjectStore>((set, get) => ({
                 links: Array.isArray(response.links) ? response.links : [],
                 technology: Array.isArray(response.technology) ? response.technology : [],
                 createdAt: response.createdAt,
+                pdfDescription: response.pdfDescription,
             };
             set({projects: [...get().projects, formatted]});
         }
@@ -67,6 +68,8 @@ export const useProjectStore = create<ProjectStore>((set, get) => ({
                             links: response.links || [],
                             technology: Array.isArray(response.technology) ? response.technology : [],
                             status: response.status,
+                            endDate: response.endDate,
+                            pdfDescription: response.pdfDescription,
                         }
                         : p
                 ),

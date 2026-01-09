@@ -35,7 +35,7 @@ export const useIdeasStore = create<IdeasStore>((set,get)=>({
                 image:res.image,
                 tags: res.tags || [],
                 links: res.links || [],
-                ressources: res.ressources || [],
+                ressourcesIds: res.ressources.id || [],
             }
             set({ ideas: [...get().ideas , formated]});
         }
