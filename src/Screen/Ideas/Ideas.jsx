@@ -4,7 +4,7 @@ import {lazy, useEffect, useState} from "react";
 import {deleteIdeas} from "@fetch/IdeasFetch.js";
 import {useRessourcesStore} from "@store/RessourcesStore.js";
 const PopUpModal = lazy(() => import("@components/Modal/PopUpModal/PopUpModal"));
-
+const IdeasCard = lazy(() => import("@components/Card/IdeasCard/IdeasCard"));
 export default function Ideas() {
     const {ideas , addIdeas ,updateIdeasById , removeIdeas , loadUserIdeas} = useIdeasStore();
     const {ressources} = useRessourcesStore();
