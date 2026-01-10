@@ -1,0 +1,29 @@
+.tilt-card {
+  width: 200px;
+  height: 250px;
+  border-radius: 15px;
+  background: linear-gradient(to bottom right, $accentuation-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease-out;
+
+  .card-content {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    color: $primary-color;
+    height: 100%;
+    border-radius: 10px;
+    text-align: center;
+    width: 100%;
+    font-weight: bold;
+    transform: translateZ(75px);
+    p {
+      color: black;
+    }
+  }
+}
