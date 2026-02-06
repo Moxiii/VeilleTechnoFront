@@ -1,120 +1,176 @@
-import "./Ideas.scss"
-import {useIdeasStore} from "@store/IdeasStore";
-import {lazy, useEffect, useState} from "react";
-import {deleteIdeas} from "@fetch/IdeasFetch.js";
-import {useRessourcesStore} from "@store/RessourcesStore.js";
-const PopUpModal = lazy(() => import("@components/Modal/PopUpModal/PopUpModal"));
-const IdeasCard = lazy(() => import("@components/Card/IdeasCard/IdeasCard"));
+import "./Ideas.scss";
+import { useIdeasStore } from "@store/IdeasStore";
+import { useRessourcesStore } from "@store/RessourcesStore.js";
+import { lazy, useEffect, useState } from "react";
+
+const PopUpModal = lazy(() =>
+  import("@components/Modal/PopUpModal/PopUpModal")
+);
+const IdeasCard = lazy(() =>
+  import("@components/Card/IdeasCard/IdeasCard.jsx")
+);
+
 export default function Ideas() {
-    const {ideas , addIdeas ,updateIdeasById , removeIdeas , loadUserIdeas} = useIdeasStore();
-    const {ressources} = useRessourcesStore();
-    const [isModalOpen , setIsModalOpen] = useState(false);
-    const [editIdeas, setEditIdeas] = useState(null);
-    const [selectedRessourceIds, setSelectedRessourceIds] = useState([]);
-    const[ideasTitle, setIdeasTitle] = useState("");
-    const[ideasDescription, setIdeasDescritpion] = useState("");
-    const [ideaLinks, setIdeaLinks] = useState([""]);
+  const { ideas, addIdeas, updateIdeasById, removeIdeas, loadUserIdeas } =
+    useIdeasStore();
+  const { ressources } = useRessourcesStore();
 
-    useEffect(() => {loadUserIdeas()},[loadUserIdeas]);
-    const cleanUp = () => {
-        setIdeasTitle("");
-        setIdeasDescritpion("");
-        setIdeaLinks([])
-    }
-    const handleCloseModal = () => {
-        if(editIdeas){
-            setEditIdeas(null);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [isFormModalOpen, setIsFormModalOpen] = useState(false);
 
-        }
-        cleanUp();
-        setIsModalOpen(false);
-    }
-    const handleSubmitIdeas = async (e) => {
-        e.preventDefault();
-        const ideasData = {
-            description:ideasDescription,
-            title:ideasTitle,
+  const [selectedIdea, setSelectedIdea] = useState(null);
 
-        }
-        try{
-            if(editIdeas){
-                await updateIdeasById(editIdeas.id , ideasData)
-            } else {
-                await addIdeas(ideasData)
-            }
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    links: [""],
+  });
 
-            cleanUp();
-            setIsModalOpen(false);
-        }catch  {
-            alert("Ideas not submitted");
-        }
+  const [editMode, setEditMode] = useState(false);
+
+  useEffect(() => {
+    loadUserIdeas();
+  }, [loadUserIdeas]);
+
+  const openViewModal = (idea) => {
+    setSelectedIdea(idea);
+    setIsViewModalOpen(true);
+  };
+
+  const openAddModal = () => {
+    setEditMode(false);
+    setFormData({ title: "", description: "", links: [""] });
+    setIsFormModalOpen(true);
+  };
+
+  const openEditModal = () => {
+    if (!selectedIdea) return;
+
+    setEditMode(true);
+    setFormData({
+      title: selectedIdea.title,
+      description: selectedIdea.description,
+      links: selectedIdea.links ?? [""],
+    });
+
+    setIsViewModalOpen(false);
+    setIsFormModalOpen(true);
+  };
+
+  const closeModals = () => {
+    setIsViewModalOpen(false);
+    setIsFormModalOpen(false);
+    setSelectedIdea(null);
+  };
+
+  const handleSubmit = async () => {
+    const data = {
+      title: formData.title,
+      description: formData.description,
+      links: formData.links,
+    };
+
+    if (editMode && selectedIdea) {
+      await updateIdeasById(selectedIdea.id, data);
+    } else {
+      await addIdeas(data);
     }
-    const handleUpdateIdea = async (id) => {
-        const idea = ideas.find(i => i.id === id);
-        if(!idea)return;
-        setIsModalOpen(true);
-        setEditIdeas(idea);
-        setIdeasTitle(idea.title);
-        setIdeasDescritpion(idea.description);
-    }
-    const handleDeleteIdea = async (id)=> {
-        await deleteIdeas(id);
-    }
+
+    closeModals();
+  };
+
+  const handleDelete = async () => {
+    if (!selectedIdea) return;
+    await removeIdeas(selectedIdea.id);
+    closeModals();
+  };
+
   return (
     <div className="ideas">
-    <h1>Ideas</h1>
-        <div className="clickable" onClick={()=> {
-            setIsModalOpen(true)
-            setEditIdeas(null);
-        }}
-        ><h2>Add an Idea</h2></div>
-        <PopUpModal isOpen={isModalOpen} onClose={handleCloseModal} title={editIdeas ? "update" : "add"}>
-            <div className="ideas-modal">
-                <input type="text"
-                       value={ideasTitle}
-                       placeholder="Ideas title"
-                       onChange={(e) => setIdeasTitle(e.target.value)}
-                />
-                <input type="text"
-                       value={ideasDescription}
-                       placeholder="Ideas description"
-                       onChange={(e) => setIdeasDescritpion(e.target.value)}
-                />
-                <button onClick={handleSubmitIdeas}>{editIdeas ? "update" : "add"}</button>
-            </div>
-        </PopUpModal>
-            {ideas.map(idea => {
-                const linkedRessources = (idea.ressourcesIds ?? [])
-                    .map((rid)=>ressources.find((r)=>r.id === rid))
+      <h1>Ideas</h1>
+
+      <div className="clickable" onClick={openAddModal}>
+        <h2>Add an Idea</h2>
+      </div>
+
+      <div className="ideas-grid">
+        {ideas.map((idea) => (
+          <IdeasCard
+            key={idea.id}
+            title={idea.title}
+            onClick={() => openViewModal(idea)}
+          />
+        ))}
+      </div>
+
+      {isViewModalOpen && (
+        <PopUpModal
+          isOpen={isViewModalOpen}
+          onClose={closeModals}
+          title={selectedIdea.title}
+        >
+          <div className="idea-view">
+            <p>{selectedIdea.description}</p>
+
+            {selectedIdea.ressourcesIds?.length > 0 && (
+              <>
+                <h4>Linked ressources</h4>
+                <ul>
+                  {selectedIdea.ressourcesIds
+                    .map((rid) => ressources.find((r) => r.id === rid))
                     .filter(Boolean)
-                ;
-                return(
-                        <div key={idea.id}>
-                            <h3>{idea.title}</h3>
-                            <p>{idea.description}</p>
-                            <ul>
-                                {idea.tags.length>0 && <p>Tags:</p>}
-                                {idea.tags.map((t, i) => (<li key={i}>{t}</li>))}
-                            </ul>
-                            {linkedRessources.length>0 && (
-                                <div>
-                                    <p>Ressources:</p>
-                                    <ul>
-                                        {linkedRessources.map((res)=>(
-                                            <li key={res.id}>
-                                                {res.name} - <a href={res.url}>{res.url}</a>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
+                    .map((res) => (
+                      <li key={res.id}>
+                        {res.name} — <a href={res.url}>{res.url}</a>
+                      </li>
+                    ))}
+                </ul>
+              </>
+            )}
 
-                            )}
-                            <button onClick={()=>handleUpdateIdea(idea.id)}>Update Idea</button>
-                            <button onClick={()=>handleDeleteIdea(idea.id)}>Delete Idea</button>
-                        </div>
-                    )
+            <button onClick={openEditModal}>Edit</button>
+            <button onClick={handleDelete}>Delete</button>
+          </div>
+        </PopUpModal>
+      )}
 
-            })}
+      {isFormModalOpen && (
+        <PopUpModal
+          isOpen={isFormModalOpen}
+          onClose={closeModals}
+          title={editMode ? "Update Idea" : "Add Idea"}
+        >
+          <div className="idea-form">
+            <input
+              type="text"
+              placeholder="Title"
+              value={formData.title}
+              onChange={(e) =>
+                setFormData({ ...formData, title: e.target.value })
+              }
+            />
+
+            <textarea
+              placeholder="Description"
+              value={formData.description}
+              onChange={(e) =>
+                setFormData({ ...formData, description: e.target.value })
+              }
+            />
+            <input
+              type="text"
+              value={formData.links[0]}
+              placeholder="Ideas links"
+              onChange={(e) =>
+                setFormData({ ...formData, links: [e.target.value] })
+              }
+            />
+            <button onClick={handleSubmit}>
+              {editMode ? "Update" : "Create"}
+            </button>
+          </div>
+        </PopUpModal>
+      )}
     </div>
   );
 }

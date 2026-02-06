@@ -22,8 +22,6 @@ export const handleResponse = async (
     } catch (_) {}
     throw new Error(errorMessage);
   }
-  console.log("🔥 RAW content-type:", contentType);
-  console.log("🔥 response:", response);
   if (contentType?.includes("application/json")) {
     return await response.json();
   }

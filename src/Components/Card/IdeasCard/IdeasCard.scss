@@ -2,7 +2,7 @@
   width: 200px;
   height: 250px;
   border-radius: 15px;
-  background: linear-gradient(to bottom right, $accentuation-color);
+  background: linear-gradient(to bottom right, $dark-links);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -15,7 +15,7 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
-    color: $primary-color;
+    color: $background-color;
     height: 100%;
     border-radius: 10px;
     text-align: center;
@@ -23,7 +23,7 @@
     font-weight: bold;
     transform: translateZ(75px);
     p {
-      color: black;
+      color: $button-text;
     }
   }
 }

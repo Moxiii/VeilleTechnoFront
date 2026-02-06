@@ -10,4 +10,5 @@ export interface TechnologyInterface {
     projects?: ProjectInterface[] | null;
     createdAt: string;
     linkedTechnologies?: TechnologyInterface[] | null;
+    categoryId?: number | null; 
 }
