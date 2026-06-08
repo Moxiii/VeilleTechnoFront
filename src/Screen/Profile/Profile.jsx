@@ -19,7 +19,7 @@ export default function Profile() {
   const userRessources = useRessourcesStore((state) => state.ressources);
   const userTechnology = useTechnologyStore((state) => state.technology);
   const logout = useAuthStore((state) => state.logout);
-  const { getPdfReport, userData, pdfBlob } = useUserStore();
+  const { generatePdfPreview, downloadPdf, userData, pdfBlob } = useUserStore();
   const navigate = useNavigate();
   const handleclick = async () => {
     logout();
@@ -46,6 +46,7 @@ export default function Profile() {
     }
   }, [pdfBlob]);
   const handleViewPdf = async () => {
+    await generatePdfPreview();
     setIsModalOpen(true);
   };
   return (
@@ -78,9 +79,7 @@ export default function Profile() {
               value={{ labels: ressourcesLabels, data: ressourcesData }}
             />
           </div>
-          <button onClick={() => getPdfReport({ download: true })}>
-            Télécharger le PDF
-          </button>
+          <button onClick={downloadPdf}>Télécharger le PDF</button>
 
           <button onClick={handleViewPdf}>Voir le PDF</button>
           <button onClick={handleclick}>Logout</button>

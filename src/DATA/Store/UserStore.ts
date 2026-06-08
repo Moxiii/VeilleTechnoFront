@@ -2,14 +2,14 @@ import { create } from "zustand";
 
 import type { UserInterface } from "@interfaces/UserInterface";
 import { getUser, getPdfReport } from "@fetch/userFetch";
-import type { FetchTypes } from "@src/DATA/Type/FetchTypes";
 
 type UserStore = {
   userData: UserInterface | null;
   loadUserData: () => Promise<void>;
   loaded: boolean;
-  getPdfReport: (options: FetchTypes) => Promise<void>;
-  pdfBlob?: Blob;
+  generatePdfPreview: () => Promise<void>;
+  downloadPdf: () => Promise<void>;
+  pdfBlob?: Blob | null;
 };
 
 export const useUserStore = create<UserStore>((set, get) => ({
@@ -25,17 +25,22 @@ export const useUserStore = create<UserStore>((set, get) => ({
       console.error("Failed to load user Data", error);
     }
   },
-  getPdfReport: async (options): Promise<void> => {
+
+  generatePdfPreview: async () => {
     try {
-      if (get().loaded) {
-        options.username = get().userData.username;
-        const blob = await getPdfReport(options);
+      const blob = await getPdfReport({ download: false });
+      if (blob instanceof Blob) {
         set({ pdfBlob: blob });
-      } else {
-        console.error("Something went wrong");
       }
     } catch (error) {
-      console.error("Failed to get pdf", error);
+      console.error("Failed to generate PDF preview", error);
+    }
+  },
+  downloadPdf: async () => {
+    try {
+      await getPdfReport({ download: true });
+    } catch (error) {
+      console.error("Failed to download PDF", error);
     }
   },
 }));
