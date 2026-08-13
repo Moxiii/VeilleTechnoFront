@@ -7,7 +7,7 @@ export const getUser = async () => {
   });
   return handleResponse(res);
 };
-export const updateUser = async (userId, updatedUser) => {
+export const updateUser = async (userId:number, updatedUser:any) => {
   const res = await apiFetch(`/user/${userId}`, {
     method: "PUT",
     headers: {
@@ -17,7 +17,7 @@ export const updateUser = async (userId, updatedUser) => {
   });
   return handleResponse(res);
 };
-export const deleteUser = async (userId) => {
+export const deleteUser = async (userId:number) => {
   const res = await apiFetch(`/user/${userId}`, {
     method: "DELETE",
   });

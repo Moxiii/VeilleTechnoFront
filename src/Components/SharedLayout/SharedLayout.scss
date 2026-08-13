@@ -1,0 +1,206 @@
+.sharedLayoutContainer {
+  width: min(1400px, 92vw);
+  margin: 0 auto;
+
+  padding: 4rem 0;
+
+  color: $paragraph-color;
+}
+
+.sharedLayoutNav {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+
+  margin-bottom: 3rem;
+}
+
+.filterPath {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 0.4rem;
+
+  min-height: 2rem;
+
+  color: $paragraph-color;
+
+  font-size: 0.9rem;
+}
+
+.filterPath > div {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.filterPath button {
+  padding: 0.35rem 0.6rem;
+
+  border: 0;
+  border-radius: 999px;
+
+  background: transparent;
+
+  color: $paragraph-color;
+
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
+
+  &:hover {
+    background: rgba(14, 23, 44, 0.08);
+  }
+}
+
+.filterPath > button {
+  color: $headline;
+}
+
+.filterPath span {
+  color: rgba(14, 23, 44, 0.45);
+
+  font-size: 1rem;
+}
+
+.tabsContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 0.5rem;
+
+  padding: 0;
+  margin: 0;
+
+  list-style: none;
+}
+
+.tab {
+  position: relative;
+}
+
+.tabButton {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.55rem 0.9rem;
+
+  border: 1px solid rgba(14, 23, 44, 0.15);
+  border-radius: 999px;
+
+  background: rgba(255, 255, 254, 0.35);
+
+  color: $button-color;
+
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    color 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.2s ease;
+
+  &:hover {
+    background: $button-color;
+    border-color: $button-color;
+
+    color: $button-text;
+
+    transform: translateY(-1px);
+  }
+}
+
+.activeFilter {
+  position: absolute;
+
+  left: 20%;
+  right: 20%;
+  bottom: -0.35rem;
+
+  height: 3px;
+
+  background: $button-color;
+
+  border-radius: 999px;
+}
+
+.sharedLayoutMain {
+  width: 100%;
+}
+
+@media (max-width: 700px) {
+  .sharedLayoutContainer {
+    width: 90vw;
+
+    padding: 2.5rem 0;
+  }
+
+  .sharedLayoutNav {
+    margin-bottom: 2rem;
+  }
+
+  .filterPath {
+    justify-content: flex-start;
+
+    flex-wrap: nowrap;
+
+    overflow-x: auto;
+
+    padding-bottom: 0.25rem;
+
+    white-space: nowrap;
+
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .filterPath button {
+    font-size: 0.85rem;
+  }
+
+  .tabsContainer {
+    justify-content: flex-start;
+
+    flex-wrap: nowrap;
+
+    overflow-x: auto;
+
+    padding-bottom: 0.5rem;
+
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .tabButton {
+    flex-shrink: 0;
+
+    white-space: nowrap;
+
+    padding: 0.5rem 0.75rem;
+
+    font-size: 0.85rem;
+  }
+}
