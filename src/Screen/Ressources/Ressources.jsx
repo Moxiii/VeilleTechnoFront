@@ -5,6 +5,7 @@ import { lazy, Suspense, useEffect, useState } from "react";
 import { useTechnologyStore } from "@store/TechnologyStore.js";
 import { useCategoryStore } from "@store/CategoryStore.js";
 import useRessourceFilter from "@src/HOOK/Ressources/useRessourceFilter";
+import AddButton from "@components/AddButton/AddButton";
 const PopUpModal = lazy(
   () => import("@components/Modal/PopUpModal/PopUpModal"),
 );
@@ -136,9 +137,13 @@ export default function Ressources() {
       <h1>Ressources</h1>
 
       <div className="ressource">
-        <div className="clickable" onClick={() => setIsModalOpen(true)}>
-          <h2>Add a Ressource</h2>
-        </div>
+           <AddButton
+                label="ressource"
+                onClick={() => {
+                  setIsModalOpen(true);
+                }}
+              />
+        
         <SharedLayout
           filterPath={filterPath}
           availableFilters={availableFilters}

@@ -1,39 +1,47 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=DynaPuff:wght@400..700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=DynaPuff:wght@400..700&display=swap");
 * {
   box-sizing: border-box;
 }
-#root{
+
+.container {
   background-color: $background-color;
-  h1{
-    color:$headline;
-    font-family: "DynaPuff" , sans-serif;
-  }
-  h2 , h3 , h4{
-    font-family: "DynaPuff" , sans-serif;
-    color:$paragraph-color;
-  }
-  button{
-    background-color: $button-color;
-    color:$button-text;
-    border-radius: 5%;
-  }
-  p{
-    color:$paragraph-color;
-  }
-}
-section{
-  height: 100vh;
-  margin: 2% 1%;
-}
-.container{
-  margin-top:5%;
   min-height: 100dvh;
-  overflow-y:auto;
+  width: 100%;
+  overflow-x: hidden;
   display: flex;
   align-items: center;
   flex-direction: column;
-.clickable{
-  cursor: pointer;
-  font-size: 105%;
+  .clickable {
+    cursor: pointer;
+    font-size: 105%;
+    span {
+      font-family: "DynaPuff", sans-serif;
+      font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+    }
+  }
+  h1 {
+    color: $headline;
+    font-family: "DynaPuff", sans-serif;
+    font-size: clamp(2rem, 5vw, 4rem);
+  }
+  h2,
+  h3,
+  h4 {
+    font-family: "DynaPuff", sans-serif;
+    color: $paragraph-color;
+  }
+  button {
+    background-color: $button-color;
+    color: $button-text;
+    border-radius: 5%;
+  }
+  p {
+    color: $paragraph-color;
+    font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+  }
 }
+section {
+  width: 100%;
+  min-height: 100vh;
+  margin: 2% 1%;
 }

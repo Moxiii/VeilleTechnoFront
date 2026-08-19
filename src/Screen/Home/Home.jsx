@@ -1,14 +1,14 @@
 import "./Home.scss";
 import StyledTable from "@components/StyledTable/StyledTable.jsx";
 import TechnoChart from "@components/Chart/TechnoChart/TechnoChart.jsx";
-
+import AddButton from "@components/AddButton/AddButton";
 import { useProjectStore } from "@store/ProjectStore";
 import { useTechnologyStore } from "@store/TechnologyStore";
 import { useFeatureStore } from "@store/FeatureStore";
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import FeatureTimeline from "@components/Chart/Timeline/FeatureTimeline/FeatureTimeline.jsx";
-const PopUpModal = lazy(() =>
-  import("@components/Modal/PopUpModal/PopUpModal")
+const PopUpModal = lazy(
+  () => import("@components/Modal/PopUpModal/PopUpModal"),
 );
 export default function Home() {
   const userTechnology = useTechnologyStore((state) => state.technology);
@@ -134,15 +134,13 @@ export default function Home() {
   return (
     <div className="home">
       <h1>Overview</h1>
-      <div
-        className="clickable"
+      <AddButton
+        label="project"
         onClick={() => {
           setIsModalOpen(true);
           setEditProject(null);
         }}
-      >
-        <h2>Add a project</h2>
-      </div>
+      />
 
       <Suspense fallback={<div>Loading...</div>}>
         <PopUpModal
@@ -218,7 +216,7 @@ export default function Home() {
                         setSelectedTechIds((prev) =>
                           isChecked
                             ? [...prev, tech.id]
-                            : prev.filter((id) => id !== tech.id)
+                            : prev.filter((id) => id !== tech.id),
                         );
                       }}
                     />

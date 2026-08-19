@@ -2,12 +2,12 @@ import "./Ideas.scss";
 import { useIdeasStore } from "@store/IdeasStore";
 import { useRessourcesStore } from "@store/RessourcesStore.js";
 import { lazy, useEffect, useState } from "react";
-
-const PopUpModal = lazy(() =>
-  import("@components/Modal/PopUpModal/PopUpModal")
+import AddButton from "@components/AddButton/AddButton";
+const PopUpModal = lazy(
+  () => import("@components/Modal/PopUpModal/PopUpModal"),
 );
-const IdeasCard = lazy(() =>
-  import("@components/Card/IdeasCard/IdeasCard.jsx")
+const IdeasCard = lazy(
+  () => import("@components/Card/IdeasCard/IdeasCard.jsx"),
 );
 
 export default function Ideas() {
@@ -89,9 +89,12 @@ export default function Ideas() {
     <div className="ideas">
       <h1>Ideas</h1>
 
-      <div className="clickable" onClick={openAddModal}>
-        <h2>Add an Idea</h2>
-      </div>
+      <AddButton
+        label="project"
+        onClick={() => {
+          openAddModal();
+        }}
+      />
 
       <div className="ideas-grid">
         {ideas.map((idea) => (
