@@ -59,11 +59,28 @@ export default function useRessourceFilter(ressources: RessourcesInterface[]) {
       }
     });
 
-    return Array.from(filters.values());
-  }, [filteredRessources]);
+    return Array.from(filters.values()).filter(
+      (filter) =>
+        !filterPath.some(
+          (selected) =>
+            selected.key === filter.key && selected.value === filter.value,
+        ),
+    );
+  }, [filteredRessources, filterPath]);
 
   const selectFilter = (filter: FilterLevel) => {
-    setFilterPath((currentPath) => [...currentPath, filter]);
+    setFilterPath((currentPath) => {
+      const alreadySelected = currentPath.some(
+        (selected) =>
+          selected.key === filter.key && selected.value === filter.value,
+      );
+
+      if (alreadySelected) {
+        return currentPath;
+      }
+
+      return [...currentPath, filter];
+    });
   };
 
   const removeFilter = (index: number) => {
