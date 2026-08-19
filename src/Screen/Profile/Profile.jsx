@@ -22,7 +22,7 @@ export default function Profile() {
   const { generatePdfPreview, downloadPdf, userData, pdfBlob } = useUserStore();
   const navigate = useNavigate();
   const handleclick = async () => {
-    logout();
+    await logout();
     navigate("/");
   };
   const [pdfUrl, setPdfUrl] = useState(null);
