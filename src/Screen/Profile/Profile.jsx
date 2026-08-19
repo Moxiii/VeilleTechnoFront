@@ -3,7 +3,7 @@ import { useUserStore } from "@store/UserStore";
 import { useProjectStore } from "@store/ProjectStore";
 import { useTechnologyStore } from "@store/TechnologyStore";
 import { useRessourcesStore } from "@store/RessourcesStore";
-
+import TechnoChart from "@components/Chart/TechnoChart/TechnoChart.jsx";
 import { useAuthStore } from "@store/AUTH/AuthStore";
 
 import StatCard from "@components/Card/StatCard/StatCard";
@@ -20,6 +20,7 @@ export default function Profile() {
   const userTechnology = useTechnologyStore((state) => state.technology);
   const logout = useAuthStore((state) => state.logout);
   const { generatePdfPreview, downloadPdf, userData, pdfBlob } = useUserStore();
+  const { projects } = useProjectStore();
   const navigate = useNavigate();
   const handleclick = async () => {
     await logout();
@@ -56,6 +57,7 @@ export default function Profile() {
         <>
           <p>Hello {userData.username} !</p>
           <div className="stat project">
+            <TechnoChart projects={projects} />
             <StatCard label="Projets" value={totalProjects} />
             <BarChart
               name="Projets par mois"

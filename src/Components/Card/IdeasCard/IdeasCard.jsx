@@ -6,7 +6,7 @@ import {
   useSpring,
 } from "framer-motion";
 import { useRef } from "react";
-const ROTATION_RANGE = 32.5;
+const ROTATION_RANGE = 15;
 const HALF_ROTATION_RANGE = ROTATION_RANGE / 2;
 export default function IdeasCard({ title, onClick }) {
   const ref = useRef(null);
