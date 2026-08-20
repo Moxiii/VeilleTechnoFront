@@ -5,17 +5,25 @@ export default function ActionMenu({ data, onEdit, onDelete, actions = [] }) {
   const [isOpen, setIsOpen] = useState(false);
   const [actionToConfirm, setActionToConfirm] = useState(null);
   const defaultActions = [
-    {
-      label: "edit",
-      onClick: onEdit,
-    },
+    ...(onEdit
+      ? [
+          {
+            label: "edit",
+            onClick: onEdit,
+          },
+        ]
+      : []),
     ...actions,
-    {
-      label: "delete",
-      danger: true,
-      onClick: onDelete,
-      requireConfirmation: true,
-    },
+    ...(onDelete
+      ? [
+          {
+            label: "delete",
+            danger: true,
+            onClick: onDelete,
+            requireConfirmation: true,
+          },
+        ]
+      : []),
   ];
   const handleAction = (action) => {
     if (action.requireConfirmation) {

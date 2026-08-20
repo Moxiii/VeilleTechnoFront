@@ -1,0 +1,19 @@
+.card {
+  display: grid;
+  grid-template-columns: 1fr  1fr;
+  align-items: center;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid $headline;
+
+  .info {
+    display: contents;
+
+    .name {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}

@@ -1,18 +1,20 @@
 import "./Home.scss";
-import AddButton from "@components/AddButton/AddButton";
 import { lazy, Suspense, useState } from "react";
 import { useProjectStore } from "@store/ProjectStore";
+import { useRessourcesStore } from "@store/RessourcesStore";
 import ProjectDashboard from "@components/Project/ProjectDashboard/ProjectDashboard";
 import ProjectForm from "@components/Project/ProjectForm/ProjectFrom";
-
+import ResourceForm from "@components/ResourcesQuickAdd/ResourceForm/ResourceForm";
+import ResourceDashboard from "@components/ResourcesQuickAdd/ResourceDashboard/ResourceDashboard";
 const PopUpModal = lazy(
   () => import("@components/Modal/PopUpModal/PopUpModal"),
 );
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { updateProjectById, addProject, removeProject } = useProjectStore();
+  const addRessource = useRessourcesStore((state) => state.addRessource);
   const [selectedProject, setSelectedProject] = useState(null);
-
+  const [modalType, setModalType] = useState(null);
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
@@ -25,6 +27,9 @@ export default function Home() {
     }
     setIsModalOpen(false);
     setSelectedProject(null);
+  };
+  const handleSubmitResource = async (data) => {
+    await addRessource(data);
   };
   const handleEditProject = (project) => {
     setSelectedProject(project);
@@ -39,6 +44,11 @@ export default function Home() {
   };
   const handleAddProject = async () => {
     setSelectedProject(null);
+    setModalType("project");
+    setIsModalOpen(true);
+  };
+  const handleAddResource = () => {
+    setModalType("resource");
     setIsModalOpen(true);
   };
   const handleViewFeatures = async () => {
@@ -58,13 +68,27 @@ export default function Home() {
         <PopUpModal
           isOpen={isModalOpen}
           onClose={handleCloseModal}
-          title={selectedProject ? "Update project" : "Add a project"}
+          title={
+            modalType === "project"
+              ? selectedProject
+                ? "Update project"
+                : "Add project"
+              : "Add resource"
+          }
         >
-          <ProjectForm
-            project={selectedProject}
-            onSubmit={handleSubmitProject}
-            onCancel={handleCloseModal}
-          />
+          {modalType === "project" && (
+            <ProjectForm
+              project={selectedProject}
+              onSubmit={handleSubmitProject}
+              onCancel={handleCloseModal}
+            />
+          )}
+          {modalType === "resource" && (
+            <ResourceForm
+              onSubmit={handleSubmitProject}
+              onCancel={handleCloseModal}
+            />
+          )}
         </PopUpModal>
       </Suspense>
       <ProjectDashboard
@@ -74,6 +98,10 @@ export default function Home() {
         onDetails={handleViewDetails}
         onFeatures={handleViewFeatures}
         onResources={handleViewResource}
+      />
+      <ResourceDashboard
+        onAdd={handleAddResource}
+        onView={handleViewResource}
       />
     </div>
   );

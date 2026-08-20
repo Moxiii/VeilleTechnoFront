@@ -1,0 +1,12 @@
+.dashboard {
+  width: 95%;
+  border: solid 1px $headline;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+  }
+}
