@@ -4,7 +4,7 @@ export default function ProjectCard({ project, onEdit, onDelete }) {
   return (
     <article className={s.card}>
       <div className={s.info}>
-        <h3>{project.name}</h3>
+        <span className={s.name}>{project.name}</span>
 
         <span className={s.status}>{project.status}</span>
       </div>
