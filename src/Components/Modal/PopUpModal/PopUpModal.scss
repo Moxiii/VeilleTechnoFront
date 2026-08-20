@@ -10,7 +10,7 @@
   .modal-container {
     background: white;
     max-width: 80dvw;
-
+    min-width: 50dvw;
     display: flex;
     flex-direction: column;
 
@@ -44,6 +44,7 @@
       min-height: 0;
       max-height: 50vh;
       overscroll-behavior: contain;
+      scroll-behavior: smooth;
     }
   }
 }
