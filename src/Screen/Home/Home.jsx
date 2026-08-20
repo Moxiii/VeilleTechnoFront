@@ -17,6 +17,8 @@ export default function Home() {
   const [modalType, setModalType] = useState(null);
   const handleCloseModal = () => {
     setIsModalOpen(false);
+    setSelectedProject(null);
+    setModalType(null);
   };
 
   const handleSubmitProject = async (data) => {
@@ -30,9 +32,11 @@ export default function Home() {
   };
   const handleSubmitResource = async (data) => {
     await addRessource(data);
+    handleCloseModal();
   };
   const handleEditProject = (project) => {
     setSelectedProject(project);
+    setModalType("project");
     setIsModalOpen(true);
   };
   const handleDeleteProject = async (project) => {
@@ -85,7 +89,7 @@ export default function Home() {
           )}
           {modalType === "resource" && (
             <ResourceForm
-              onSubmit={handleSubmitProject}
+              onSubmit={handleSubmitResource}
               onCancel={handleCloseModal}
             />
           )}
