@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from "react";
 import { faTimes, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "@components/Modal/PopUpModal/PopUpModal.scss";
-
+import { useLenis } from "lenis/react";
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -17,13 +17,17 @@ export default function Modal({
   title,
   children,
 }: ModalProps) {
+  const globalLenis = useLenis();
   useEffect(() => {
-    if (!isOpen) return;
-    document.body.style.overflow = "hidden";
+    if (!globalLenis) return;
+    if (isOpen) {
+      globalLenis.stop();
+    }
+
     return () => {
-      document.body.style.overflow = "";
+      globalLenis.start();
     };
-  }, [isOpen]);
+  }, [isOpen, globalLenis]);
   return (
     <AnimatePresence>
       {isOpen && (
@@ -49,7 +53,9 @@ export default function Modal({
               </button>
             </div>
 
-            <div className="modal-body">{children}</div>
+            <div className="modal-body" data-lenis-prevent>
+              {children}
+            </div>
           </motion.div>
         </motion.div>
       )}

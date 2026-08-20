@@ -26,11 +26,16 @@ export default function Home() {
     setIsModalOpen(false);
     setSelectedProject(null);
   };
-  const handleEditProject = async () => {
-    console.log("edit");
+  const handleEditProject = (project) => {
+    setSelectedProject(project);
+    setIsModalOpen(true);
   };
-  const handleDeleteProject = async () => {
-    console.log("delete");
+  const handleDeleteProject = async (project) => {
+    try {
+      await removeProject(project.id);
+    } catch (error) {
+      console.error("Unable to delete project:", error);
+    }
   };
   const handleAddProject = async () => {
     setSelectedProject(null);
@@ -53,7 +58,7 @@ export default function Home() {
         <PopUpModal
           isOpen={isModalOpen}
           onClose={handleCloseModal}
-          title={selectedProject ? "update project" : "Add project"}
+          title={selectedProject ? "Update project" : "Add a project"}
         >
           <ProjectForm
             project={selectedProject}
