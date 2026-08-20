@@ -36,6 +36,15 @@ export default function Home() {
     setSelectedProject(null);
     setIsModalOpen(true);
   };
+  const handleViewFeatures = async () => {
+    console.log("features");
+  };
+  const handleViewDetails = async () => {
+    console.log("details");
+  };
+  const handleViewResource = async () => {
+    console.log("Ressources");
+  };
   return (
     <div className="home">
       <h1>Overview</h1>
@@ -57,6 +66,9 @@ export default function Home() {
         onEdit={handleEditProject}
         onDelete={handleDeleteProject}
         onAdd={handleAddProject}
+        onDetails={handleViewDetails}
+        onFeatures={handleViewFeatures}
+        onResources={handleViewResource}
       />
     </div>
   );

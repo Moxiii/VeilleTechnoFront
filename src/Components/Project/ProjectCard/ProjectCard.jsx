@@ -1,6 +1,13 @@
 import s from "./ProjectCard.module.scss";
-
-export default function ProjectCard({ project, onEdit, onDelete }) {
+import ActionMenu from "@components/ActionMenu/ActionMenu";
+export default function ProjectCard({
+  project,
+  onEdit,
+  onDelete,
+  onFeatures,
+  onDetails,
+  onResources,
+}) {
   return (
     <article className={s.card}>
       <div className={s.info}>
@@ -9,15 +16,25 @@ export default function ProjectCard({ project, onEdit, onDelete }) {
         <span className={s.status}>{project.status}</span>
       </div>
 
-      <div className={s.actions}>
-        <button
-          type="button"
-          onClick={() => onEdit(project)}
-          aria-label={`Edit ${project.name}`}
-        >
-          ⋮
-        </button>
-      </div>
+      <ActionMenu
+        data={project}
+        onEdit={onEdit}
+        onDelete={onDelete}
+        actions={[
+          {
+            label: "Features",
+            onClick: onFeatures,
+          },
+          {
+            label: "Details",
+            onClick: onDetails,
+          },
+          {
+            label: "Resources",
+            onClick: onResources,
+          },
+        ]}
+      />
     </article>
   );
 }

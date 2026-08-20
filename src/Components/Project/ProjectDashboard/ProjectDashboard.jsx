@@ -2,7 +2,14 @@ import s from "./ProjectDashboard.module.scss";
 import { useProjectStore } from "@store/ProjectStore";
 import ProjectCard from "../ProjectCard/ProjectCard";
 import FeatureTimeline from "@components/Chart/Timeline/FeatureTimeline/FeatureTimeline.jsx";
-export default function ProjectDashboard({ onAdd, onEdit, onDelete }) {
+export default function ProjectDashboard({
+  onAdd,
+  onEdit,
+  onDelete,
+  onFeatures,
+  onDetails,
+  onResources,
+}) {
   const projects = useProjectStore((state) => state.projects);
 
   return (
@@ -25,6 +32,9 @@ export default function ProjectDashboard({ onAdd, onEdit, onDelete }) {
             project={project}
             onEdit={onEdit}
             onDelete={onDelete}
+            onFeatures={onFeatures}
+            onDetails={onDetails}
+            onResources={onResources}
           />
         ))}
       </div>

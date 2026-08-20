@@ -1,0 +1,79 @@
+.actions {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-self: end;
+
+  > button {
+    width: 2rem;
+    height: 2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 2rem;
+    height: 2rem;
+
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+
+    font-size: 1.25rem;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $tertiary;
+    }
+  }
+  .actionsMenu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    > button {
+      width: 100%;
+      padding: 0.75rem 1rem;
+
+      border: 0;
+      border-top: 1px solid $headline;
+      background: transparent;
+
+      text-align: left;
+      cursor: pointer;
+
+      &:first-child {
+        border-top: 0;
+      }
+
+      &:hover {
+        background-color: $tertiary;
+      }
+    }
+  }
+  .confirmation {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    .confirmationActions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+      button {
+        padding: 0.6rem 1rem;
+        border: 0;
+        border-radius: 0.4rem;
+        cursor: pointer;
+      }
+    }
+  }
+  .danger {
+    border-top: 1px solid $error-color;
+    color: $error-color;
+    &:hover {
+      background-color: $error-color;
+      color: $background-color;
+    }
+  }
+}

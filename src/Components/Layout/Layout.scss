@@ -30,11 +30,7 @@
     font-family: "DynaPuff", sans-serif;
     color: $paragraph-color;
   }
-  button {
-    background-color: $button-color;
-    color: $button-text;
-    border-radius: 5%;
-  }
+
   p {
     color: $paragraph-color;
     font-size: clamp(0.95rem, 1.2vw, 1.1rem);
