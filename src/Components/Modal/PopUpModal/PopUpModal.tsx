@@ -1,9 +1,10 @@
 import { AnimatePresence, motion } from "framer-motion";
-import React, { useEffect, useRef } from "react";
-import { faTimes, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import React, { useEffect } from "react";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "@components/Modal/PopUpModal/PopUpModal.scss";
 import { useLenis } from "lenis/react";
+import { createPortal } from "react-dom";
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -28,7 +29,7 @@ export default function Modal({
       globalLenis.start();
     };
   }, [isOpen, globalLenis]);
-  return (
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
         <motion.div
@@ -41,9 +42,9 @@ export default function Modal({
           <motion.div
             className="modal-container"
             onClick={(e) => e.stopPropagation()} // important : clique intérieur ≠ fermer le modal
-            initial={{ scale: 0.9, opacity: 0 }}
+            initial={{ scale: 0.7, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.9, opacity: 0 }}
+            exit={{ scale: 0.7, opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
             <div className="modal-header">
@@ -59,6 +60,7 @@ export default function Modal({
           </motion.div>
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 }

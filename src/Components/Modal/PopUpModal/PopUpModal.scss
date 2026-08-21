@@ -7,6 +7,8 @@
   align-items: center;
   z-index: 5000;
   overflow: hidden;
+  width: 100vw;
+  height: 100%;
   .modal-container {
     background: white;
     max-width: 80dvw;
@@ -40,11 +42,11 @@
     .modal-body {
       padding: 1rem;
       flex: 1 1 auto;
-      overflow-y: scroll;
+      overflow-y: auto;
       min-height: 0;
       max-height: 50vh;
       overscroll-behavior: contain;
-      scroll-behavior: smooth;
+      scroll-behavior: contain;
     }
   }
 }
