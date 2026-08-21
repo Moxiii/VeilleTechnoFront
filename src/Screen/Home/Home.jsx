@@ -6,6 +6,7 @@ import ProjectDashboard from "@components/Project/ProjectDashboard/ProjectDashbo
 import ProjectForm from "@components/Project/ProjectForm/ProjectFrom";
 import ResourceForm from "@components/ResourcesQuickAdd/ResourceForm/ResourceForm";
 import ResourceDashboard from "@components/ResourcesQuickAdd/ResourceDashboard/ResourceDashboard";
+import ActivityDashboard from "@components/Activity/ActivityDasboard/ActivityDasboard";
 const PopUpModal = lazy(
   () => import("@components/Modal/PopUpModal/PopUpModal"),
 );
@@ -64,6 +65,9 @@ export default function Home() {
   const handleViewResource = async () => {
     console.log("Ressources");
   };
+  const handleViewActivity = async () => {
+    console.log("Activity");
+  };
   return (
     <div className="home">
       <h1>Overview</h1>
@@ -103,6 +107,7 @@ export default function Home() {
         onFeatures={handleViewFeatures}
         onResources={handleViewResource}
       />
+      <ActivityDashboard onView={handleViewActivity} />
       <ResourceDashboard
         onAdd={handleAddResource}
         onView={handleViewResource}
