@@ -1,5 +1,5 @@
 import s from "./ResourceCard.module.scss";
-import ActionMenu from "@components/ActionMenu/ActionMenu";
+import ActionMenu from "@components/Dashboards/ActionMenu/ActionMenu";
 
 export default function ResourceCard({ resource, onView }) {
   return (

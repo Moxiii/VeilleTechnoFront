@@ -2,11 +2,11 @@ import "./Home.scss";
 import { lazy, Suspense, useState } from "react";
 import { useProjectStore } from "@store/ProjectStore";
 import { useRessourcesStore } from "@store/RessourcesStore";
-import ProjectDashboard from "@components/Project/ProjectDashboard/ProjectDashboard";
-import ProjectForm from "@components/Project/ProjectForm/ProjectFrom";
-import ResourceForm from "@components/ResourcesQuickAdd/ResourceForm/ResourceForm";
-import ResourceDashboard from "@components/ResourcesQuickAdd/ResourceDashboard/ResourceDashboard";
-import ActivityDashboard from "@components/Activity/ActivityDasboard/ActivityDasboard";
+import ProjectDashboard from "@dashboards/Project/ProjectDashboard/ProjectDashboard";
+import ProjectForm from "@dashboards/Project/ProjectForm/ProjectFrom";
+import ResourceForm from "@dashboards/ResourcesQuickAdd/ResourceForm/ResourceForm";
+import ResourceDashboard from "@dashboards/ResourcesQuickAdd/ResourceDashboard/ResourceDashboard";
+import ActivityDashboard from "@dashboards/Activity/ActivityDasboard/ActivityDasboard";
 const PopUpModal = lazy(
   () => import("@components/Modal/PopUpModal/PopUpModal"),
 );
@@ -99,15 +99,18 @@ export default function Home() {
           )}
         </PopUpModal>
       </Suspense>
-      <ProjectDashboard
-        onEdit={handleEditProject}
-        onDelete={handleDeleteProject}
-        onAdd={handleAddProject}
-        onDetails={handleViewDetails}
-        onFeatures={handleViewFeatures}
-        onResources={handleViewResource}
-      />
-      <ActivityDashboard onView={handleViewActivity} />
+      <div className="dashboards">
+        <ProjectDashboard
+          onEdit={handleEditProject}
+          onDelete={handleDeleteProject}
+          onAdd={handleAddProject}
+          onDetails={handleViewDetails}
+          onFeatures={handleViewFeatures}
+          onResources={handleViewResource}
+        />
+        <ActivityDashboard onView={handleViewActivity} />
+      </div>
+
       <ResourceDashboard
         onAdd={handleAddResource}
         onView={handleViewResource}

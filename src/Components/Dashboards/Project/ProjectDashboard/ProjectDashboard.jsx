@@ -2,6 +2,7 @@ import s from "./ProjectDashboard.module.scss";
 import { useProjectStore } from "@store/ProjectStore";
 import ProjectCard from "../ProjectCard/ProjectCard";
 import FeatureTimeline from "@components/Chart/Timeline/FeatureTimeline/FeatureTimeline.jsx";
+import EmptyState from "@dashboards/EmptyState/EmptyState";
 export default function ProjectDashboard({
   onAdd,
   onEdit,
@@ -26,17 +27,24 @@ export default function ProjectDashboard({
         </button>
       </header>
       <div className={s.projectList}>
-        {projects.map((project) => (
-          <ProjectCard
-            key={project.id}
-            project={project}
-            onEdit={onEdit}
-            onDelete={onDelete}
-            onFeatures={onFeatures}
-            onDetails={onDetails}
-            onResources={onResources}
+        {projects.length > 0 ? (
+          projects.map((project) => (
+            <ProjectCard
+              key={project.id}
+              project={project}
+              onEdit={onEdit}
+              onDelete={onDelete}
+              onFeatures={onFeatures}
+              onDetails={onDetails}
+              onResources={onResources}
+            />
+          ))
+        ) : (
+          <EmptyState
+            title="No projects yet  "
+            description="Create your first project to get started."
           />
-        ))}
+        )}
       </div>
     </section>
   );

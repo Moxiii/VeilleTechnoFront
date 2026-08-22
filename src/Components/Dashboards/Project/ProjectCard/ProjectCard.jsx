@@ -1,5 +1,5 @@
 import s from "./ProjectCard.module.scss";
-import ActionMenu from "@components/ActionMenu/ActionMenu";
+import ActionMenu from "@components/Dashboards/ActionMenu/ActionMenu";
 export default function ProjectCard({
   project,
   onEdit,

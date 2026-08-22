@@ -44,7 +44,7 @@ export default function ActionMenu({ data, onEdit, onDelete, actions = [] }) {
     handleClose();
   };
   return (
-    <div className={s.actions}>
+    <div className={s.menu}>
       <button
         type="button"
         onClick={() => setIsOpen(true)}
